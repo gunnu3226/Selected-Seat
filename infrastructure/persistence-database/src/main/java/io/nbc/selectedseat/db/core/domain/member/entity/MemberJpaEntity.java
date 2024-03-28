@@ -56,7 +56,7 @@ public class MemberJpaEntity extends BaseEntity {
         );
     }
 
-    public Member toEntity() {
+    public Member toModel() {
         return new Member(
             getId(),
             name,

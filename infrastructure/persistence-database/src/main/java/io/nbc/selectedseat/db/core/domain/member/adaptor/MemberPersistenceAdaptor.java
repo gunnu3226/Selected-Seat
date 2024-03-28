@@ -19,13 +19,13 @@ public class MemberPersistenceAdaptor implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        return memberJpaRepository.save(MemberJpaEntity.from(member)).toEntity();
+        return memberJpaRepository.save(MemberJpaEntity.from(member)).toModel();
     }
 
     @Override
     public Member findById(Long id) {
         return memberJpaRepository.findById(id)
             .orElseThrow()
-            .toEntity();
+            .toModel();
     }
 }
