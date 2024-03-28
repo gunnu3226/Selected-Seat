@@ -1,6 +1,8 @@
 package io.nbc.selectedseat.domain.member.model;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,37 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Member {
     // TODO: sample class
-    private Long id;
-    private String name;
+    private Long member_id;
     private String email;
-    private String tel;
     private String password;
-
-    public Member(
-        final Long id,
-        final String name,
-        final String email,
-        final String tel,
-        final String password
-    ) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.tel = tel;
-        this.password = password;
-    }
-
-    public Member(
-        final String name,
-        final String email,
-        final String tel,
-        final String password
-    ) {
-        this.name = name;
-        this.email = email;
-        this.tel = tel;
-        this.password = password;
-    }
+    private String nickname;
+    private String profile;
+    private LocalDate birth;
+    private MemberRole member_role;
+    private String tel;
 
     // TODO: add
 
