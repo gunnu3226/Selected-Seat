@@ -176,4 +176,4 @@ gradle-app.setting
 /build/
 
 ### querydsl ###
-build/generated
+infrastructure/persistence-database/src/main/generated

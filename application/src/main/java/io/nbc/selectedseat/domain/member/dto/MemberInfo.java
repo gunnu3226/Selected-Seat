@@ -1,4 +1,4 @@
-package io.bnc.seletedseat.domain.member.dto;
+package io.nbc.selectedseat.domain.member.dto;
 
 public record MemberInfo(
 ) {

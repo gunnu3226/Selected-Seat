@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableJpaAuditing
 @EnableJpaRepositories(
-        basePackages = {"io.nbc.selectedseat.db.core.domain"}
+        basePackages = {"io.nbc.selectedseat.db"}
 )
 @EnableTransactionManagement
 public class JpaConfiguration {
@@ -29,7 +29,7 @@ public class JpaConfiguration {
                 new LocalContainerEntityManagerFactoryBean();
 
         entityManagerFactory.setDataSource(dataSource);
-        entityManagerFactory.setPackagesToScan("io.dev.storage.db.core.domain");
+        entityManagerFactory.setPackagesToScan("io.nbc.selectedseat.db");
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
         entityManagerFactory.setPersistenceUnitName("entityManager");
 
