@@ -17,15 +17,9 @@ public abstract class BaseEntity {
     @Column
     @CreatedDate
     private LocalDateTime createAt;
-
     @LastModifiedDate
     @Column
     private LocalDateTime updateAt;
-
-    public Long getId() {
-        return id;
-    }
-
     public LocalDateTime getCreateAt() {
         return createAt;
     }
