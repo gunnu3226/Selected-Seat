@@ -3,6 +3,7 @@ package io.nbc.selectedseat.domain.member.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Member {
     // TODO: sample class
     private Long member_id;
@@ -19,8 +21,6 @@ public class Member {
     private String profile;
     private LocalDate birth;
     private MemberRole member_role;
-    private String tel;
-
     // TODO: add
 
     // TODO: update
