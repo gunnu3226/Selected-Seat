@@ -22,10 +22,17 @@ class TicketWriterTest {
         //given
         Long concertId = 1L;
 
-        //when
-        ticketWriter.createTicket(concertId);
-
-        //then
+        //when & then
         assertDoesNotThrow(() -> ticketWriter.createTicket(concertId));
+    }
+
+    @Test
+    @DisplayName("티켓은 티켓 아이디로 삭제할 수 있다.")
+    void when_delete_ticket_by_tickerId_then_return_void() {
+        //given
+        Long concertId = 1L;
+
+        //when & when
+        assertDoesNotThrow(() -> ticketWriter.deleteTicket(concertId));
     }
 }

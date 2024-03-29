@@ -31,8 +31,7 @@ public class FakeTicketRepository implements TicketRepository {
     }
 
     @Override
-    public Long deleteById(Long id) {
-        return null;
+    public void deleteById(Long id) {
     }
 
     @Override

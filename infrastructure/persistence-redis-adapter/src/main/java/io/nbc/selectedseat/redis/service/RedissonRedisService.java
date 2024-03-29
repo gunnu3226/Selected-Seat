@@ -1,24 +1,24 @@
 package io.nbc.selectedseat.redis.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Duration;
+import java.util.Optional;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.util.Optional;
-
 @Service
 public class RedissonRedisService implements RedisService {
+
     private static final String KEY_PREFIX = "redisson:";
     private final RedisTemplate<String, Object> redisTemplate;
     private final StringRedisTemplate stringRedisTemplate;
     private final ObjectMapper objectMapper;
 
     public RedissonRedisService(
-            RedisTemplate<String, Object> redisTemplate,
-            StringRedisTemplate stringRedisTemplate,
-            ObjectMapper objectMapper
+        RedisTemplate<String, Object> redisTemplate,
+        StringRedisTemplate stringRedisTemplate,
+        ObjectMapper objectMapper
     ) {
         this.redisTemplate = redisTemplate;
         this.stringRedisTemplate = stringRedisTemplate;
@@ -55,7 +55,8 @@ public class RedissonRedisService implements RedisService {
     public boolean setIfAbsent(final String key, final Object value, final Duration duration) {
         try {
             String serializedValue = objectMapper.writeValueAsString(value);
-            return Boolean.TRUE.equals(stringRedisTemplate.opsForValue().setIfAbsent(redisKey(key), serializedValue, duration));
+            return Boolean.TRUE.equals(stringRedisTemplate.opsForValue()
+                .setIfAbsent(redisKey(key), serializedValue, duration));
         } catch (Exception e) {
             // TODO logging
         }
