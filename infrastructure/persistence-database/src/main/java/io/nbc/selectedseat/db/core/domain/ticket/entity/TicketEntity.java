@@ -53,8 +53,8 @@ public class TicketEntity extends BaseEntity {
             .ticketRating(ticketRating)
             .ticketNumber(ticketNumber)
             .ticketId(ticketId)
-            .createdAt(getCreateAt())
-            .updatedAt(getUpdateAt())
+            .createdAt(getCreatedAt())
+            .modifiedAt(getModifiedAt())
             .build();
     }
 }
