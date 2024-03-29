@@ -49,7 +49,7 @@ public class ArtistServiceTest {
         given(artistRepository.save(any(Artist.class))).willReturn(artist);
         //when
         Long id = artistService.createArtist(requestDTO);
-        //
+        //then
         assertEquals(1L, id);
     }
 
@@ -69,7 +69,7 @@ public class ArtistServiceTest {
         given(artistJpaRepository.findById(artistId)).willReturn(Optional.of(artistEntity));
         //when
         GetArtistResponseDTO responseDTO = artistService.getArtist(artistId);
-        //
+        //then
         assertEquals(1L, responseDTO.getArtist_id());
         assertEquals(name, responseDTO.getName());
         assertEquals(profile, responseDTO.getProfile());
