@@ -12,6 +12,10 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public Long createCategory(final String name) {
+        if(categoryRepository.findByName(name).isPresent()) {
+            throw new IllegalArgumentException("카테고리가 이미 존재합니다");
+        }
+
         Category savedcategory = categoryRepository.save(new Category(name));
         return savedcategory.getCategoryId();
     }
