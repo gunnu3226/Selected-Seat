@@ -20,7 +20,7 @@ public class CategoryService {
             throw new CategoryExistException("카테고리가 이미 존재합니다");
         }
 
-        Category savedcategory = categoryRepository.save(new Category(name));
+        Category savedcategory = categoryRepository.save(name);
         return savedcategory.getCategoryId();
     }
 
