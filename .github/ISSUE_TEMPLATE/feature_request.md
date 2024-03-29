@@ -9,6 +9,9 @@ assignees: ''
 
 ## What is the issue about?
 
-## Steps for issue?
+## Details of issue
+
+- [ ] : step 1
+- [ ] : step 2
 
 ## Reference(optional)
