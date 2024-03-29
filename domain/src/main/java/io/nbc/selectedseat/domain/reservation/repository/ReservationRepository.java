@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface ReservationRepository {
 
-    Long createReservation(Reservation reservation);
+    Long createReservation(final Reservation reservation);
 
     Optional<Reservation> getReservation(final Long id);
 

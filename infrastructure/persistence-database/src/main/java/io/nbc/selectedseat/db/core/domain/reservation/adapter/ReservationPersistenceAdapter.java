@@ -17,13 +17,13 @@ public class  ReservationPersistenceAdapter implements ReservationRepository {
 
 
     @Override
-    public Long createReservation(Reservation reservation) {
+    public Long createReservation(final Reservation reservation) {
         return reservationJpaRepository.save(ReservationEntity.from(reservation))
             .getReservationId();
     }
 
     @Override
-    public Optional<Reservation> getReservation(Long id) {
+    public Optional<Reservation> getReservation(final Long id) {
         return reservationJpaRepository.findById(id)
             .map(ReservationEntity::toModel);
     }
@@ -36,7 +36,7 @@ public class  ReservationPersistenceAdapter implements ReservationRepository {
     }
 
     @Override
-    public void deleteReservation(Long id) {
+    public void deleteReservation(final Long id) {
         reservationJpaRepository.deleteById(id);
     }
 }
