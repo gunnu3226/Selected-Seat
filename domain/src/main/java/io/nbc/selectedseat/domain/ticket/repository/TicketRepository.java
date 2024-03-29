@@ -12,7 +12,7 @@ public interface TicketRepository {
 
     Long update(final Ticket updateTicket);
 
-    Long deleteById(final Long id);
+    void deleteById(final Long id);
 
     void saveAll(final List<Ticket> tickets);
 }
