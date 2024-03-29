@@ -11,8 +11,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDate;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 public class MemberJpaEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,22 +25,19 @@ public class MemberJpaEntity extends BaseEntity {
 
     @Column
     private String password;
-    
+
     @Column
     private String nickname;
-    
+
     @Column
     private String profile;
-    
+
     @Column
     private LocalDate birth;
-    
+
     @Column
     @Enumerated(EnumType.STRING)
     private MemberRole member_role;
-
-    public MemberJpaEntity() {
-    }
 
     public MemberJpaEntity(
         String email,
