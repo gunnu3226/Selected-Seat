@@ -14,7 +14,7 @@ public class ArtistPersistenceAdaptor implements ArtistRepository {
     private final ArtistJpaRepository artistJpaRepository;
 
     @Override
-    public Artist save(Artist artist) {
+    public Artist save(final Artist artist) {
         ArtistJpaEntity artistJpaEntity = new ArtistJpaEntity(artist);
         return artistJpaRepository.save(artistJpaEntity).toModel();
     }

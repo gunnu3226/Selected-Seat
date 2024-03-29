@@ -14,7 +14,7 @@ public class ArtistService {
     private final ArtistRepository artistRepository;
 
     @Transactional
-    public Long createArtist(CreateArtistRequestDTO artistRequestDTO) {
+    public Long createArtist(final CreateArtistRequestDTO artistRequestDTO) {
         String name = artistRequestDTO.name();
         String profile = artistRequestDTO.profile();
 

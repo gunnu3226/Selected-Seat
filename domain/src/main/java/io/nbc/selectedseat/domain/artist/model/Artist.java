@@ -14,7 +14,7 @@ public class Artist {
     private String name;
     private String profile;
 
-    public Artist(String name, String profile) {
+    public Artist(final String name, final String profile) {
         this.name = name;
         this.profile = profile;
     }

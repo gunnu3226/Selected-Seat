@@ -35,7 +35,7 @@ public class ArtistJpaEntity extends BaseEntity {
     @Column(nullable = false)
     private String profile;
 
-    public ArtistJpaEntity(Artist artist) {
+    public ArtistJpaEntity(final Artist artist) {
         this.name = artist.getName();
         this.profile = artist.getProfile();
     }

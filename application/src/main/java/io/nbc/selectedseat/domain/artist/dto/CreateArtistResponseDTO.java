@@ -7,7 +7,7 @@ public class CreateArtistResponseDTO {
 
     public Long id;
 
-    public CreateArtistResponseDTO(Long id) {
+    public CreateArtistResponseDTO(final Long id) {
         this.id = id;
     }
 }
