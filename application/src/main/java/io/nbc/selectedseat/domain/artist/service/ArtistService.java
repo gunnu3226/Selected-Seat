@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.domain.artist.service;
 
+import io.nbc.selectedseat.db.core.domain.Artist.entity.ArtistEntity;
 import io.nbc.selectedseat.db.core.domain.Artist.repository.ArtistJpaRepository;
 import io.nbc.selectedseat.domain.artist.dto.CreateArtistRequestDTO;
 import io.nbc.selectedseat.domain.artist.dto.GetArtistResponseDTO;
@@ -29,18 +30,27 @@ public class ArtistService {
     }
 
     public GetArtistResponseDTO getArtist(final Long artistId) {
-        Artist artist = artistJpaRepository.findById(artistId).orElseThrow(
-            () -> new EntityNotFoundException("아티스트가 존재하지 않습니다")
-        ).toModel();
-
+        Artist artist = getArtistById(artistId).toModel();
         return GetArtistResponseDTO.from(artist);
     }
 
 
-    public void updateArtist() {
-
+    @Transactional
+    public Long updateArtist(
+        final Long artistId,
+        final String name,
+        final String profile
+    ) {
+        ArtistEntity artistEntity = getArtistById(artistId);
+        artistEntity.update(name, profile);
+        return artistEntity.toModel().getArtistId();
     }
 
+    private ArtistEntity getArtistById(final Long artistId) {
+        return artistJpaRepository.findById(artistId).orElseThrow(
+            () -> new EntityNotFoundException("아티스트가 존재하지 않습니다")
+        );
+    }
 
     public void deleteArtist() {
 
