@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Builder
@@ -24,6 +26,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "members")
+@SQLRestriction("deleted_at is NULL")
+@SQLDelete(sql = "UPDATE artists SET deleted_at = NOW() WHERE artist_id = ?")
 public class MemberEntity extends BaseEntity {
 
     @Id
