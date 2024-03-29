@@ -30,10 +30,10 @@ public class FollowEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long follow_id;
 
-    @Column
+    @Column(nullable = false)
     private Long artist_id;
 
-    @Column
+    @Column(nullable = false)
     private Long member_id;
 
     public FollowEntity(Long artistId, Long memberId) {
