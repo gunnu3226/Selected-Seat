@@ -15,8 +15,8 @@ public class CategoryPersistenceAdaptor implements CategoryRepository {
     private final CategoryJpaRepository categoryJpaRepository;
 
     @Override
-    public Category save(final Category category) {
-        return categoryJpaRepository.save(new CategoryEntity(category)).toModel();
+    public Category save(final String name) {
+        return categoryJpaRepository.save(new CategoryEntity(name)).toModel();
     }
 
     @Override
@@ -37,13 +37,11 @@ public class CategoryPersistenceAdaptor implements CategoryRepository {
 
     @Override
     public Category update(final Category category) {
-        return categoryJpaRepository.save(new CategoryEntity(category.getCategoryId(),
-            category.getName())).toModel();
+        return categoryJpaRepository.save(new CategoryEntity(category)).toModel();
     }
 
     @Override
     public void delete(final Category category) {
-        categoryJpaRepository.delete(new CategoryEntity(category.getCategoryId(),
-            category.getName()));
+        categoryJpaRepository.delete(new CategoryEntity(category));
     }
 }
