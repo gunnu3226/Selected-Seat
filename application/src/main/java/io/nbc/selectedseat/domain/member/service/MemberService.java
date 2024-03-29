@@ -3,14 +3,17 @@ package io.nbc.selectedseat.domain.member.service;
 import io.nbc.selectedseat.domain.member.dto.SignupResponseDTO;
 import io.nbc.selectedseat.domain.member.exception.EmailExistException;
 import io.nbc.selectedseat.domain.member.model.Member;
+import io.nbc.selectedseat.domain.member.model.MemberRole;
 import io.nbc.selectedseat.domain.member.repository.MemberRepository;
 import io.nbc.selectedseat.security.config.PasswordUtil;
 import java.time.LocalDate;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -34,6 +37,7 @@ public class MemberService {
             .profile(profile)
             .birth(birth)
             .nickname(UUID.randomUUID().toString())
+            .memberRole(MemberRole.USER)
             .build());
         return new SignupResponseDTO(savedMember.getMemberId());
     }
