@@ -27,7 +27,7 @@ public class ArtistController {
 
     @PostMapping
     public ResponseEntity<ResponseDTO<CreateArtistResponseDTO>> createArtist(
-        @RequestBody @Valid final ArtistRequestDTO artistRequestDTO
+        @RequestBody @Valid ArtistRequestDTO artistRequestDTO
     ) {
         CreateArtistRequestDTO requestDTO = new CreateArtistRequestDTO(artistRequestDTO.name(),
             artistRequestDTO.profile());
