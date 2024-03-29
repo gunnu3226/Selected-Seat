@@ -47,7 +47,7 @@ public class ArtistService {
     }
 
     @Transactional
-    public void deleteArtist(Long artistId) {
+    public void deleteArtist(final Long artistId) {
         ArtistEntity artistEntity = getArtistById(artistId);
         artistJpaRepository.delete(artistEntity);
     }
