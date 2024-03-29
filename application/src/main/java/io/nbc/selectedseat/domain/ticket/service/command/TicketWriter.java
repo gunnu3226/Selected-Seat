@@ -54,4 +54,8 @@ public class TicketWriter {
             );
         }
     }
+
+    public void deleteTicket(final Long ticketId) {
+        ticketRepository.deleteById(ticketId);
+    }
 }
