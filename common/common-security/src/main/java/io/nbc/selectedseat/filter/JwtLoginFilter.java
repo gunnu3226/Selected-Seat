@@ -52,12 +52,15 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request,
-        HttpServletResponse response, FilterChain chain, Authentication authResult)
-        throws IOException, ServletException {
-        Long memberId = ((UserDetailsImpl) authResult.getPrincipal()).getMember().getMember_id();
+    protected void successfulAuthentication(
+        final HttpServletRequest request,
+        final HttpServletResponse response,
+        final FilterChain chain,
+        final Authentication authResult
+    ) throws IOException, ServletException {
+        Long memberId = ((UserDetailsImpl) authResult.getPrincipal()).getMember().getMemberId();
         MemberRole role = ((UserDetailsImpl) authResult.getPrincipal()).getMember()
-            .getMember_role();
+            .getMemberRole();
 
         String jsonResponse = new ObjectMapper().writeValueAsString(
             ResponseDTO.builder()

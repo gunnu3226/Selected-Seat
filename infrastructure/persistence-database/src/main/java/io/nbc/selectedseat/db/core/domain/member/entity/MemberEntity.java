@@ -32,7 +32,7 @@ public class MemberEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long member_id;
+    private Long memberId;
 
     @Column(nullable = false)
     private String email;
@@ -51,7 +51,7 @@ public class MemberEntity extends BaseEntity {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private MemberRole member_role;
+    private MemberRole memberRole;
 
     public MemberEntity(
         String email,
@@ -66,7 +66,7 @@ public class MemberEntity extends BaseEntity {
         this.nickname = nickname;
         this.profile = profile;
         this.birth = birth;
-        this.member_role = memberRole;
+        this.memberRole = memberRole;
     }
 
 
@@ -77,19 +77,19 @@ public class MemberEntity extends BaseEntity {
             member.getNickname(),
             member.getProfile(),
             member.getBirth(),
-            member.getMember_role()
+            member.getMemberRole()
         );
     }
 
     public Member toModel() {
         return new Member(
-            member_id,
+            memberId,
             email,
             password,
             nickname,
             profile,
             birth,
-            member_role
+            memberRole
         );
     }
 }

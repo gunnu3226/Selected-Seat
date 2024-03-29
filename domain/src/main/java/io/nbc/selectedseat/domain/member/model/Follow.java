@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Follow {
 
-    private Long follow_id;
+    private Long followId;
 
-    private Long artist_id;
+    private Long artistId;
 
-    private Long member_id;
+    private Long memberId;
 }

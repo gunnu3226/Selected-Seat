@@ -32,7 +32,9 @@ public class WebSecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    public WebSecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService,
+    public WebSecurityConfig(
+        JwtUtil jwtUtil,
+        UserDetailsServiceImpl userDetailsService,
         AuthenticationConfiguration authenticationConfiguration,
         JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint
     ) {
@@ -67,10 +69,8 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // CSRF 설정
         http.csrf((csrf) -> csrf.disable());
 
-        // 기본 설정인 Session 방식은 사용하지 않고 JWT 방식을 사용하기 위한 설정
         http.sessionManagement((sessionManagement) ->
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
@@ -78,10 +78,10 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
             authorizeHttpRequests
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .permitAll() // resources 접근 허용 설정
+                .permitAll()
                 .requestMatchers("/api/v1/members", "/api/v1/members/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/stores/**").permitAll()
-                .anyRequest().authenticated() // 그 외 모든 요청 인증처리
+                .anyRequest().authenticated()
         );
         // 필터 관리
         http.addFilterBefore(jwtAuthorizationFilter(), JwtLoginFilter.class);
@@ -90,7 +90,6 @@ public class WebSecurityConfig {
         http.exceptionHandling((exceptionHandling) ->
                 exceptionHandling
                     .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-            // Authentication Failure 핸들러 설정
         );
         return http.build();
     }

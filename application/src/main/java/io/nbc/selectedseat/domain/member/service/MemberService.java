@@ -20,7 +20,8 @@ public class MemberService {
 
     public SignupResponseDTO signup(
         final String email,
-        final String password, String profile,
+        final String password,
+        final String profile,
         final LocalDate birth
     ) {
         if (memberRepository.findByEmail(email) != null) {
@@ -34,6 +35,6 @@ public class MemberService {
             .birth(birth)
             .nickname(UUID.randomUUID().toString())
             .build());
-        return new SignupResponseDTO(savedMember.getMember_id());
+        return new SignupResponseDTO(savedMember.getMemberId());
     }
 }

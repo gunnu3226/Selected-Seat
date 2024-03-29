@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Member {
 
-    private Long member_id;
+    private Long memberId;
 
     private String email;
 
@@ -22,5 +22,5 @@ public class Member {
 
     private LocalDate birth;
 
-    private MemberRole member_role;
+    private MemberRole memberRole;
 }

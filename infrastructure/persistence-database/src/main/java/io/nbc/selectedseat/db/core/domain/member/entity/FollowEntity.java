@@ -28,31 +28,31 @@ public class FollowEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long follow_id;
+    private Long followId;
 
     @Column(nullable = false)
-    private Long artist_id;
+    private Long artistId;
 
     @Column(nullable = false)
-    private Long member_id;
+    private Long memberId;
 
     public FollowEntity(Long artistId, Long memberId) {
-        this.artist_id = artistId;
-        this.member_id = memberId;
+        this.artistId = artistId;
+        this.memberId = memberId;
     }
 
     public static FollowEntity from(Follow follow) {
         return new FollowEntity(
-            follow.getArtist_id(),
-            follow.getMember_id()
+            follow.getArtistId(),
+            follow.getMemberId()
         );
     }
 
     public Follow toModel() {
         return new Follow(
-            follow_id,
-            artist_id,
-            member_id
+            followId,
+            artistId,
+            memberId
         );
     }
 }

@@ -31,7 +31,9 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+    protected void doFilterInternal(
+        final HttpServletRequest request,
+        final HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
 
         String token = jwtUtil.getJwtFromHeader(request);
@@ -56,14 +58,15 @@ public class JwtFilter extends OncePerRequestFilter {
                 return;
             }
         } else {
-            // 인증정보가 존재하지 않을때
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType("application/json; charset=UTF-8");
         }
         filterChain.doFilter(request, response);
     }
 
-    public void jwtErrorResponse(HttpServletResponse response, String message) throws IOException {
+    public void jwtErrorResponse(
+        final HttpServletResponse response,
+        final String message) throws IOException {
         String jsonResponse = new ObjectMapper().writeValueAsString(
             ResponseDTO.builder()
                 .statusCode(HttpStatus.UNAUTHORIZED.value())

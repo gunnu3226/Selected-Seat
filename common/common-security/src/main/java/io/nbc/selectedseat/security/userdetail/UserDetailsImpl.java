@@ -16,8 +16,8 @@ public class UserDetailsImpl implements UserDetails {
 
     public UserDetailsImpl(Long id, MemberRole role) {
         this.member = Member.builder()
-            .member_id(id)
-            .member_role(role)
+            .memberId(id)
+            .memberRole(role)
             .build();
     }
 
@@ -28,8 +28,8 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        if (member.getMember_role() != null) {
-            String authority = member.getMember_role().getAuthority();
+        if (member.getMemberRole() != null) {
+            String authority = member.getMemberRole().getAuthority();
             SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
             authorities.add(simpleGrantedAuthority);
         }
