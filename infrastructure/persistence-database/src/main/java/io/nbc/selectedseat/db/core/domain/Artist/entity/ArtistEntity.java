@@ -23,7 +23,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "artists")
 @SQLRestriction("deleted_at is NULL")
 @SQLDelete(sql = "UPDATE artists SET deleted_at = NOW() WHERE artist_id = ?")
-public class ArtistJpaEntity extends BaseEntity {
+public class ArtistEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class ArtistJpaEntity extends BaseEntity {
     @Column(nullable = false)
     private String profile;
 
-    public ArtistJpaEntity(final Artist artist) {
+    public ArtistEntity(final Artist artist) {
         this.name = artist.getName();
         this.profile = artist.getProfile();
     }
