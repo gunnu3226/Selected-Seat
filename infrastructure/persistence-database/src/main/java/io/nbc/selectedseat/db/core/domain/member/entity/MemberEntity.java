@@ -27,7 +27,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "members")
 @SQLRestriction("deleted_at is NULL")
-@SQLDelete(sql = "UPDATE artists SET deleted_at = NOW() WHERE artist_id = ?")
+@SQLDelete(sql = "UPDATE members SET deleted_at = NOW() WHERE member_id = ?")
 public class MemberEntity extends BaseEntity {
 
     @Id

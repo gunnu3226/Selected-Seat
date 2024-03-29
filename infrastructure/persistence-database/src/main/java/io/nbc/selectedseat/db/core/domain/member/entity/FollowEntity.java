@@ -23,7 +23,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "follows")
 @SQLRestriction("deleted_at is NULL")
-@SQLDelete(sql = "UPDATE artists SET deleted_at = NOW() WHERE artist_id = ?")
+@SQLDelete(sql = "UPDATE follows SET deleted_at = NOW() WHERE follow_id = ?")
 public class FollowEntity extends BaseEntity {
 
     @Id
