@@ -1,8 +1,11 @@
 package io.nbc.selectedseat.domain.artist.service;
 
+import io.nbc.selectedseat.db.core.domain.Artist.repository.ArtistJpaRepository;
 import io.nbc.selectedseat.domain.artist.dto.CreateArtistRequestDTO;
+import io.nbc.selectedseat.domain.artist.dto.GetArtistResponseDTO;
 import io.nbc.selectedseat.domain.artist.model.Artist;
 import io.nbc.selectedseat.domain.artist.repository.ArtistRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ArtistService {
 
     private final ArtistRepository artistRepository;
+    private final ArtistJpaRepository artistJpaRepository;
 
     @Transactional
     public Long createArtist(final CreateArtistRequestDTO artistRequestDTO) {
@@ -24,8 +28,12 @@ public class ArtistService {
         return savedArtist.getArtistId();
     }
 
-    public void getArtist() {
+    public GetArtistResponseDTO getArtist(final Long artistId) {
+        Artist artist = artistJpaRepository.findById(artistId).orElseThrow(
+            () -> new EntityNotFoundException("아티스트가 존재하지 않습니다")
+        ).toModel();
 
+        return GetArtistResponseDTO.from(artist);
     }
 
 
