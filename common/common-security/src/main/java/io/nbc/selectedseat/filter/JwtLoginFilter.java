@@ -3,6 +3,7 @@ package io.nbc.selectedseat.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nbc.selectedseat.domain.member.model.MemberRole;
 import io.nbc.selectedseat.dto.LoginRequestDTO;
+import io.nbc.selectedseat.dto.LoginResponseDTO;
 import io.nbc.selectedseat.dto.ResponseDTO;
 import io.nbc.selectedseat.jwt.JwtUtil;
 import io.nbc.selectedseat.security.userdetail.UserDetailsImpl;
@@ -26,7 +27,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     public JwtLoginFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/api/users/login");
+        setFilterProcessesUrl("/api/v1/members/login");
     }
 
     @Override
@@ -54,16 +55,19 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request,
         HttpServletResponse response, FilterChain chain, Authentication authResult)
         throws IOException, ServletException {
-        Long userId = ((UserDetailsImpl) authResult.getPrincipal()).getMember().getMember_id();
-        MemberRole role = ((UserDetailsImpl) authResult.getPrincipal()).getMember().getMember_role();
+        Long memberId = ((UserDetailsImpl) authResult.getPrincipal()).getMember().getMember_id();
+        MemberRole role = ((UserDetailsImpl) authResult.getPrincipal()).getMember()
+            .getMember_role();
 
         String jsonResponse = new ObjectMapper().writeValueAsString(
             ResponseDTO.builder()
                 .statusCode(HttpStatus.OK.value())
                 .message("로그인 성공")
-            );
+                .data(new LoginResponseDTO(memberId))
+                .build()
+        );
 
-        String token = jwtUtil.createToken(userId, role);
+        String token = jwtUtil.createToken(memberId, role);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

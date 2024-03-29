@@ -33,7 +33,6 @@ public class UserDetailsImpl implements UserDetails {
             SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
             authorities.add(simpleGrantedAuthority);
         }
-
         return authorities;
     }
 

@@ -4,6 +4,7 @@ import io.nbc.selectedseat.db.core.domain.member.entity.MemberJpaEntity;
 import io.nbc.selectedseat.db.core.domain.member.repository.MemberJpaRepository;
 import io.nbc.selectedseat.domain.member.model.Member;
 import io.nbc.selectedseat.domain.member.repository.MemberRepository;
+import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,7 +31,11 @@ public class MemberPersistenceAdaptor implements MemberRepository {
     }
 
     @Override
-    public Member findByEmail(String email) {
+    public Optional<Member> findByEmail(String email) {
+        Optional<MemberJpaEntity> memberJpaEntity = memberJpaRepository.findByEmail(email);
+        if (memberJpaEntity.isPresent()) {
+            return Optional.of(memberJpaEntity.get().toModel());
+        }
         return null;
     }
 }

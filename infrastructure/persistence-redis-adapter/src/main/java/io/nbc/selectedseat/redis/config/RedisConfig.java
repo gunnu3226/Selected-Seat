@@ -22,6 +22,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 @EnableRedisRepositories
 public class RedisConfig {
+
     @Value("${spring.data.redis.port}")
     private int port;
 
@@ -32,8 +33,8 @@ public class RedisConfig {
     public RedissonClient redissonClient() {
         Config config = new Config();
         config.useSingleServer()
-                .setAddress("redis://" + host + ":" + port)
-                .setDnsMonitoringInterval(-1);
+            .setAddress("redis://" + host + ":" + port)
+            .setDnsMonitoringInterval(-1);
         return Redisson.create(config);
     }
 
@@ -43,17 +44,18 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Object> objectRedisTemplate(RedisConnectionFactory connectionFactory) {
+    public RedisTemplate<String, Object> objectRedisTemplate(
+        RedisConnectionFactory connectionFactory) {
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator
-                .builder()
-                .allowIfSubType(Object.class)
-                .build();
+            .builder()
+            .allowIfSubType(Object.class)
+            .build();
 
         ObjectMapper objectMapper = new ObjectMapper()
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .registerModule(new JavaTimeModule())
-                .activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL)
-                .disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .registerModule(new JavaTimeModule())
+            .activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL)
+            .disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
 

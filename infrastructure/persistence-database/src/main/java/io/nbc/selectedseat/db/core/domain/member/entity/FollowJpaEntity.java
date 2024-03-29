@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
-public class FollowJpaEntity  extends BaseEntity {
+public class FollowJpaEntity extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long follow_id;
 
     @Column
