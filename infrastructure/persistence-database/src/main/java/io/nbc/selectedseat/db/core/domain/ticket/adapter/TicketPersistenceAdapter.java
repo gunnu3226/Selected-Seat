@@ -31,9 +31,8 @@ public class TicketPersistenceAdapter implements TicketRepository {
     }
 
     @Override
-    public Long deleteById(final Long id) {
+    public void deleteById(final Long id) {
         ticketJpaRepository.deleteById(id);
-        return id;
     }
 
     @Override

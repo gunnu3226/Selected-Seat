@@ -15,13 +15,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
-    @Column
+
+    @Column(name = "created_at")
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
-    @Column
+    @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    @Column
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 }
