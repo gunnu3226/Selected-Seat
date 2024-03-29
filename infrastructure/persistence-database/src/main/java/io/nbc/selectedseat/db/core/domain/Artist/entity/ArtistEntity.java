@@ -41,6 +41,11 @@ public class ArtistEntity extends BaseEntity {
         this.profile = artist.getProfile();
     }
 
+    public void update(final String name, final String profile) {
+        this.name = name;
+        this.profile = profile;
+    }
+
     public Artist toModel() {
         return new Artist(
             artistId,
