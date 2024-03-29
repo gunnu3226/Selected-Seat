@@ -21,8 +21,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Table(name = "tickets")
 @Entity
+@Table(name = "tickets")
 public class TicketEntity extends BaseEntity {
 
     @Id
