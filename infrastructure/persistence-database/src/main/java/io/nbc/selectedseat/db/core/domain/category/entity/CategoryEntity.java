@@ -33,7 +33,7 @@ public class CategoryEntity extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    public CategoryEntity(Category category) {
+    public CategoryEntity(final Category category) {
         this.name = category.getName();
     }
 

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryJpaRepository extends JpaRepository<CategoryEntity, Long> {
 
-    CategoryEntity findByName(String name);
+    CategoryEntity findByName(final String name);
 }
