@@ -44,7 +44,7 @@ public class ReservationEntity extends BaseEntity {
     @Column(updatable = false)
     public LocalDateTime reservedAt;
 
-    public static ReservationEntity from(Reservation reservation) {
+    public static ReservationEntity from(final Reservation reservation) {
         return ReservationEntity.builder()
             .concertId(reservation.getConcertId())
             .memberId(reservation.getMemberId())
