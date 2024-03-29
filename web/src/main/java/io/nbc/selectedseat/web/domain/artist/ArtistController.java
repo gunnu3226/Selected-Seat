@@ -67,6 +67,7 @@ public class ArtistController {
     ) {
         ArtistResponseDTO responseDTO = new ArtistResponseDTO(
             artistService.updateArtist(artistId, requestDTO.name(), requestDTO.profile()));
+
         return ResponseEntity.status(HttpStatus.OK).body(
             ResponseDTO.<ArtistResponseDTO>builder()
                 .statusCode(HttpStatus.OK.value())
