@@ -3,6 +3,7 @@ jar.enabled = true
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":common:common-security"))
     implementation(project(":infrastructure:persistence-database"))
     implementation(project(":infrastructure:persistence-redis-adapter"))
 

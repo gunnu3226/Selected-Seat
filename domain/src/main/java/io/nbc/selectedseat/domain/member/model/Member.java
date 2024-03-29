@@ -1,48 +1,26 @@
 package io.nbc.selectedseat.domain.member.model;
 
-
+import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Member {
-    // TODO: sample class
-    private Long id;
-    private String name;
+
+    private Long memberId;
+
     private String email;
-    private String tel;
+
     private String password;
 
-    public Member(
-        final Long id,
-        final String name,
-        final String email,
-        final String tel,
-        final String password
-    ) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.tel = tel;
-        this.password = password;
-    }
+    private String nickname;
 
-    public Member(
-        final String name,
-        final String email,
-        final String tel,
-        final String password
-    ) {
-        this.name = name;
-        this.email = email;
-        this.tel = tel;
-        this.password = password;
-    }
+    private String profile;
 
-    // TODO: add
+    private LocalDate birth;
 
-    // TODO: update
+    private MemberRole memberRole;
 }
