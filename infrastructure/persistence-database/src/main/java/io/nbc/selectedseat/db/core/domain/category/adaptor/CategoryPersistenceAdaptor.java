@@ -22,10 +22,22 @@ public class CategoryPersistenceAdaptor implements CategoryRepository {
     @Override
     public Optional<Category> findByName(final String name) {
         CategoryEntity categoryEntity = categoryJpaRepository.findByName(name);
-        if(categoryEntity == null) {
+        if (categoryEntity == null) {
             return Optional.empty();
         }
 
         return Optional.ofNullable(categoryEntity.toModel());
+    }
+
+    @Override
+    public Optional<Category> findById(final Long categoryId) {
+        Optional<CategoryEntity> categoryEntity = categoryJpaRepository.findById(categoryId);
+        return categoryEntity.map(CategoryEntity::toModel);
+    }
+
+    @Override
+    public Category update(final Category category) {
+        return categoryJpaRepository.save(new CategoryEntity(category.getCategoryId(),
+            category.getName())).toModel();
     }
 }
