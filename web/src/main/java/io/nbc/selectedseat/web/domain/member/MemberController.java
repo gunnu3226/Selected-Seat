@@ -4,6 +4,7 @@ import io.nbc.selectedseat.domain.member.dto.SignupResponseDTO;
 import io.nbc.selectedseat.domain.member.service.MemberService;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import io.nbc.selectedseat.web.domain.member.dto.SignupRequestDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class MemberController {
 
     @PostMapping
     public ResponseEntity<ResponseDTO<SignupResponseDTO>> signUp(
-        @RequestBody SignupRequestDTO requestDTO
+        @Valid @RequestBody SignupRequestDTO requestDTO
     ) {
         SignupResponseDTO responseDTO = memberService.signup(
             requestDTO.email(),
