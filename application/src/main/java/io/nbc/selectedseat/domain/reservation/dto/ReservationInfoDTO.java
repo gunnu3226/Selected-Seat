@@ -14,7 +14,7 @@ public record ReservationInfoDTO(
     LocalDateTime reservedAt
 ) {
 
-    public static ReservationInfoDTO from(Reservation reservation) {
+    public static ReservationInfoDTO from(final Reservation reservation) {
         return ReservationInfoDTO.builder()
             .reservationId(reservation.getReservationId())
             .concertId(reservation.getConcertId())
