@@ -16,28 +16,28 @@ public class TicketPersistenceAdapter implements TicketRepository {
     private final TicketJpaRepository ticketJpaRepository;
 
     @Override
-    public void save(Ticket ticket) {
+    public void save(final Ticket ticket) {
         ticketJpaRepository.save(TicketEntity.from(ticket));
     }
 
     @Override
-    public Optional<Ticket> findById(Long id) {
+    public Optional<Ticket> findById(final Long id) {
         return ticketJpaRepository.findById(id).map(TicketEntity::toModel);
     }
 
     @Override
-    public Long update(Ticket updateTicket) {
+    public Long update(final Ticket updateTicket) {
         return ticketJpaRepository.saveAndFlush(TicketEntity.from(updateTicket)).ticketId;
     }
 
     @Override
-    public Long deleteById(Long id) {
+    public Long deleteById(final Long id) {
         ticketJpaRepository.deleteById(id);
         return id;
     }
 
     @Override
-    public void saveAll(List<Ticket> tickets) {
+    public void saveAll(final List<Ticket> tickets) {
         ticketJpaRepository.saveAll(tickets.stream().map(TicketEntity::from).toList());
     }
 }

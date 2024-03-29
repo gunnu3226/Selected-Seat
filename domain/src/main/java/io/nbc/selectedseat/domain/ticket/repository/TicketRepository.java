@@ -6,13 +6,13 @@ import java.util.Optional;
 
 public interface TicketRepository {
 
-    void save(Ticket ticket);
+    void save(final Ticket ticket);
 
-    Optional<Ticket> findById(Long id);
+    Optional<Ticket> findById(final Long id);
 
-    Long update(Ticket updateTicket);
+    Long update(final Ticket updateTicket);
 
-    Long deleteById(Long id);
+    Long deleteById(final Long id);
 
-    void saveAll(List<Ticket> tickets);
+    void saveAll(final List<Ticket> tickets);
 }

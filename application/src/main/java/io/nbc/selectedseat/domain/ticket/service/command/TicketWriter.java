@@ -21,7 +21,7 @@ public class  TicketWriter {
     // TODO: import concertRepository
     // TODO: import concertHallRepository
     // TODO: ticket rating id > table replace to enum?
-    public Long createTicket(Long concertId) {
+    public Long createTicket(final Long concertId) {
         // TODO: will query from concertRepository
         Long numOfSeats = 1000L;
         Long numOfRow = 10L;
@@ -39,9 +39,9 @@ public class  TicketWriter {
     }
 
     private void generateTicketsByRating(
-        Long numOfSeats,
-        Long numOfRow,
-        TicketRating ticketRating
+        final Long numOfSeats,
+        final Long numOfRow,
+        final TicketRating ticketRating
     ) {
         for (int i = 1; i < numOfSeats + 1; i++) {
             String ticketNumber = i / numOfRow + "행:" + i % numOfRow + "열";
