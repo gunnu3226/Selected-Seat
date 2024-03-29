@@ -27,6 +27,7 @@ import org.hibernate.annotations.SQLRestriction;
 public class CategoryEntity extends BaseEntity {
 
     @Id
+    @Column(name = "category_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 

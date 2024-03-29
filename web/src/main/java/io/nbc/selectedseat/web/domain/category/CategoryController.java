@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,7 +43,6 @@ public class CategoryController {
         );
     }
 
-    //TODO : update, delete, get, list
     @PutMapping("/{categoryId}")
     public ResponseEntity<ResponseDTO<CategoryResponseDTO>> updateCategory(
         //TODO : @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -63,5 +63,19 @@ public class CategoryController {
                 .build()
         );
     }
+
+    //TODO : delete, list
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Void> deleteCategory(
+        //TODO : @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @PathVariable Long categoryId
+    ) {
+        //TODO : userDetails.getUser(); admin check
+
+        categoryService.deleteCategory(categoryId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 
 }

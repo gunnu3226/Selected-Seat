@@ -40,4 +40,10 @@ public class CategoryPersistenceAdaptor implements CategoryRepository {
         return categoryJpaRepository.save(new CategoryEntity(category.getCategoryId(),
             category.getName())).toModel();
     }
+
+    @Override
+    public void delete(final Category category) {
+        categoryJpaRepository.delete(new CategoryEntity(category.getCategoryId(),
+            category.getName()));
+    }
 }

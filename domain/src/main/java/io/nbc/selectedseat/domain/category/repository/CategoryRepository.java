@@ -12,4 +12,6 @@ public interface CategoryRepository {
     Optional<Category> findById(final Long categoryId);
 
     Category update(final Category category);
+
+    void delete(final Category category);
 }
