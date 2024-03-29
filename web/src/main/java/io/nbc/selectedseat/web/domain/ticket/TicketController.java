@@ -43,11 +43,7 @@ public class TicketController {
         @PathVariable("ticketId") Long ticketId
     ){
         ticketWriter.deleteTicket(ticketId);
-        return ResponseEntity.ok(ResponseDTO.<TicketInfoResponseDTO>builder()
-            .statusCode(HttpStatus.OK.value())
-            .message("좌석이 삭제되었습니다.")
-            .build()
-        );
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
