@@ -26,13 +26,14 @@ import org.hibernate.annotations.SQLRestriction;
 public class ArtistEntity extends BaseEntity {
 
     @Id
+    @Column(name = "artist_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long artistId;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "profile", nullable = false)
     private String profile;
 
     public ArtistEntity(final Artist artist) {
