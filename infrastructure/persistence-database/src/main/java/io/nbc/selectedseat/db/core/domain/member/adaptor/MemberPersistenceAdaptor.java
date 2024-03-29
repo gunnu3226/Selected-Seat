@@ -28,4 +28,9 @@ public class MemberPersistenceAdaptor implements MemberRepository {
             .orElseThrow()
             .toModel();
     }
+
+    @Override
+    public Member findByEmail(String email) {
+        return null;
+    }
 }

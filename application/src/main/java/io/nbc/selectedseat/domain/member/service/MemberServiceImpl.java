@@ -15,4 +15,5 @@ public class MemberServiceImpl implements MemberService  {
     // TODO: sample service
     private final MemberRepository memberRepository;
 
+
 }

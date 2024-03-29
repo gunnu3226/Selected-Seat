@@ -6,4 +6,5 @@ public interface MemberRepository {
     // TODO: sample repository
     Member save(Member member);
     Member findById(Long id);
+    Member findByEmail(String email);
 }
