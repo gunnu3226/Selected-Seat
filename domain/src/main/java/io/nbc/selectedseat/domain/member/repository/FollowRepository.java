@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface FollowRepository {
 
-    Follow save(Follow follow);
+    Follow save(final Follow follow);
 
-    Optional<Follow> findByMemberIdAndArtistId(Long memberId, Long artistId);
+    Optional<Follow> findByMemberIdAndArtistId(final Long memberId, final Long artistId);
 }
