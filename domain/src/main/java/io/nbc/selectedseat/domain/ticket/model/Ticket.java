@@ -16,5 +16,5 @@ public class Ticket {
     private TicketRating ticketRating;
     private String ticketNumber;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime modifiedAt;
 }
