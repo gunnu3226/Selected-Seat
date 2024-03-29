@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.web.domain.artist.dto;
+package io.nbc.selectedseat.web.domain.artist.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 
