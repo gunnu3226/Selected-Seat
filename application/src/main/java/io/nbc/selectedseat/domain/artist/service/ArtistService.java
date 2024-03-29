@@ -46,13 +46,15 @@ public class ArtistService {
         return artistEntity.toModel().getArtistId();
     }
 
+    @Transactional
+    public void deleteArtist(final Long artistId) {
+        ArtistEntity artistEntity = getArtistById(artistId);
+        artistJpaRepository.delete(artistEntity);
+    }
+
     private ArtistEntity getArtistById(final Long artistId) {
         return artistJpaRepository.findById(artistId).orElseThrow(
             () -> new EntityNotFoundException("아티스트가 존재하지 않습니다")
         );
-    }
-
-    public void deleteArtist() {
-
     }
 }

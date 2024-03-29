@@ -4,8 +4,8 @@ import io.nbc.selectedseat.domain.artist.dto.CreateArtistRequestDTO;
 import io.nbc.selectedseat.domain.artist.dto.GetArtistResponseDTO;
 import io.nbc.selectedseat.domain.artist.service.ArtistService;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
-import io.nbc.selectedseat.web.domain.artist.dto.ArtistRequestDTO;
-import io.nbc.selectedseat.web.domain.artist.dto.ArtistResponseDTO;
+import io.nbc.selectedseat.web.domain.artist.dto.request.ArtistRequestDTO;
+import io.nbc.selectedseat.web.domain.artist.dto.response.ArtistResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -78,6 +78,12 @@ public class ArtistController {
     }
 
     @DeleteMapping("/{artistId}")
-    public void deleteArtist() {
+    public ResponseEntity<ResponseDTO<Void>> deleteArtist(
+        @PathVariable Long artistId
+    ) {
+        artistService.deleteArtist(artistId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
+            ResponseDTO.<Void>builder().build()
+        );
     }
 }
