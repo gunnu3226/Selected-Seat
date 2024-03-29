@@ -14,13 +14,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
-@Entity
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+
+@Entity
 @Table(name = "artists")
 @SQLRestriction("deleted_at is NULL")
-@SQLDelete(sql = "UPDATE artists SET deleted_at = NOW() WHERE id = ?")
+@SQLDelete(sql = "UPDATE artists SET deleted_at = NOW() WHERE artist_id = ?")
 public class ArtistJpaEntity extends BaseEntity {
 
     @Id
