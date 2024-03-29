@@ -100,4 +100,14 @@ public class ArtistServiceTest {
         //then
         assertEquals(1L, id);
     }
+
+    @Test
+    @DisplayName("아티스트 삭제 테스트")
+    public void artistDelete() {
+        //given
+        ArtistEntity artistEntity = new ArtistEntity(artistId, name, profile);
+        given(artistJpaRepository.findById(artistId)).willReturn(Optional.of(artistEntity));
+        //when
+        artistService.deleteArtist(artistId);
+    }
 }
