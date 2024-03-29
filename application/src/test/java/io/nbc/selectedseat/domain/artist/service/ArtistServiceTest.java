@@ -70,8 +70,8 @@ public class ArtistServiceTest {
         //when
         GetArtistResponseDTO responseDTO = artistService.getArtist(artistId);
         //then
-        assertEquals(1L, responseDTO.getArtist_id());
-        assertEquals(name, responseDTO.getName());
-        assertEquals(profile, responseDTO.getProfile());
+        assertEquals(1L, responseDTO.artistId());
+        assertEquals(name, responseDTO.name());
+        assertEquals(profile, responseDTO.profile());
     }
 }
