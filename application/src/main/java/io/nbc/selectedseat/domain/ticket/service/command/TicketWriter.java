@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class  TicketWriter {
+public class TicketWriter {
 
     private final TicketRepository ticketRepository;
 

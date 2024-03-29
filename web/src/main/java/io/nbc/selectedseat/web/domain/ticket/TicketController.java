@@ -30,7 +30,7 @@ public class TicketController {
 
         return ResponseEntity.ok(ResponseDTO.<TicketInfoResponseDTO>builder()
             .statusCode(HttpStatus.OK.value())
-            .message("좌석이 성공적으로 등록되었습니다.")
+            .message("좌석이 성공적으로 등록되었습니다")
             .data(responseDTO)
             .build()
         );
