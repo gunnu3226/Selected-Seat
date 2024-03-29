@@ -3,6 +3,7 @@ package io.nbc.selectedseat.web.excpetion;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -21,5 +22,24 @@ public class GlobalExceptionHandler {
                     .data(null)
                     .build()
             );
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponseDTO<String>> handleMethodArgumentNotValidException(
+        MethodArgumentNotValidException e
+    ) {
+        return createResponse(
+            HttpStatus.BAD_REQUEST,
+            e.getBindingResult().getFieldError().getDefaultMessage()
+        );
+    }
+
+    private ResponseEntity<ResponseDTO<String>> createResponse(HttpStatus status, String message) {
+        return ResponseEntity.status(status.value()).body(
+            ResponseDTO.<String>builder()
+                .statusCode(status.value())
+                .message(message)
+                .build()
+        );
     }
 }
