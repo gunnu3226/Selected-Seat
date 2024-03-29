@@ -31,8 +31,10 @@ public class ArtistController {
     ) {
         CreateArtistRequestDTO requestDTO = new CreateArtistRequestDTO(artistRequestDTO.name(),
             artistRequestDTO.profile());
+
         CreateArtistResponseDTO responseDTO = new CreateArtistResponseDTO(
             artistService.createArtist(requestDTO));
+
         return ResponseEntity.status(HttpStatus.CREATED).body(
             ResponseDTO.<CreateArtistResponseDTO>builder()
                 .statusCode(HttpStatus.CREATED.value())
