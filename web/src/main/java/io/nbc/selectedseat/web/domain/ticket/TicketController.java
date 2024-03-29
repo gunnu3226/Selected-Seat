@@ -22,10 +22,10 @@ public class TicketController {
 
     @PostMapping
     public ResponseEntity<ResponseDTO<?>> createTicket(
-        @Validated @RequestBody TicketCreateRequestDTO dto
+        @Validated @RequestBody TicketCreateRequestDTO requestDTO
     ) {
         TicketInfoResponseDTO responseDTO = TicketInfoResponseDTO.from(
-            ticketWriter.createTicket(dto.concertId())
+            ticketWriter.createTicket(requestDTO.concertId())
         );
 
         return ResponseEntity.ok(ResponseDTO.<TicketInfoResponseDTO>builder()
