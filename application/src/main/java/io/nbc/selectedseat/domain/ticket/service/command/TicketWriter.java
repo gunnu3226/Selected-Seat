@@ -31,9 +31,9 @@ public class TicketWriter {
         Long numOfSRatingTicket = 400L;
         Long numOfARatingTicket = 400L;
 
-        generateTicketsByRating(numOfRRatingTicket, numOfRow, R);
-        generateTicketsByRating(numOfSRatingTicket, numOfRow, S);
-        generateTicketsByRating(numOfARatingTicket, numOfRow, A);
+        generateTicketsByRating(numOfRRatingTicket, numOfRow, R, concertId);
+        generateTicketsByRating(numOfSRatingTicket, numOfRow, S, concertId);
+        generateTicketsByRating(numOfARatingTicket, numOfRow, A, concertId);
 
         return numOfSeats;
     }
@@ -41,13 +41,15 @@ public class TicketWriter {
     private void generateTicketsByRating(
         final Long numOfSeats,
         final Long numOfRow,
-        final TicketRating ticketRating
+        final TicketRating ticketRating,
+        final Long concertId
     ) {
         for (int i = 1; i < numOfSeats + 1; i++) {
             String ticketNumber = i / numOfRow + "행:" + i % numOfRow + "열";
 
             ticketRepository.save(
                 Ticket.builder()
+                    .concertId(concertId)
                     .ticketNumber(ticketNumber)
                     .ticketRating(ticketRating)
                     .build()

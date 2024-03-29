@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.web.excpetion;
 
+import io.nbc.selectedseat.domain.member.exception.ExistFollowException;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,15 @@ public class GlobalExceptionHandler {
         return createResponse(
             HttpStatus.BAD_REQUEST,
             e.getBindingResult().getFieldError().getDefaultMessage()
+        );
+    }
+
+    @ExceptionHandler(ExistFollowException.class)
+    public ResponseEntity<ResponseDTO<String>> handleExistFollowException(
+        ExistFollowException e
+    ) {
+        return createResponse(
+            HttpStatus.BAD_REQUEST, e.getMessage()
         );
     }
 

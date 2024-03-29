@@ -8,7 +8,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +37,28 @@ public class CategoryController {
             ResponseDTO.<CategoryResponseDTO>builder()
                 .statusCode(HttpStatus.CREATED.value())
                 .message("카테고리가 생성되었습니다")
+                .data(responseDTO)
+                .build()
+        );
+    }
+
+    //TODO : update, delete, get, list
+    @PutMapping("/{categoryId}")
+    public ResponseEntity<ResponseDTO<CategoryResponseDTO>> updateCategory(
+        //TODO : @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @PathVariable Long categoryId,
+        @RequestBody @Valid CategoryRequestDTO requestDTO
+    ) {
+        //TODO : userDetails.getUser(); admin check
+
+        CategoryResponseDTO responseDTO = CategoryResponseDTO.from(
+            categoryService.updateCategory(categoryId, requestDTO.name())
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+            ResponseDTO.<CategoryResponseDTO>builder()
+                .statusCode(HttpStatus.CREATED.value())
+                .message("카테고리가 수정되었습니다")
                 .data(responseDTO)
                 .build()
         );
