@@ -27,7 +27,7 @@ public class MemberService {
         final String profile,
         final LocalDate birth
     ) {
-        if (memberRepository.findByEmail(email) != null) {
+        if (memberRepository.findByEmail(email).isPresent()) {
             throw new EmailExistException("해당 email은 이미 존재합니다.");
         }
         String encodedPassword = passwordUtil.encode(password);

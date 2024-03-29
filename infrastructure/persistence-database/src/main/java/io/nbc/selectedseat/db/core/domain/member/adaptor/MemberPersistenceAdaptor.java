@@ -28,10 +28,6 @@ public class MemberPersistenceAdaptor implements MemberRepository {
 
     @Override
     public Optional<Member> findByEmail(final String email) {
-        Optional<MemberEntity> memberJpaEntity = memberJpaRepository.findByEmail(email);
-        if (memberJpaEntity.isPresent()) {
-            return Optional.of(memberJpaEntity.get().toModel());
-        }
-        return null;
+        return memberJpaRepository.findByEmail(email).map(MemberEntity::toModel);
     }
 }
