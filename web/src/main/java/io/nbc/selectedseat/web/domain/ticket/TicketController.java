@@ -39,7 +39,7 @@ public class TicketController {
     }
 
     @DeleteMapping("/{ticketId}")
-    public ResponseEntity<ResponseDTO<?>> deleteTicket(
+    public ResponseEntity<ResponseDTO<Void>> deleteTicket(
         @PathVariable("ticketId") Long ticketId
     ){
         ticketWriter.deleteTicket(ticketId);
