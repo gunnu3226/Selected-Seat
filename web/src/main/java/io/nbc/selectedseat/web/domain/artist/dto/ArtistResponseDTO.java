@@ -1,6 +1,6 @@
 package io.nbc.selectedseat.web.domain.artist.dto;
 
-public record CreateArtistResponseDTO(
+public record ArtistResponseDTO(
     Long artistId
 ) {
 }
