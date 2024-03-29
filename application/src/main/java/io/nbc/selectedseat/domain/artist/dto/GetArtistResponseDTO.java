@@ -1,20 +1,18 @@
 package io.nbc.selectedseat.domain.artist.dto;
 
 import io.nbc.selectedseat.domain.artist.model.Artist;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
-public class GetArtistResponseDTO {
+public record GetArtistResponseDTO(
+    Long artistId,
+    String name,
+    String profile
+) {
 
-    public Long artist_id;
-    public String name;
-    public String profile;
-
-    public GetArtistResponseDTO(Artist artist) {
-        this.artist_id = artist.getArtistId();
-        this.name = artist.getName();
-        this.profile = artist.getProfile();
+    public static GetArtistResponseDTO from(Artist artist) {
+        return new GetArtistResponseDTO(
+            artist.getArtistId(),
+            artist.getName(),
+            artist.getProfile()
+        );
     }
 }

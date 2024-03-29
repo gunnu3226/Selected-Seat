@@ -7,4 +7,5 @@ public record CategoryResponseDTO(
     public static CategoryResponseDTO from(Long categoryId) {
         return new CategoryResponseDTO(categoryId);
     }
+
 }

@@ -28,12 +28,12 @@ public class ArtistService {
         return savedArtist.getArtistId();
     }
 
-    public GetArtistResponseDTO getArtist(Long artistId) {
+    public GetArtistResponseDTO getArtist(final Long artistId) {
         Artist artist = artistJpaRepository.findById(artistId).orElseThrow(
-            () -> new EntityNotFoundException("아티스트가 존재하지 않습니다.")
+            () -> new EntityNotFoundException("아티스트가 존재하지 않습니다")
         ).toModel();
 
-        return new GetArtistResponseDTO(artist);
+        return GetArtistResponseDTO.from(artist);
     }
 
 
