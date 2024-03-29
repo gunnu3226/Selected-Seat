@@ -18,8 +18,11 @@ public class MemberService {
 
     private final PasswordUtil passwordUtil;
 
-    public SignupResponseDTO signup(String email, String password, String profile,
-        LocalDate birth) {
+    public SignupResponseDTO signup(
+        final String email,
+        final String password, String profile,
+        final LocalDate birth
+    ) {
         if (memberRepository.findByEmail(email) != null) {
             throw new EmailExistException("해당 email은 이미 존재합니다.");
         }

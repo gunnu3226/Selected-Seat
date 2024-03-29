@@ -1,26 +1,22 @@
 package io.nbc.selectedseat.db.core.domain.member.adaptor;
 
-import io.nbc.selectedseat.db.core.domain.member.entity.MemberJpaEntity;
+import io.nbc.selectedseat.db.core.domain.member.entity.MemberEntity;
 import io.nbc.selectedseat.db.core.domain.member.repository.MemberJpaRepository;
 import io.nbc.selectedseat.domain.member.model.Member;
 import io.nbc.selectedseat.domain.member.repository.MemberRepository;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class MemberPersistenceAdaptor implements MemberRepository {
 
     private final MemberJpaRepository memberJpaRepository;
 
-    public MemberPersistenceAdaptor(MemberJpaRepository memberJpaRepository) {
-        this.memberJpaRepository = memberJpaRepository;
-    }
-
-    // TODO: sample member repository implementation
-
     @Override
     public Member save(Member member) {
-        return memberJpaRepository.save(MemberJpaEntity.from(member)).toModel();
+        return memberJpaRepository.save(MemberEntity.from(member)).toModel();
     }
 
     @Override
@@ -32,7 +28,7 @@ public class MemberPersistenceAdaptor implements MemberRepository {
 
     @Override
     public Optional<Member> findByEmail(String email) {
-        Optional<MemberJpaEntity> memberJpaEntity = memberJpaRepository.findByEmail(email);
+        Optional<MemberEntity> memberJpaEntity = memberJpaRepository.findByEmail(email);
         if (memberJpaEntity.isPresent()) {
             return Optional.of(memberJpaEntity.get().toModel());
         }

@@ -7,11 +7,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Getter
+@Builder
 @NoArgsConstructor
-public class FollowJpaEntity extends BaseEntity {
+@AllArgsConstructor
+
+@Entity
+@Table(name = "follows")
+public class FollowEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,13 +32,13 @@ public class FollowJpaEntity extends BaseEntity {
     @Column
     private Long member_id;
 
-    public FollowJpaEntity(Long artistId, Long memberId) {
+    public FollowEntity(Long artistId, Long memberId) {
         this.artist_id = artistId;
         this.member_id = memberId;
     }
 
-    public static FollowJpaEntity from(Follow follow) {
-        return new FollowJpaEntity(
+    public static FollowEntity from(Follow follow) {
+        return new FollowEntity(
             follow.getArtist_id(),
             follow.getMember_id()
         );

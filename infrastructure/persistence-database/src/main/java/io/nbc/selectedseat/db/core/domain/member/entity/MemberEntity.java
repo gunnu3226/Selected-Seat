@@ -10,12 +10,21 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Getter
+@Builder
 @NoArgsConstructor
-public class MemberJpaEntity extends BaseEntity {
+@AllArgsConstructor
+
+@Entity
+@Table(name = "members")
+public class MemberEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +49,7 @@ public class MemberJpaEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberRole member_role;
 
-    public MemberJpaEntity(
+    public MemberEntity(
         String email,
         String password,
         String nickname,
@@ -57,8 +66,8 @@ public class MemberJpaEntity extends BaseEntity {
     }
 
 
-    public static MemberJpaEntity from(Member member) {
-        return new MemberJpaEntity(
+    public static MemberEntity from(Member member) {
+        return new MemberEntity(
             member.getEmail(),
             member.getPassword(),
             member.getNickname(),
