@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.nbc.selectedseat.domain.member.model.Member;
 import io.nbc.selectedseat.domain.member.model.MemberRole;
 import io.nbc.selectedseat.dto.LoginRequestDTO;
 import io.nbc.selectedseat.dto.LoginResponseDTO;
@@ -58,8 +59,8 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         final FilterChain chain,
         final Authentication authResult
     ) throws IOException, ServletException {
-        Long memberId = ((UserDetailsImpl) authResult.getPrincipal()).getMember().getMemberId();
-        MemberRole role = ((UserDetailsImpl) authResult.getPrincipal()).getMember()
+        Long memberId = getMember(authResult).getMemberId();
+        MemberRole role = getMember(authResult)
             .getMemberRole();
 
         String jsonResponse = new ObjectMapper().writeValueAsString(
@@ -86,5 +87,9 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
+    }
+
+    private static Member getMember(Authentication authResult) {
+        return ((UserDetailsImpl) authResult.getPrincipal()).getMember();
     }
 }
