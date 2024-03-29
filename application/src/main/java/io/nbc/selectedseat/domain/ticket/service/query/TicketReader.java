@@ -17,7 +17,6 @@ public class TicketReader {
 
     private final TicketRepository ticketRepository;
 
-
     public List<TicketInfo> getTickets() {
         return ticketRepository.getTickets()
             .stream()

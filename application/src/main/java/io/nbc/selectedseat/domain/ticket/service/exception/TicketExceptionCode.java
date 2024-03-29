@@ -11,5 +11,4 @@ public enum TicketExceptionCode {
     TicketExceptionCode(String message) {
         this.message = message;
     }
-
 }
