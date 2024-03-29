@@ -27,7 +27,6 @@ public class TicketReader {
     public TicketInfo getTicket(final Long ticketId) {
         Ticket ticket = ticketRepository.getTicket(ticketId)
             .orElseThrow(() -> new CustomTicketException(TicketExceptionCode.NOT_FOUND));
-        System.out.println(ticket.toString());
         return TicketInfo.from(ticket);
     }
 

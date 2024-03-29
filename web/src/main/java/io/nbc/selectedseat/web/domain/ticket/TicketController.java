@@ -36,7 +36,7 @@ public class TicketController {
 
         return ResponseEntity.ok(ResponseDTO.<List<TicketInfoResponseDTO>>builder()
             .statusCode(HttpStatus.OK.value())
-            .message("전체 좌석이 조회되었습니다.")
+            .message("전체 좌석이 조회되었습니다")
             .data(tickets)
             .build()
         );
@@ -50,7 +50,7 @@ public class TicketController {
 
         return ResponseEntity.ok(ResponseDTO.<TicketInfoResponseDTO>builder()
             .statusCode(HttpStatus.OK.value())
-            .message("좌석이 조회되었습니다.")
+            .message("좌석이 조회되었습니다")
             .data(TicketInfoResponseDTO.from(ticket))
             .build()
         );
