@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.domain.artist.repository;
 
 import io.nbc.selectedseat.domain.artist.model.Artist;
+import java.util.List;
 
 public interface ArtistRepository {
 
@@ -15,4 +16,6 @@ public interface ArtistRepository {
     );
 
     void delete(final Long artistId);
+
+    List<Artist> findArtistsByIdList(final List<Long> artistIds);
 }
