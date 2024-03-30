@@ -32,24 +32,25 @@ public class MemberEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long memberId;
 
-    @Column(nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(name = "nickname", nullable = false)
     private String nickname;
 
-    @Column
+    @Column(name = "profile")
     private String profile;
 
-    @Column(nullable = false)
+    @Column(name = "birth", nullable = false)
     private LocalDate birth;
 
-    @Column
+    @Column(name = "member_role")
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
