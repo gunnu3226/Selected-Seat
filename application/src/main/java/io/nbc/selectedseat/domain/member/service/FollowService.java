@@ -5,6 +5,7 @@ import io.nbc.selectedseat.domain.member.exception.ExistFollowException;
 import io.nbc.selectedseat.domain.member.exception.NoSuchFollowException;
 import io.nbc.selectedseat.domain.member.model.Follow;
 import io.nbc.selectedseat.domain.member.repository.FollowRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,11 @@ public class FollowService {
         Follow follow = followRepository.findByMemberIdAndArtistId(memberId, artistId)
             .orElseThrow(() -> new NoSuchFollowException("Follow 하지 않은 Artist 입니다"));
         followRepository.delete(follow.getFollowId());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> getFollowArtistIds(final Long memberId) {
+        return followRepository.findArtistIdByMemberId(memberId);
     }
 }
 
