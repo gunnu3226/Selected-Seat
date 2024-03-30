@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.domain.concert.service;
 
 import io.nbc.selectedseat.domain.concert.dto.ConcertInfo;
+import io.nbc.selectedseat.domain.concert.exception.ConcertExistException;
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,13 @@ public class ConcertService {
             .ticketAmount(concertInfo.ticketAmount())
             .build()
         );
+    }
+
+    public Long updateConcert(final Long concertId, final ConcertInfo concertInfo) {
+        Concert concert = concertRepository.findById(concertId)
+            .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다."));
+
+        concert.update(concertInfo.toConcertUpdateInfo());
+        return concertRepository.update(concert).getConcertId();
     }
 }
