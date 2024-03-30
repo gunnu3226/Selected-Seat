@@ -20,7 +20,7 @@ public class CoinController {
 
     private final CoinService coinService;
 
-    @PutMapping("/charge")
+    @PutMapping("/charges")
     public ResponseEntity<ResponseDTO<CoinInfo>> chargeCoin(
         @Valid @RequestBody CoinRequestDTO requestDTO
         // Todo: user
@@ -34,7 +34,7 @@ public class CoinController {
                 .build());
     }
 
-    @PutMapping("/deduction")
+    @PutMapping("/deductions")
     public ResponseEntity<ResponseDTO<CoinInfo>> deductionCoin(
         @Valid @RequestBody CoinRequestDTO requestDTO
         // Todo: user
