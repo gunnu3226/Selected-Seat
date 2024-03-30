@@ -16,6 +16,8 @@ public class CoinService {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
+    private final Long COIN_ZERO = 0L;
+
     public CoinInfo chargeCoin(
         final Long memberId,
         final Long chargeAmount
@@ -36,7 +38,7 @@ public class CoinService {
     }
 
     private void checkMemberCoin(Long deductionAmount, Member member) {
-        if (member.getCoin() - deductionAmount >= 0) {
+        if (member.getCoin() - deductionAmount >= COIN_ZERO) {
             return;
         }
         throw new NotEnoughCoinException("코인이 부족합니다");
