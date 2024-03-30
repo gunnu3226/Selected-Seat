@@ -44,7 +44,7 @@ public class ArtistService {
         artistRepository.delete(artistId);
     }
 
-    private Artist getArtistById(final Long artistId) {
+    public Artist getArtistById(final Long artistId) {
         return artistRepository.getArtist(artistId);
     }
 }
