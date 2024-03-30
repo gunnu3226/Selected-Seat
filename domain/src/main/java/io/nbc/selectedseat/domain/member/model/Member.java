@@ -23,4 +23,6 @@ public class Member {
     private LocalDate birth;
 
     private MemberRole memberRole;
+
+    private Long coin;
 }

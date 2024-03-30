@@ -15,4 +15,8 @@ public interface MemberRepository {
     void updatePassword(final Long memberId, final String changePassword);
 
     void deleteMember(final Long memberId);
+
+    Long chargeCoin(final Long memberId, final Long amount);
+
+    Long deductionCoin(final Long memberId, final Long deductionAmount);
 }
