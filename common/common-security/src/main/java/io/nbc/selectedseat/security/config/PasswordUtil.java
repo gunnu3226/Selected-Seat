@@ -12,7 +12,13 @@ public class PasswordUtil {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String encode(String password) {
+    public String encode(final String password) {
         return passwordEncoder.encode(password);
+    }
+
+    public boolean matchPassword(
+        final String password,
+        final String encodedPassword) {
+        return passwordEncoder.matches(password, encodedPassword);
     }
 }
