@@ -76,7 +76,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping
+    @GetMapping("/follows")
     public ResponseEntity<ResponseDTO<List<FollowArtistsInfo>>> getFollowArtists(
         //Todo: user logic
     ) {
@@ -86,7 +86,6 @@ public class MemberController {
                 .statusCode(HttpStatus.OK.value())
                 .message("팔로우 아티스트 조회 성공")
                 .data(responseDTO)
-                .build()
-        );
+                .build());
     }
 }

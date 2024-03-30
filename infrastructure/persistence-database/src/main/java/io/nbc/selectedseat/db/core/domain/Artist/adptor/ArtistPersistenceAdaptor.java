@@ -45,7 +45,8 @@ public class ArtistPersistenceAdaptor implements ArtistRepository {
 
     @Override
     public List<Artist> findArtistsByIdList(final List<Long> artistIds) {
-        return artistJpaRepository.findArtistsByIdList(artistIds);
+        return artistJpaRepository.findArtistsByIdList(artistIds).stream()
+            .map(ArtistEntity::toModel).toList();
     }
 
     private ArtistEntity getArtistById(final Long artistId) {
