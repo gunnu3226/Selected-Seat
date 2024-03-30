@@ -65,6 +65,22 @@ public class ConcertEntity extends BaseEntity {
     @Column(nullable = false)
     private Long ticketAmount;
 
+    public static ConcertEntity from(Concert concert) {
+        return ConcertEntity.builder()
+            .concertId(concert.getConcertId())
+            .ratingId(concert.getRatingId())
+            .stateId(concert.getStateId())
+            .regionId(concert.getRegionId())
+            .categoryId(concert.getCategoryId())
+            .name(concert.getName())
+            .startedAt(concert.getStartedAt())
+            .endedAt(concert.getEndedAt())
+            .thumbnail(concert.getThumbnail())
+            .hall(concert.getHall())
+            .ticketAmount(concert.getTicketAmount())
+            .build();
+    }
+
     public Concert tomodel() {
         return new Concert(
             concertId,
