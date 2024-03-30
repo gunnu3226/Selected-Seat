@@ -10,4 +10,6 @@ public interface ConcertRepository {
     Optional<Concert> findById(final Long concertId);
 
     Concert update(final Concert concert);
+
+    void delete(final Long concertId);
 }

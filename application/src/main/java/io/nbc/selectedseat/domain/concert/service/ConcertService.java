@@ -32,10 +32,20 @@ public class ConcertService {
     }
 
     public Long updateConcert(final Long concertId, final ConcertInfo concertInfo) {
-        Concert concert = concertRepository.findById(concertId)
-            .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다."));
+        Concert concert = validateConcert(concertId);
 
         concert.update(concertInfo.toConcertUpdateInfo());
         return concertRepository.update(concert).getConcertId();
+    }
+
+    public void deleteConcert(Long concertId) {
+        validateConcert(concertId);
+
+        concertRepository.delete(concertId);
+    }
+
+    private Concert validateConcert(Long concertId) {
+        return concertRepository.findById(concertId)
+            .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다."));
     }
 }

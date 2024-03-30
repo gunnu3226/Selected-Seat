@@ -29,4 +29,9 @@ public class ConcertPersistenceAdaptor implements ConcertRepository {
     public Concert update(final Concert concert) {
         return concertJpaRepository.save(ConcertEntity.from(concert)).tomodel();
     }
+
+    @Override
+    public void delete(Long concertId) {
+        concertJpaRepository.deleteById(concertId);
+    }
 }
