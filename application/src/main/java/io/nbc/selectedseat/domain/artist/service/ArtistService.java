@@ -1,12 +1,9 @@
 package io.nbc.selectedseat.domain.artist.service;
 
-import io.nbc.selectedseat.db.core.domain.Artist.entity.ArtistEntity;
-import io.nbc.selectedseat.db.core.domain.Artist.repository.ArtistJpaRepository;
 import io.nbc.selectedseat.domain.artist.dto.CreateArtistRequestDTO;
 import io.nbc.selectedseat.domain.artist.dto.GetArtistResponseDTO;
 import io.nbc.selectedseat.domain.artist.model.Artist;
 import io.nbc.selectedseat.domain.artist.repository.ArtistRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ArtistService {
 
     private final ArtistRepository artistRepository;
-    private final ArtistJpaRepository artistJpaRepository;
 
     @Transactional
     public Long createArtist(final CreateArtistRequestDTO artistRequestDTO) {
@@ -24,13 +20,12 @@ public class ArtistService {
         String profile = artistRequestDTO.profile();
 
         Artist artist = new Artist(name, profile);
-        Artist savedArtist = artistRepository.save(artist);
 
-        return savedArtist.getArtistId();
+        return artistRepository.save(artist);
     }
 
     public GetArtistResponseDTO getArtist(final Long artistId) {
-        Artist artist = getArtistById(artistId).toModel();
+        Artist artist = getArtistById(artistId);
         return GetArtistResponseDTO.from(artist);
     }
 
@@ -41,20 +36,15 @@ public class ArtistService {
         final String name,
         final String profile
     ) {
-        ArtistEntity artistEntity = getArtistById(artistId);
-        artistEntity.update(name, profile);
-        return artistEntity.toModel().getArtistId();
+        return artistRepository.update(artistId, name, profile);
     }
 
     @Transactional
     public void deleteArtist(final Long artistId) {
-        ArtistEntity artistEntity = getArtistById(artistId);
-        artistJpaRepository.delete(artistEntity);
+        artistRepository.delete(artistId);
     }
 
-    private ArtistEntity getArtistById(final Long artistId) {
-        return artistJpaRepository.findById(artistId).orElseThrow(
-            () -> new EntityNotFoundException("아티스트가 존재하지 않습니다")
-        );
+    public Artist getArtistById(final Long artistId) {
+        return artistRepository.getArtist(artistId);
     }
 }
