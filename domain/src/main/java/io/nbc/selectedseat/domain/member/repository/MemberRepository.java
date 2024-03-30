@@ -17,4 +17,6 @@ public interface MemberRepository {
     void deleteMember(final Long memberId);
 
     Long chargeCoin(final Long memberId, final Long amount);
+
+    Long deductionCoin(final Long memberId, final Long deductionAmount);
 }
