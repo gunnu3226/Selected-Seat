@@ -21,9 +21,9 @@ import org.hibernate.annotations.SQLRestriction;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "categorys")
+@Table(name = "categories")
 @SQLRestriction(value = "deleted_at is NULL")
-@SQLDelete(sql = "update categorys set deleted_at = NOW() where category_id = ?")
+@SQLDelete(sql = "update categories set deleted_at = NOW() where category_id = ?")
 public class CategoryEntity extends BaseEntity {
 
     @Id
