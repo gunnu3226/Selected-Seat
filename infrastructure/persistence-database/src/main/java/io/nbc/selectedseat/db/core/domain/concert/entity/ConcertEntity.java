@@ -48,11 +48,9 @@ public class ConcertEntity extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @CreatedDate
     @Column(updatable = false)
     public LocalDateTime startedAt;
 
-    @CreatedDate
     @Column(updatable = false)
     public LocalDateTime endedAt;
 
