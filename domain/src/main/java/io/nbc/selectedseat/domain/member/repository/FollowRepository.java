@@ -8,4 +8,6 @@ public interface FollowRepository {
     Follow save(final Follow follow);
 
     Optional<Follow> findByMemberIdAndArtistId(final Long memberId, final Long artistId);
+
+    void delete(final Long followId);
 }
