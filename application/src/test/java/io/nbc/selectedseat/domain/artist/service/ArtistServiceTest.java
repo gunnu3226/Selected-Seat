@@ -6,12 +6,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import io.nbc.selectedseat.db.core.domain.Artist.entity.ArtistEntity;
-import io.nbc.selectedseat.db.core.domain.Artist.repository.ArtistJpaRepository;
 import io.nbc.selectedseat.domain.artist.dto.CreateArtistRequestDTO;
 import io.nbc.selectedseat.domain.artist.dto.GetArtistResponseDTO;
 import io.nbc.selectedseat.domain.artist.model.Artist;
 import io.nbc.selectedseat.domain.artist.repository.ArtistRepository;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,9 +24,6 @@ public class ArtistServiceTest {
 
     @Mock
     ArtistRepository artistRepository;
-
-    @Mock
-    ArtistJpaRepository artistJpaRepository;
 
     @InjectMocks
     ArtistService artistService;
@@ -55,7 +50,7 @@ public class ArtistServiceTest {
 
         ReflectionTestUtils.setField(artist, "artistId", 1L);
 
-        given(artistRepository.save(any(Artist.class))).willReturn(artist);
+        given(artistRepository.save(any(Artist.class))).willReturn(1L);
 
         //when
         Long id = artistService.createArtist(requestDTO);
@@ -71,9 +66,7 @@ public class ArtistServiceTest {
         Artist artist = new Artist(name, profile);
         ReflectionTestUtils.setField(artist, "artistId", artistId);
 
-        ArtistEntity artistEntity = new ArtistEntity(artistId, name, profile);
-
-        given(artistJpaRepository.findById(artistId)).willReturn(Optional.of(artistEntity));
+        given(artistRepository.getArtist(artistId)).willReturn(artist);
 
         //when
         GetArtistResponseDTO responseDTO = artistService.getArtist(artistId);
@@ -93,7 +86,7 @@ public class ArtistServiceTest {
         ArtistEntity artistEntity = new ArtistEntity();
         ReflectionTestUtils.setField(artistEntity, "artistId", artistId);
 
-        given(artistJpaRepository.findById(artistId)).willReturn(Optional.of(artistEntity));
+        given(artistRepository.update(artistId, updatedName, updatedProfile)).willReturn(1L);
 
         //when
         Long id = artistService.updateArtist(artistId, updatedName, updatedProfile);
@@ -106,7 +99,6 @@ public class ArtistServiceTest {
     public void artistDelete() {
         //given
         ArtistEntity artistEntity = new ArtistEntity(artistId, name, profile);
-        given(artistJpaRepository.findById(artistId)).willReturn(Optional.of(artistEntity));
         //when
         artistService.deleteArtist(artistId);
     }
