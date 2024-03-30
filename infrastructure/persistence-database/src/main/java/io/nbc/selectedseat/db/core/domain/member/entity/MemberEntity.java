@@ -93,4 +93,8 @@ public class MemberEntity extends BaseEntity {
             memberRole
         );
     }
+
+    public void updateMember(final String changePassword) {
+        this.password = changePassword;
+    }
 }

@@ -3,6 +3,7 @@ package io.nbc.selectedseat.web.excpetion;
 import io.nbc.selectedseat.domain.member.exception.ExistFollowException;
 import io.nbc.selectedseat.domain.member.exception.MisMatchPasswordException;
 import io.nbc.selectedseat.domain.member.exception.NoSuchMemberException;
+import io.nbc.selectedseat.domain.member.exception.SamePasswordException;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MisMatchPasswordException.class)
     public ResponseEntity<ResponseDTO<String>> handleMisMatchPasswordException(
         MisMatchPasswordException e
+    ) {
+        return createResponse(
+            HttpStatus.BAD_REQUEST, e.getMessage()
+        );
+    }
+
+    @ExceptionHandler(SamePasswordException.class)
+    public ResponseEntity<ResponseDTO<String>> handleSamePasswordException(
+        SamePasswordException e
     ) {
         return createResponse(
             HttpStatus.BAD_REQUEST, e.getMessage()

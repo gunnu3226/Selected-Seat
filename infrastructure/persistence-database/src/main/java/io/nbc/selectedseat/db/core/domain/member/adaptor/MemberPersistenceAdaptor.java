@@ -30,7 +30,16 @@ public class MemberPersistenceAdaptor implements MemberRepository {
     }
 
     @Override
-    public void delete(final Long memberId) {
+    public void updatePassword(
+        final Long memberId,
+        final String changePassword
+    ) {
+        memberJpaRepository.findById(memberId)
+            .get().updateMember(changePassword);
+    }
+
+    @Override
+    public void deleteMember(final Long memberId) {
         memberJpaRepository.deleteById(memberId);
     }
 }
