@@ -3,11 +3,13 @@ package io.nbc.selectedseat.web.domain.member;
 import io.nbc.selectedseat.domain.member.dto.SignupResponseDTO;
 import io.nbc.selectedseat.domain.member.service.MemberService;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
+import io.nbc.selectedseat.web.domain.member.dto.DeleteMemberRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.SignupRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +38,14 @@ public class MemberController {
                 .message("회원가입 성공")
                 .data(responseDTO)
                 .build());
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteMember(
+        @Valid @RequestBody DeleteMemberRequestDTO requestDTO
+        // Todo: user logic
+    ) {
+        memberService.deleteMember(1L, requestDTO.password());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

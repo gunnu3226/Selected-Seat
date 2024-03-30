@@ -2,6 +2,8 @@ package io.nbc.selectedseat.domain.member.service;
 
 import io.nbc.selectedseat.domain.member.dto.SignupResponseDTO;
 import io.nbc.selectedseat.domain.member.exception.EmailExistException;
+import io.nbc.selectedseat.domain.member.exception.MisMatchPasswordException;
+import io.nbc.selectedseat.domain.member.exception.NoSuchMemberException;
 import io.nbc.selectedseat.domain.member.model.Member;
 import io.nbc.selectedseat.domain.member.model.MemberRole;
 import io.nbc.selectedseat.domain.member.repository.MemberRepository;
@@ -40,5 +42,15 @@ public class MemberService {
             .memberRole(MemberRole.USER)
             .build());
         return new SignupResponseDTO(savedMember.getMemberId());
+    }
+
+    public void deleteMember(final Long memberId, final String password) {
+        Member member = memberRepository.findById(memberId).orElseThrow(
+            () -> new NoSuchMemberException("존재하지 않는 회원입니다")
+        );
+        if (!member.getPassword().equals(passwordUtil.encode(password))) {
+            throw new MisMatchPasswordException("비밀번호가 일치하지 않습니다");
+        }
+        memberRepository.delete(memberId);
     }
 }
