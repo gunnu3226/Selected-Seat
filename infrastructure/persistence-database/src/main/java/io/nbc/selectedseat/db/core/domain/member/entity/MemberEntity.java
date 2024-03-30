@@ -54,13 +54,17 @@ public class MemberEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
+    @Column(name = "coin")
+    private Long coin;
+
     public MemberEntity(
         String email,
         String password,
         String nickname,
         String profile,
         LocalDate birth,
-        MemberRole memberRole
+        MemberRole memberRole,
+        Long coin
     ) {
         this.email = email;
         this.password = password;
@@ -68,6 +72,7 @@ public class MemberEntity extends BaseEntity {
         this.profile = profile;
         this.birth = birth;
         this.memberRole = memberRole;
+        this.coin = coin;
     }
 
 
@@ -78,7 +83,8 @@ public class MemberEntity extends BaseEntity {
             member.getNickname(),
             member.getProfile(),
             member.getBirth(),
-            member.getMemberRole()
+            member.getMemberRole(),
+            member.getCoin()
         );
     }
 
@@ -90,11 +96,20 @@ public class MemberEntity extends BaseEntity {
             nickname,
             profile,
             birth,
-            memberRole
+            memberRole,
+            coin
         );
     }
 
     public void updateMember(final String changePassword) {
         this.password = changePassword;
+    }
+
+    public void chargeCoin(final Long chargeAmount) {
+        this.coin += chargeAmount;
+    }
+
+    public void deductionCoin(final Long deductionAmount) {
+        this.coin -= deductionAmount;
     }
 }

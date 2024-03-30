@@ -59,8 +59,7 @@ public class MemberController {
                 .statusCode(HttpStatus.OK.value())
                 .message("비밀번호 수정 성공")
                 .data(responseDTO)
-                .build()
-        );
+                .build());
     }
 
     @DeleteMapping

@@ -43,6 +43,7 @@ public class MemberService {
             .birth(birth)
             .nickname(UUID.randomUUID().toString())
             .memberRole(MemberRole.USER)
+            .coin(0L)
             .build());
         return new SignupResponseDTO(savedMember.getMemberId());
     }
@@ -69,7 +70,7 @@ public class MemberService {
         return new MemberInfo(userId);
     }
 
-    private Member findMemberById(final Long memberId) {
+    public Member findMemberById(final Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
             () -> new NoSuchMemberException("존재하지 않는 회원입니다")
         );

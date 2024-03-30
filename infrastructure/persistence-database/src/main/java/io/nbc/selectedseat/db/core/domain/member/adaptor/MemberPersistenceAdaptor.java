@@ -42,4 +42,11 @@ public class MemberPersistenceAdaptor implements MemberRepository {
     public void deleteMember(final Long memberId) {
         memberJpaRepository.deleteById(memberId);
     }
+
+    @Override
+    public Long chargeCoin(final Long memberId, final Long amount) {
+        MemberEntity memberEntity = memberJpaRepository.findById(memberId).get();
+        memberEntity.chargeCoin(amount);
+        return memberEntity.getCoin();
+    }
 }
