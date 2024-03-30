@@ -4,7 +4,7 @@ import io.nbc.selectedseat.domain.artist.model.Artist;
 
 public interface ArtistRepository {
 
-    Artist save(Artist artist);
+    Long save(Artist artist);
 
     Artist getArtist(final Long artistId);
 

@@ -20,9 +20,8 @@ public class ArtistService {
         String profile = artistRequestDTO.profile();
 
         Artist artist = new Artist(name, profile);
-        Artist savedArtist = artistRepository.save(artist);
 
-        return savedArtist.getArtistId();
+        return artistRepository.save(artist);
     }
 
     public GetArtistResponseDTO getArtist(final Long artistId) {
