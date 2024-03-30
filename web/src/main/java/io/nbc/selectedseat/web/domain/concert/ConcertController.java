@@ -1,6 +1,8 @@
 package io.nbc.selectedseat.web.domain.concert;
 
-import io.nbc.selectedseat.domain.concert.service.ConcertService;
+import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
+import io.nbc.selectedseat.domain.concert.service.command.ConcertWriter;
+import io.nbc.selectedseat.domain.concert.service.query.ConcertReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import io.nbc.selectedseat.web.domain.concert.dto.request.CreateConcertRequestDTO;
 import io.nbc.selectedseat.web.domain.concert.dto.request.UpdateConcertRequestDTO;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,7 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ConcertController {
 
-    private final ConcertService concertService;
+    private final ConcertWriter concertWriter;
+    private final ConcertReader concertReader;
 
     @PostMapping
     public ResponseEntity<ResponseDTO<ConcertResponseDTO>> createCategory(
@@ -32,7 +36,7 @@ public class ConcertController {
         //TODO : userDetails.getUser(); admin check
 
         ConcertResponseDTO responseDTO = ConcertResponseDTO.from(
-            concertService.createConcert(requestDTO.toConcertInfo())
+            concertWriter.createConcert(requestDTO.toConcertInfo())
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -53,7 +57,7 @@ public class ConcertController {
         //TODO : userDetails.getUser(); admin check
 
         ConcertResponseDTO responseDTO = ConcertResponseDTO.from(
-            concertService.updateConcert(concertId, requestDTO.toConcertInfo())
+            concertWriter.updateConcert(concertId, requestDTO.toConcertInfo())
         );
 
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -72,9 +76,22 @@ public class ConcertController {
     ) {
         //TODO : userDetails.getUser(); admin check
 
-        concertService.deleteConcert(concertId);
+        concertWriter.deleteConcert(concertId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/{concertId}")
+    public ResponseEntity<ResponseDTO<GetConcertResponseDTO>> getConcert(
+        @PathVariable Long concertId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<GetConcertResponseDTO>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("콘서트 조회 성공")
+                .data(concertReader.getConcert(concertId))
+                .build()
+        );
     }
 
 }

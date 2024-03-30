@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.domain.concert.service;
+package io.nbc.selectedseat.domain.concert.service.command;
 
 import io.nbc.selectedseat.domain.concert.dto.ConcertInfo;
 import io.nbc.selectedseat.domain.concert.exception.ConcertExistException;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ConcertService {
+public class ConcertWriter {
 
     private final ConcertRepository concertRepository;
 
