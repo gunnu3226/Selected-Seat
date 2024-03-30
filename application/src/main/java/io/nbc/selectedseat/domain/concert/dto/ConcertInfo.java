@@ -16,4 +16,18 @@ public record ConcertInfo(
     Long ticketAmount
 ) {
 
+    public ConcertUpdateInfo toConcertUpdateInfo() {
+        return new ConcertUpdateInfo(
+            ratingId(),
+            stateId(),
+            regionId(),
+            categoryId(),
+            name(),
+            startedAt(),
+            endedAt(),
+            thumbnail(),
+            hall(),
+            ticketAmount()
+        );
+    }
 }
