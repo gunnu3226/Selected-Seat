@@ -4,6 +4,7 @@ import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
 import io.nbc.selectedseat.domain.concert.exception.ConcertExistException;
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,5 +21,11 @@ public class ConcertReader {
             .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다."));
         System.out.println("concert.getConcertId() = " + concert.getConcertId());
         return GetConcertResponseDTO.from(concert);
+    }
+
+    public List<GetConcertResponseDTO> getConcerts() {
+        return concertRepository.getConcerts().stream()
+            .map(GetConcertResponseDTO::from)
+            .toList();
     }
 }

@@ -1,6 +1,8 @@
 package io.nbc.selectedseat.domain.concert.repository;
 
 import io.nbc.selectedseat.domain.concert.model.Concert;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public interface ConcertRepository {
@@ -12,4 +14,6 @@ public interface ConcertRepository {
     Concert update(final Concert concert);
 
     void delete(final Long concertId);
+
+    List<Concert> getConcerts();
 }

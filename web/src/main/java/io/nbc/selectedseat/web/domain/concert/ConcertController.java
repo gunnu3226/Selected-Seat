@@ -8,6 +8,7 @@ import io.nbc.selectedseat.web.domain.concert.dto.request.CreateConcertRequestDT
 import io.nbc.selectedseat.web.domain.concert.dto.request.UpdateConcertRequestDTO;
 import io.nbc.selectedseat.web.domain.concert.dto.response.ConcertResponseDTO;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,6 +91,18 @@ public class ConcertController {
                 .statusCode(HttpStatus.OK.value())
                 .message("콘서트 조회 성공")
                 .data(concertReader.getConcert(concertId))
+                .build()
+        );
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO<List<GetConcertResponseDTO>>> getConcerts(
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<List<GetConcertResponseDTO>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("콘서트 전체 조회 성공")
+                .data(concertReader.getConcerts())
                 .build()
         );
     }
