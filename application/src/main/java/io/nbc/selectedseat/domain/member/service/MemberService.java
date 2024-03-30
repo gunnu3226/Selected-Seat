@@ -71,10 +71,9 @@ public class MemberService {
     }
 
     public Member findMemberById(final Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(
+        return memberRepository.findById(memberId).orElseThrow(
             () -> new NoSuchMemberException("존재하지 않는 회원입니다")
         );
-        return member;
     }
 
     private void verifyPassword(

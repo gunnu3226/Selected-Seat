@@ -44,9 +44,16 @@ public class MemberPersistenceAdaptor implements MemberRepository {
     }
 
     @Override
-    public Long chargeCoin(final Long memberId, final Long amount) {
+    public Long chargeCoin(final Long memberId, final Long chargeAmount) {
         MemberEntity memberEntity = memberJpaRepository.findById(memberId).get();
-        memberEntity.chargeCoin(amount);
+        memberEntity.chargeCoin(chargeAmount);
+        return memberEntity.getCoin();
+    }
+
+    @Override
+    public Long deductionCoin(final Long memberId, final Long deductionAmount) {
+        MemberEntity memberEntity = memberJpaRepository.findById(memberId).get();
+        memberEntity.deductionCoin(deductionAmount);
         return memberEntity.getCoin();
     }
 }
