@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public record ConcertInfo(
 
-    Long concertId,
     Long ratingId,
     Long stateId,
     Long regionId,

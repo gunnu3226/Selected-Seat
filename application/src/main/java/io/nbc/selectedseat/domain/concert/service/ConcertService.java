@@ -16,7 +16,6 @@ public class ConcertService {
 
     public Long createConcert(final ConcertInfo concertInfo) {
         return concertRepository.save(Concert.builder()
-            .concertId(concertInfo.concertId())
             .ratingId(concertInfo.ratingId())
             .stateId(concertInfo.stateId())
             .regionId(concertInfo.regionId())

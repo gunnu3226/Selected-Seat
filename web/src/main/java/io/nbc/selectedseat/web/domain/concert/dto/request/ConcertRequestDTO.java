@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public record ConcertRequestDTO(
-    @NotNull(message = "concertId를 입력해주세요")
-    Long concertId,
     @NotNull(message = "ratingId를 입력해주세요")
     Long ratingId,
     @NotNull(message = "stateId를 입력해주세요")
@@ -32,7 +30,6 @@ public record ConcertRequestDTO(
 
     public ConcertInfo toConcertInfo() {
         return new ConcertInfo(
-            concertId(),
             ratingId(),
             stateId(),
             regionId(),
