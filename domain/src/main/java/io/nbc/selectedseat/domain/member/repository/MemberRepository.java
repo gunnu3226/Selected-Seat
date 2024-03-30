@@ -8,7 +8,11 @@ public interface MemberRepository {
     // TODO: sample repository
     Member save(final Member member);
 
-    Member findById(final Long id);
+    Optional<Member> findById(final Long id);
 
     Optional<Member> findByEmail(final String email);
+
+    void updatePassword(final Long memberId, final String changePassword);
+
+    void deleteMember(final Long memberId);
 }
