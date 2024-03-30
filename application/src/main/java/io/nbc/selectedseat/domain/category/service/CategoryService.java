@@ -1,8 +1,10 @@
 package io.nbc.selectedseat.domain.category.service;
 
+import io.nbc.selectedseat.domain.category.dto.GetCategoryResponseDTO;
 import io.nbc.selectedseat.domain.category.exception.CategoryExistException;
 import io.nbc.selectedseat.domain.category.model.Category;
 import io.nbc.selectedseat.domain.category.repository.CategoryRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,5 +45,12 @@ public class CategoryService {
             throw new CategoryExistException("카테고리가 존재하지 않습니다");
         }
         return category.get();
+    }
+
+    @Transactional(readOnly = true)
+    public List<GetCategoryResponseDTO> getCategories() {
+        return categoryRepository.getCategories().stream()
+            .map(GetCategoryResponseDTO::from)
+            .toList();
     }
 }

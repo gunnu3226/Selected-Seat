@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.domain.category.repository;
 
 import io.nbc.selectedseat.domain.category.model.Category;
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoryRepository {
@@ -14,4 +15,6 @@ public interface CategoryRepository {
     Category update(final Category category);
 
     void delete(final Category category);
+
+    List<Category> getCategories();
 }

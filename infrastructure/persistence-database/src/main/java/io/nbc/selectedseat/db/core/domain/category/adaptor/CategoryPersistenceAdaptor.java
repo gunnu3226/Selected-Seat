@@ -4,6 +4,7 @@ import io.nbc.selectedseat.db.core.domain.category.entity.CategoryEntity;
 import io.nbc.selectedseat.db.core.domain.category.repository.CategoryJpaRepository;
 import io.nbc.selectedseat.domain.category.model.Category;
 import io.nbc.selectedseat.domain.category.repository.CategoryRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -43,5 +44,12 @@ public class CategoryPersistenceAdaptor implements CategoryRepository {
     @Override
     public void delete(final Category category) {
         categoryJpaRepository.delete(new CategoryEntity(category));
+    }
+
+    @Override
+    public List<Category> getCategories() {
+        return categoryJpaRepository.findAll().stream()
+            .map(CategoryEntity::toModel)
+            .toList();
     }
 }
