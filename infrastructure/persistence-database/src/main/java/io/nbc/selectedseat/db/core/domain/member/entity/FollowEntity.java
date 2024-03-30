@@ -12,8 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Builder
@@ -22,8 +20,6 @@ import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "follows")
-@SQLRestriction("deleted_at is NULL")
-@SQLDelete(sql = "UPDATE follows SET deleted_at = NOW() WHERE follow_id = ?")
 public class FollowEntity extends BaseEntity {
 
     @Id

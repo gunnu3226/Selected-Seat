@@ -27,4 +27,9 @@ public class FollowPersistenceAdaptor implements FollowRepository {
         return followJpaRepository.findByMemberIdAndArtistId(memberId, artistId)
             .map(FollowEntity::toModel);
     }
+
+    @Override
+    public void delete(final Long followId) {
+        followJpaRepository.deleteById(followId);
+    }
 }

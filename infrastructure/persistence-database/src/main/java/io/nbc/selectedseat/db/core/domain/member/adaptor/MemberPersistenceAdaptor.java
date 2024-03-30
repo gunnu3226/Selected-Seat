@@ -20,18 +20,26 @@ public class MemberPersistenceAdaptor implements MemberRepository {
     }
 
     @Override
-    public Member findById(final Long id) {
-        return memberJpaRepository.findById(id)
-            .orElseThrow()
-            .toModel();
+    public Optional<Member> findById(final Long id) {
+        return memberJpaRepository.findById(id).map(MemberEntity::toModel);
     }
 
     @Override
     public Optional<Member> findByEmail(final String email) {
-        Optional<MemberEntity> memberJpaEntity = memberJpaRepository.findByEmail(email);
-        if (memberJpaEntity.isPresent()) {
-            return Optional.of(memberJpaEntity.get().toModel());
-        }
-        return null;
+        return memberJpaRepository.findByEmail(email).map(MemberEntity::toModel);
+    }
+
+    @Override
+    public void updatePassword(
+        final Long memberId,
+        final String changePassword
+    ) {
+        memberJpaRepository.findById(memberId)
+            .get().updateMember(changePassword);
+    }
+
+    @Override
+    public void deleteMember(final Long memberId) {
+        memberJpaRepository.deleteById(memberId);
     }
 }
