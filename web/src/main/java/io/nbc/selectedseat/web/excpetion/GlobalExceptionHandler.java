@@ -5,6 +5,7 @@ import io.nbc.selectedseat.domain.member.exception.MisMatchPasswordException;
 import io.nbc.selectedseat.domain.member.exception.NoSuchMemberException;
 import io.nbc.selectedseat.domain.member.exception.NotEnoughCoinException;
 import io.nbc.selectedseat.domain.member.exception.SamePasswordException;
+import io.nbc.selectedseat.domain.ticket.service.exception.ExistTicketPriceException;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +79,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotEnoughCoinException.class)
     public ResponseEntity<ResponseDTO<String>> handleNotEnoughCoinException(
         NotEnoughCoinException e
+    ) {
+        return createResponse(
+            HttpStatus.BAD_REQUEST, e.getMessage()
+        );
+    }
+
+    @ExceptionHandler(ExistTicketPriceException.class)
+    public ResponseEntity<ResponseDTO<String>> handleExistTicketPriceException(
+        ExistTicketPriceException e
     ) {
         return createResponse(
             HttpStatus.BAD_REQUEST, e.getMessage()
