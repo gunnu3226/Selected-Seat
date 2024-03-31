@@ -1,8 +1,10 @@
 package io.nbc.selectedseat.db.core.domain.ticket.adapter;
 
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketEntity;
-import io.nbc.selectedseat.db.core.domain.ticket.repository.TicketJpaRepository;
+import io.nbc.selectedseat.db.core.domain.ticket.repository.ticket.TicketJpaRepository;
+import io.nbc.selectedseat.db.core.domain.ticket.repository.ticket.TicketQueryRepository;
 import io.nbc.selectedseat.domain.ticket.model.Ticket;
+import io.nbc.selectedseat.domain.ticket.model.TicketAndPrice;
 import io.nbc.selectedseat.domain.ticket.repository.TicketRepository;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class TicketPersistenceAdapter implements TicketRepository {
 
     private final TicketJpaRepository ticketJpaRepository;
+    private final TicketQueryRepository ticketQueryRepository;
 
     @Override
     public void save(final Ticket ticket) {
@@ -40,5 +43,10 @@ public class TicketPersistenceAdapter implements TicketRepository {
     @Override
     public void deleteById(final Long id) {
         ticketJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public List<TicketAndPrice> getTicketsAndPriceByMemberId(Long memberId) {
+        return null;
     }
 }

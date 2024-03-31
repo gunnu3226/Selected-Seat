@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.domain.ticket.repository;
 
 import io.nbc.selectedseat.domain.ticket.model.Ticket;
+import io.nbc.selectedseat.domain.ticket.model.TicketAndPrice;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,6 @@ public interface TicketRepository {
     List<Ticket> getTicketsByConvertId(final Long convertId);
 
     void deleteById(final Long id);
+
+    List<TicketAndPrice> getTicketsAndPriceByMemberId(List<Long> ticketIds);
 }

@@ -1,8 +1,8 @@
 package io.nbc.selectedseat.db.core.domain.ticket.adapter;
 
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketPriceEntity;
-import io.nbc.selectedseat.db.core.domain.ticket.repository.TicketPriceJpaRepository;
-import io.nbc.selectedseat.db.core.domain.ticket.repository.TicketPriceQueryRepository;
+import io.nbc.selectedseat.db.core.domain.ticket.repository.ticketPrice.TicketPriceJpaRepository;
+import io.nbc.selectedseat.db.core.domain.ticket.repository.ticketPrice.TicketPriceQueryRepository;
 import io.nbc.selectedseat.domain.ticket.model.TicketPrice;
 import io.nbc.selectedseat.domain.ticket.model.TicketRating;
 import io.nbc.selectedseat.domain.ticket.repository.TicketPriceRepository;

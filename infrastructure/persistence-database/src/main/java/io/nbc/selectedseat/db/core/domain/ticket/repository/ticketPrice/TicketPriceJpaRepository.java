@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.db.core.domain.ticket.repository;
+package io.nbc.selectedseat.db.core.domain.ticket.repository.ticketPrice;
 
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketPriceEntity;
 import io.nbc.selectedseat.domain.ticket.model.TicketRating;

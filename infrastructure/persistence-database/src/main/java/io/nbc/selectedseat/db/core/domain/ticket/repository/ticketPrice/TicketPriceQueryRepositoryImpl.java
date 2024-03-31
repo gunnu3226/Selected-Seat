@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.db.core.domain.ticket.repository;
+package io.nbc.selectedseat.db.core.domain.ticket.repository.ticketPrice;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
