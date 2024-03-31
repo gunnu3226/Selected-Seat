@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.domain.concert.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import io.nbc.selectedseat.domain.concert.dto.ConcertInfo;
 import io.nbc.selectedseat.domain.concert.mock.FakeConcertRepository;
@@ -22,6 +23,7 @@ public class ConcertServiceTest {
 
     private static final Long CONCERT_ID = 1L;
     private static final Long RATING_ID = 1L;
+    private static final Long UPDATE_RATING_ID = 2L;
     private static final Long STATE_ID = 1L;
     private static final Long REGION_ID = 1L;
     private static final Long CATEGORY_ID = 1L;
@@ -38,10 +40,10 @@ public class ConcertServiceTest {
     }
 
     @Nested
-    class createConcert_콘서트_추가_테스트 {
+    class createConcert_Concert_추가_테스트 {
 
         @Test
-        void 콘서트_추가_성공() {
+        void Concert_추가_성공() {
             //given
             ConcertInfo concertInfo = new ConcertInfo(
                 RATING_ID,
@@ -62,6 +64,71 @@ public class ConcertServiceTest {
             //then
             assertThat(concertId).isEqualTo(CONCERT_ID);
         }
+    }
+
+    @Nested
+    class updateConcert_Concert_수정_테스트 {
+
+        @Test
+        void Concert_수정_성공() {
+            //given
+            ConcertInfo concertInfo = new ConcertInfo(
+                RATING_ID,
+                STATE_ID,
+                REGION_ID,
+                CATEGORY_ID,
+                NAME,
+                STARTED_AT,
+                ENDED_AT,
+                THUMBNAIL,
+                HALL,
+                TICKET_AMOUNT
+            );
+
+            Long concertId = concertWriter.createConcert(concertInfo);
+
+            //when
+            ConcertInfo updateConcertInfo = new ConcertInfo(
+                UPDATE_RATING_ID,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            );
+
+            Long updatedConcertId = concertWriter.updateConcert(concertId, updateConcertInfo);
+
+            //then
+            assertThat(updatedConcertId).isEqualTo(CONCERT_ID);
+        }
+
+        @Test
+        void Concert_수정_실패() {
+            //given
+            ConcertInfo updateConcertInfo = new ConcertInfo(
+                UPDATE_RATING_ID,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            );
+
+            //when-then
+            assertThatThrownBy(() -> concertWriter.updateConcert(CONCERT_ID, updateConcertInfo))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("해당 콘서트가 존재하지 않습니다");
+        }
+
     }
 
 
