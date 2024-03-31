@@ -52,4 +52,34 @@ public class CategoryServiceTest {
         }
     }
 
+    @Nested
+    class updateCategory_Category_수정_테스트 {
+
+        @Test
+        void Category_수정_성공() {
+            //given
+            final String name = "아이돌";
+            final String updateName = "밴드";
+            Long categoryId = categoryService.createCategory(name);
+
+            //when
+            Long updateCategoryId = categoryService.updateCategory(categoryId, updateName);
+
+            //then
+            assertThat(updateCategoryId).isEqualTo(categoryId);
+        }
+
+        @Test
+        void Id가_존재하지_않는_경우_수정_실패() {
+            //given
+            final String updateName = "밴드";
+
+            //when-then
+            assertThatThrownBy(() -> categoryService.updateCategory(1L, updateName))
+                .isInstanceOf(CategoryExistException.class)
+                .hasMessage("카테고리가 존재하지 않습니다");
+        }
+    }
+
+
 }
