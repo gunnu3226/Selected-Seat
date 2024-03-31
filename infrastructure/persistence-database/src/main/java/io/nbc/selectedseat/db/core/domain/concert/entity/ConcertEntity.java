@@ -63,7 +63,7 @@ public class ConcertEntity extends BaseEntity {
     @Column(nullable = false)
     private Long ticketAmount;
 
-    public static ConcertEntity from(Concert concert) {
+    public static ConcertEntity from(final Concert concert) {
         return ConcertEntity.builder()
             .concertId(concert.getConcertId())
             .ratingId(concert.getRatingId())
