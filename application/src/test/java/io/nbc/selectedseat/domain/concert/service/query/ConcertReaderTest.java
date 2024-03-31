@@ -32,6 +32,7 @@ public class ConcertReaderTest {
     private static final String THUMBNAIL = "https://image.com/image.jpg";
     private static final String HALL = "KSPO DOME (올림픽 체조경기장)";
     private static final Long TICKET_AMOUNT = 15000L;
+    private static final Integer CONCERT_SIZE = 2;
 
     @BeforeEach
     void init() {
@@ -78,5 +79,49 @@ public class ConcertReaderTest {
         }
     }
 
+    @Nested
+    class getConcerts_Concert_전체_조회_테스트 {
+
+        @Test
+        void Concert_전체_조회_성공() {
+            //given
+            Concert createConcert1 = new Concert(
+                CONCERT_ID,
+                RATING_ID,
+                STATE_ID,
+                REGION_ID,
+                CATEGORY_ID,
+                NAME,
+                STARTED_AT,
+                ENDED_AT,
+                THUMBNAIL,
+                HALL,
+                TICKET_AMOUNT
+            );
+
+            Concert createConcert2 = new Concert(
+                CONCERT_ID + 1,
+                RATING_ID,
+                STATE_ID,
+                REGION_ID,
+                CATEGORY_ID,
+                NAME,
+                STARTED_AT,
+                ENDED_AT,
+                THUMBNAIL,
+                HALL,
+                TICKET_AMOUNT
+            );
+
+            fakeConcertRepository.save(createConcert1);
+            fakeConcertRepository.save(createConcert2);
+
+            //when
+            var concerts = concertReader.getConcerts();
+
+            //then
+            assertThat(concerts.size()).isEqualTo(CONCERT_SIZE);
+        }
+    }
 
 }
