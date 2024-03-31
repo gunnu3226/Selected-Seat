@@ -2,6 +2,7 @@ package io.nbc.selectedseat.domain.ticket.repository;
 
 import io.nbc.selectedseat.domain.ticket.model.TicketPrice;
 import io.nbc.selectedseat.domain.ticket.model.TicketRating;
+import java.util.List;
 import java.util.Optional;
 
 public interface TicketPriceRepository {
@@ -11,4 +12,6 @@ public interface TicketPriceRepository {
     Optional<TicketPrice> findByConcertIdAndTicketRating(
         final Long concertId,
         final TicketRating ticketRating);
+
+    List<TicketPrice> getTicketPricesByIds(List<Long> ticketIds);
 }

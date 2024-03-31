@@ -6,6 +6,7 @@ import io.nbc.selectedseat.db.core.domain.ticket.repository.ticketPrice.TicketPr
 import io.nbc.selectedseat.domain.ticket.model.TicketPrice;
 import io.nbc.selectedseat.domain.ticket.model.TicketRating;
 import io.nbc.selectedseat.domain.ticket.repository.TicketPriceRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -30,5 +31,12 @@ public class TicketPricePersistenceAdapter implements TicketPriceRepository {
     ) {
         return ticketPriceJpaRepository.findByConcertIdAndTicketRating(concertId, ticketRating)
             .map(TicketPriceEntity::toModel);
+    }
+
+    @Override
+    public List<TicketPrice> getTicketPricesByIds(List<Long> ticketIds) {
+        return ticketPriceJpaRepository.findAllById(ticketIds)
+            .stream().map(TicketPriceEntity::toModel)
+            .toList();
     }
 }

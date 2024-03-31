@@ -4,6 +4,7 @@ import io.nbc.selectedseat.domain.member.dto.MemberInfo;
 import io.nbc.selectedseat.domain.member.dto.SignupResponseDTO;
 import io.nbc.selectedseat.domain.member.facade.MemberFacade;
 import io.nbc.selectedseat.domain.member.facade.dto.FollowArtistsInfo;
+import io.nbc.selectedseat.domain.member.facade.dto.ReservationDetailInfo;
 import io.nbc.selectedseat.domain.member.facade.dto.TicketDetailInfo;
 import io.nbc.selectedseat.domain.member.service.MemberService;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
@@ -99,6 +100,19 @@ public class MemberController {
             ResponseDTO.<List<TicketDetailInfo>>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message("보유 티켓 조회 성공")
+                .data(responseDTO)
+                .build());
+    }
+
+    @GetMapping("/reservations")
+    public ResponseEntity<ResponseDTO<List<ReservationDetailInfo>>> getReservationsByMemberId(
+        //Todo:유저
+    ) {
+        List<ReservationDetailInfo> responseDTO = memberFacade.getReservationsByMemberId(1L);
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<List<ReservationDetailInfo>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("예매 내역 조회 성공")
                 .data(responseDTO)
                 .build());
     }
