@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class TicketPrice {
 
     private Long ticketPriceId;
-    private TicketRating ticketRating;
     private Long concertId;
+    private TicketRating ticketRating;
     private Long price;
 }

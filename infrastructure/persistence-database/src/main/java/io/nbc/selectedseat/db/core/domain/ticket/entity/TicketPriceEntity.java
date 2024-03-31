@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.db.core.domain.ticket.entity;
 
+import io.nbc.selectedseat.domain.ticket.model.TicketPrice;
 import io.nbc.selectedseat.domain.ticket.model.TicketRating;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,13 +28,30 @@ public class TicketPriceEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketPriceId;
 
+    @Column(name = "concert_id", nullable = false)
+    private Long concertId;
+
     @Column(name = "ticket_rating", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private TicketRating ticketRating;
 
-    @Column(name = "concert_id", nullable = false)
-    private Long concertId;
-
     @Column(nullable = false)
     private Long price;
+
+    public static TicketPriceEntity from(final TicketPrice ticketPrice) {
+        return TicketPriceEntity.builder()
+            .concertId(ticketPrice.getConcertId())
+            .ticketRating(ticketPrice.getTicketRating())
+            .price(ticketPrice.getPrice())
+            .build();
+    }
+
+    public TicketPrice toModel() {
+        return TicketPrice.builder()
+            .ticketPriceId(ticketPriceId)
+            .concertId(concertId)
+            .ticketRating(ticketRating)
+            .price(price)
+            .build();
+    }
 }
