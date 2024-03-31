@@ -180,5 +180,5 @@ infrastructure/persistence-database/src/main/generated
 
 
 ### monitoring ###
-support/monitoring/grafana
-support/monitoring/prometheus/volume
+support/monitoring/prometheus/grafana
+support/monitoring/prometheus/prometheus/volume
