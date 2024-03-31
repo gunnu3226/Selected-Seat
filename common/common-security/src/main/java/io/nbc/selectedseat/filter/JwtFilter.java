@@ -70,7 +70,8 @@ public class JwtFilter extends OncePerRequestFilter {
         String jsonResponse = new ObjectMapper().writeValueAsString(
             ResponseDTO.builder()
                 .statusCode(HttpStatus.UNAUTHORIZED.value())
-                .message("유효하지 않은 토큰 입니다."));
+                .message("유효하지 않은 토큰 입니다.")
+                .build());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=UTF-8");
