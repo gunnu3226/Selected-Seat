@@ -14,7 +14,6 @@ public class ArtistQueryRepositoryImpl implements ArtistQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-
     @Override
     public List<ArtistEntity> findArtistsByIdList(List<Long> artistIds) {
         return queryFactory.selectFrom(artistEntity)
