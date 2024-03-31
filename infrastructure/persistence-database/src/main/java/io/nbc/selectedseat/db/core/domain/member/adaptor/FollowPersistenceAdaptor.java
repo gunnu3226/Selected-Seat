@@ -2,8 +2,10 @@ package io.nbc.selectedseat.db.core.domain.member.adaptor;
 
 import io.nbc.selectedseat.db.core.domain.member.entity.FollowEntity;
 import io.nbc.selectedseat.db.core.domain.member.repository.FollowJpaRepository;
+import io.nbc.selectedseat.db.core.domain.member.repository.FollowQueryRepository;
 import io.nbc.selectedseat.domain.member.model.Follow;
 import io.nbc.selectedseat.domain.member.repository.FollowRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class FollowPersistenceAdaptor implements FollowRepository {
 
     private final FollowJpaRepository followJpaRepository;
+    private final FollowQueryRepository followQueryRepository;
 
     @Override
     public Follow save(final Follow follow) {
@@ -31,5 +34,10 @@ public class FollowPersistenceAdaptor implements FollowRepository {
     @Override
     public void delete(final Long followId) {
         followJpaRepository.deleteById(followId);
+    }
+
+    @Override
+    public List<Long> findArtistIdByMemberId(final Long memberId) {
+        return followQueryRepository.findArtistIdByMemberId(memberId);
     }
 }
