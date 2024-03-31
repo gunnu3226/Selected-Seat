@@ -97,4 +97,21 @@ public class CategoryServiceTest {
         }
     }
 
+    @Nested
+    class getCategories_Category_조회_테스트 {
+
+        @Test
+        void Category_조회_성공() {
+            //given
+            final String name = "아이돌";
+            categoryService.createCategory(name);
+
+            //when
+            var categories = categoryService.getCategories();
+
+            //then
+            assertThat(categories).hasSize(1);
+        }
+    }
+
 }
