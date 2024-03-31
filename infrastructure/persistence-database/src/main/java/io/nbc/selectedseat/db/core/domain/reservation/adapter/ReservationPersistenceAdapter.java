@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class  ReservationPersistenceAdapter implements ReservationRepository {
+public class ReservationPersistenceAdapter implements ReservationRepository {
 
     private final ReservationJpaRepository reservationJpaRepository;
 
@@ -38,5 +38,12 @@ public class  ReservationPersistenceAdapter implements ReservationRepository {
     @Override
     public void deleteReservation(final Long id) {
         reservationJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Reservation> getReservationByMemberId(final Long memberId) {
+        return reservationJpaRepository.findByMemberId(memberId)
+            .stream().map(ReservationEntity::toModel)
+            .toList();
     }
 }

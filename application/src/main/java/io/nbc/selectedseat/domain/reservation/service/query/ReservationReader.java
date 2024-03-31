@@ -31,4 +31,8 @@ public class ReservationReader {
 
         return ReservationInfoDTO.from(reservation);
     }
+
+    public List<Reservation> getReservationByMemberId(final Long memberId) {
+        return reservationRepository.getReservationByMemberId(memberId);
+    }
 }

@@ -13,4 +13,6 @@ public interface ReservationRepository {
     List<Reservation> getReservations();
 
     void deleteReservation(final Long id);
+
+    List<Reservation> getReservationByMemberId(final Long memberId);
 }
