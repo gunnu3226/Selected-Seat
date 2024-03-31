@@ -17,7 +17,7 @@ public class TicketQueryRepositoryImpl implements TicketQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<TicketAndPrice> getTicketsAndPriceByMemberId(List<Long> ticketIds) {
+    public List<TicketAndPrice> getTicketsAndPriceByTicketIds(final List<Long> ticketIds) {
         return queryFactory
             .select(Projections.constructor(TicketAndPrice.class,
                 ticketEntity.ticketId,

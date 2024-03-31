@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface TicketQueryRepository {
 
-    List<TicketAndPrice> getTicketsAndPriceByMemberId(List<Long> ticketIds);
+    List<TicketAndPrice> getTicketsAndPriceByTicketIds(final List<Long> ticketIds);
 }

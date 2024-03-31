@@ -46,7 +46,7 @@ public class TicketPersistenceAdapter implements TicketRepository {
     }
 
     @Override
-    public List<TicketAndPrice> getTicketsAndPriceByMemberId(Long memberId) {
-        return null;
+    public List<TicketAndPrice> getTicketsAndPriceByTicketIds(final List<Long> ticketIds) {
+        return ticketQueryRepository.getTicketsAndPriceByTicketIds(ticketIds);
     }
 }

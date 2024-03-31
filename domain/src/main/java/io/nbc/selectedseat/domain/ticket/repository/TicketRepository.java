@@ -17,5 +17,5 @@ public interface TicketRepository {
 
     void deleteById(final Long id);
 
-    List<TicketAndPrice> getTicketsAndPriceByMemberId(List<Long> ticketIds);
+    List<TicketAndPrice> getTicketsAndPriceByTicketIds(final List<Long> ticketIds);
 }

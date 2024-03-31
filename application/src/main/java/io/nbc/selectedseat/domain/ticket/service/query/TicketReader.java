@@ -38,7 +38,7 @@ public class TicketReader {
             .toList();
     }
 
-    public List<TicketAndPrice> getTicketsAndPriceByMemberId(final List<Long> ticketIds) {
-        return ticketRepository.getTicketsAndPriceByMemberId(ticketIds);
+    public List<TicketAndPrice> getTicketsAndPriceByTicketIds(final List<Long> ticketIds) {
+        return ticketRepository.getTicketsAndPriceByTicketIds(ticketIds);
     }
 }
