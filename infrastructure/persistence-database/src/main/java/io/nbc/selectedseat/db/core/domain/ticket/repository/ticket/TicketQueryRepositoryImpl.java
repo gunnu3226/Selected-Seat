@@ -27,6 +27,8 @@ public class TicketQueryRepositoryImpl implements TicketQueryRepository {
                 ticketPriceEntity.price))
             .from(ticketEntity)
             .innerJoin(ticketPriceEntity)
+            .on(ticketEntity.concertId.eq(ticketPriceEntity.concertId)
+                .and(ticketEntity.ticketRating.eq(ticketPriceEntity.ticketRating)))
             .where(ticketEntity.ticketId.in(ticketIds))
             .fetch();
     }
