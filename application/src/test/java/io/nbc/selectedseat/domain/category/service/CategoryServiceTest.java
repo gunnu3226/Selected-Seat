@@ -19,6 +19,11 @@ public class CategoryServiceTest {
 
     private CategoryService categoryService;
 
+    private static final String CREATE_CATEGORY_NAME = "아이돌";
+    private static final String UPDATE_CATEGORY_NAME = "밴드";
+    private static final Long CATEGORY_ID = 1L;
+    private static final Integer CATEGORY_SIZE = 1;
+
     @BeforeEach
     void init() {
         categoryService = new CategoryService(new FakeCategoryRepository());
@@ -29,24 +34,20 @@ public class CategoryServiceTest {
 
         @Test
         void Category_추가_성공() {
-            //given
-            final String name = "아이돌";
-
-            //when
-            Long categoryId = categoryService.createCategory(name);
+            //given-when
+            Long categoryId = categoryService.createCategory(CREATE_CATEGORY_NAME);
 
             //then
-            assertThat(categoryId).isEqualTo(1L);
+            assertThat(categoryId).isEqualTo(CATEGORY_ID);
         }
 
         @Test
         void Category_이름이_중복될_경우_추가_실패() {
             //given
-            final String name = "아이돌";
-            categoryService.createCategory(name);
+            categoryService.createCategory(CREATE_CATEGORY_NAME);
 
             //when-then
-            assertThatThrownBy(() -> categoryService.createCategory(name))
+            assertThatThrownBy(() -> categoryService.createCategory(CREATE_CATEGORY_NAME))
                 .isInstanceOf(CategoryExistException.class)
                 .hasMessage("카테고리가 이미 존재합니다");
         }
@@ -58,12 +59,11 @@ public class CategoryServiceTest {
         @Test
         void Category_수정_성공() {
             //given
-            final String name = "아이돌";
-            final String updateName = "밴드";
-            Long categoryId = categoryService.createCategory(name);
+            Long categoryId = categoryService.createCategory(CREATE_CATEGORY_NAME);
 
             //when
-            Long updateCategoryId = categoryService.updateCategory(categoryId, updateName);
+            Long updateCategoryId = categoryService.updateCategory(categoryId,
+                UPDATE_CATEGORY_NAME);
 
             //then
             assertThat(updateCategoryId).isEqualTo(categoryId);
@@ -71,11 +71,9 @@ public class CategoryServiceTest {
 
         @Test
         void Id가_존재하지_않는_경우_수정_실패() {
-            //given
-            final String updateName = "밴드";
-
-            //when-then
-            assertThatThrownBy(() -> categoryService.updateCategory(1L, updateName))
+            //given-when-then
+            assertThatThrownBy(
+                () -> categoryService.updateCategory(CATEGORY_ID, UPDATE_CATEGORY_NAME))
                 .isInstanceOf(CategoryExistException.class)
                 .hasMessage("카테고리가 존재하지 않습니다");
         }
@@ -87,8 +85,7 @@ public class CategoryServiceTest {
         @Test
         void Category_삭제_성공() {
             //given
-            final String name = "아이돌";
-            Long categoryId = categoryService.createCategory(name);
+            Long categoryId = categoryService.createCategory(CREATE_CATEGORY_NAME);
 
             //when
             categoryService.deleteCategory(categoryId);
@@ -103,14 +100,13 @@ public class CategoryServiceTest {
         @Test
         void Category_조회_성공() {
             //given
-            final String name = "아이돌";
-            categoryService.createCategory(name);
+            categoryService.createCategory(CREATE_CATEGORY_NAME);
 
             //when
             var categories = categoryService.getCategories();
 
             //then
-            assertThat(categories).hasSize(1);
+            assertThat(categories).hasSize(CATEGORY_SIZE);
         }
     }
 
