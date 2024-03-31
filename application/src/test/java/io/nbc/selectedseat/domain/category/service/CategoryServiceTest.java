@@ -95,10 +95,10 @@ public class CategoryServiceTest {
     }
 
     @Nested
-    class getCategories_Category_조회_테스트 {
+    class getCategories_Category_전체_조회_테스트 {
 
         @Test
-        void Category_조회_성공() {
+        void Category_전체_조회_성공() {
             //given
             categoryService.createCategory(CREATE_CATEGORY_NAME);
 
