@@ -1,11 +1,10 @@
-package io.nbc.selectedseat.domain.concert.service;
+package io.nbc.selectedseat.domain.concert.service.command;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import io.nbc.selectedseat.domain.concert.dto.ConcertInfo;
 import io.nbc.selectedseat.domain.concert.mock.FakeConcertRepository;
-import io.nbc.selectedseat.domain.concert.service.command.ConcertWriter;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -17,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class ConcertServiceTest {
+public class ConcertWriterTest {
 
     private ConcertWriter concertWriter;
 
