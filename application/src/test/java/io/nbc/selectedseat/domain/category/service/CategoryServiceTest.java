@@ -81,5 +81,20 @@ public class CategoryServiceTest {
         }
     }
 
+    @Nested
+    class deleteCategory_Category_삭제_테스트 {
+
+        @Test
+        void Category_삭제_성공() {
+            //given
+            final String name = "아이돌";
+            Long categoryId = categoryService.createCategory(name);
+
+            //when
+            categoryService.deleteCategory(categoryId);
+
+            //then
+        }
+    }
 
 }
