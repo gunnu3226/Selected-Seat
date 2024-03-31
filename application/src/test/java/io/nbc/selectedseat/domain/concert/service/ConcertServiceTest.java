@@ -108,7 +108,7 @@ public class ConcertServiceTest {
         }
 
         @Test
-        void Concert_수정_실패() {
+        void ID가_존재하지_않을_경우_수정_실패() {
             //given
             ConcertInfo updateConcertInfo = new ConcertInfo(
                 UPDATE_RATING_ID,
@@ -131,5 +131,41 @@ public class ConcertServiceTest {
 
     }
 
+    @Nested
+    class deleteConcert_Concert_삭제_테스트 {
+
+        @Test
+        void Concert_삭제_성공() {
+            //given
+            ConcertInfo concertInfo = new ConcertInfo(
+                RATING_ID,
+                STATE_ID,
+                REGION_ID,
+                CATEGORY_ID,
+                NAME,
+                STARTED_AT,
+                ENDED_AT,
+                THUMBNAIL,
+                HALL,
+                TICKET_AMOUNT
+            );
+
+            Long concertId = concertWriter.createConcert(concertInfo);
+
+            //when
+            concertWriter.deleteConcert(concertId);
+
+            //then
+        }
+
+        @Test
+        void ID가_존재하지_않을_경우_삭제_실패() {
+            //given-when-then
+            assertThatThrownBy(() -> concertWriter.deleteConcert(CONCERT_ID))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("해당 콘서트가 존재하지 않습니다");
+        }
+
+    }
 
 }
