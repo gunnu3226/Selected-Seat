@@ -32,7 +32,7 @@ public class ConcertPersistenceAdaptor implements ConcertRepository {
     }
 
     @Override
-    public void delete(Long concertId) {
+    public void delete(final Long concertId) {
         concertJpaRepository.deleteById(concertId);
     }
 

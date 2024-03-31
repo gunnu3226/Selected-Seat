@@ -26,7 +26,7 @@ public class Concert {
     private String hall;
     private Long ticketAmount;
 
-    public void update(ConcertUpdateInfo concertUpdateInfo) {
+    public void update(final ConcertUpdateInfo concertUpdateInfo) {
         updateIfNotNull(concertUpdateInfo.ratingId(), ratingId -> this.ratingId = ratingId);
         updateIfNotNull(concertUpdateInfo.stateId(), stateId -> this.stateId = stateId);
         updateIfNotNull(concertUpdateInfo.regionId(), regionId -> this.regionId = regionId);
@@ -40,7 +40,7 @@ public class Concert {
             ticketAmount -> this.ticketAmount = ticketAmount);
     }
 
-    private <T> void updateIfNotNull(T value, Consumer<T> setter) {
+    private <T> void updateIfNotNull(final T value, final Consumer<T> setter) {
         if (value != null) {
             setter.accept(value);
         }

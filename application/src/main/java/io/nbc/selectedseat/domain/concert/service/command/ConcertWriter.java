@@ -38,14 +38,14 @@ public class ConcertWriter {
         return concertRepository.update(concert).getConcertId();
     }
 
-    public void deleteConcert(Long concertId) {
+    public void deleteConcert(final Long concertId) {
         validateConcert(concertId);
 
         concertRepository.delete(concertId);
     }
 
-    private Concert validateConcert(Long concertId) {
+    private Concert validateConcert(final Long concertId) {
         return concertRepository.findById(concertId)
-            .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다."));
+            .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다"));
     }
 }

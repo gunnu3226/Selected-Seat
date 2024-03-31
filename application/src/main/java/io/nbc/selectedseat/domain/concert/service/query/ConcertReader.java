@@ -18,8 +18,8 @@ public class ConcertReader {
 
     public GetConcertResponseDTO getConcert(Long concertId) {
         Concert concert = concertRepository.findById(concertId)
-            .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다."));
-        System.out.println("concert.getConcertId() = " + concert.getConcertId());
+            .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다"));
+
         return GetConcertResponseDTO.from(concert);
     }
 
