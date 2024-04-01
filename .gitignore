@@ -177,3 +177,8 @@ gradle-app.setting
 
 ### querydsl ###
 infrastructure/persistence-database/src/main/generated
+
+
+### monitoring ###
+support/monitoring/prometheus/grafana
+support/monitoring/prometheus/prometheus/volume
