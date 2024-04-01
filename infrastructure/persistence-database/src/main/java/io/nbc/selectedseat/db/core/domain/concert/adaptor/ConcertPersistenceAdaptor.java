@@ -42,4 +42,11 @@ public class ConcertPersistenceAdaptor implements ConcertRepository {
             .map(ConcertEntity::tomodel)
             .toList();
     }
+
+    @Override
+    public List<Concert> getConcertsByConcertIds(final List<Long> concertIds) {
+        return concertJpaRepository.findAllById(concertIds)
+            .stream().map(ConcertEntity::tomodel)
+            .toList();
+    }
 }

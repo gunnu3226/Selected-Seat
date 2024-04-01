@@ -28,4 +28,8 @@ public class ConcertReader {
             .map(GetConcertResponseDTO::from)
             .toList();
     }
+
+    public List<Concert> getConcertsByConcertIds(final List<Long> concertIds) {
+        return concertRepository.getConcertsByConcertIds(concertIds);
+    }
 }

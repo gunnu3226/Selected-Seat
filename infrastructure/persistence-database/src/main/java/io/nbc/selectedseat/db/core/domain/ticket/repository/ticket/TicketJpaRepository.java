@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.db.core.domain.ticket.repository;
+package io.nbc.selectedseat.db.core.domain.ticket.repository.ticket;
 
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketEntity;
 import java.util.List;

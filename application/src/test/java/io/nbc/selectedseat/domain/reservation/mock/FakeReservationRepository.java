@@ -34,6 +34,11 @@ public class FakeReservationRepository implements ReservationRepository {
     public void deleteReservation(final Long id) {
     }
 
+    @Override
+    public List<Reservation> getReservationByMemberId(Long memberId) {
+        return null;
+    }
+
     public void saveReservation(final Reservation reservation) {
         this.reservations.add(reservation);
     }
