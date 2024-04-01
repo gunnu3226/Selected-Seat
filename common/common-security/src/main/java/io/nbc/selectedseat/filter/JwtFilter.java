@@ -45,16 +45,16 @@ public class JwtFilter extends OncePerRequestFilter {
                 context.setAuthentication(authentication);
                 SecurityContextHolder.setContext(context);
             } catch (ExpiredJwtException e) {
-                jwtErrorResponse(response, "Expired JWT token, 만료된 JWT token 입니다.");
+                jwtErrorResponse(response, "Expired JWT token, 만료된 JWT token 입니다");
                 return;
             } catch (SecurityException | MalformedJwtException | SignatureException e) {
-                jwtErrorResponse(response, "Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
+                jwtErrorResponse(response, "Invalid JWT signature, 유효하지 않는 JWT 서명 입니다");
                 return;
             } catch (UnsupportedJwtException e) {
-                jwtErrorResponse(response, "Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
+                jwtErrorResponse(response, "Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다");
                 return;
             } catch (IllegalArgumentException e) {
-                jwtErrorResponse(response, "JWT claims is empty, 잘못된 JWT 토큰 입니다.");
+                jwtErrorResponse(response, "JWT claims is empty, 잘못된 JWT 토큰 입니다");
                 return;
             }
         } else {
@@ -70,7 +70,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String jsonResponse = new ObjectMapper().writeValueAsString(
             ResponseDTO.builder()
                 .statusCode(HttpStatus.UNAUTHORIZED.value())
-                .message("유효하지 않은 토큰 입니다.")
+                .message("유효하지 않은 토큰 입니다")
                 .build());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setCharacterEncoding("UTF-8");

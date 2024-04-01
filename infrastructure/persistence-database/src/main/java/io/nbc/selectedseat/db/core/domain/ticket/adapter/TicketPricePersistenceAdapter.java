@@ -34,7 +34,7 @@ public class TicketPricePersistenceAdapter implements TicketPriceRepository {
     }
 
     @Override
-    public List<TicketPrice> getTicketPricesByIds(List<Long> ticketIds) {
+    public List<TicketPrice> getTicketPricesByIds(final List<Long> ticketIds) {
         return ticketPriceJpaRepository.findAllById(ticketIds)
             .stream().map(TicketPriceEntity::toModel)
             .toList();

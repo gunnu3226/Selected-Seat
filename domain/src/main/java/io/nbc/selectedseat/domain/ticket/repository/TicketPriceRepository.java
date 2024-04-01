@@ -11,7 +11,8 @@ public interface TicketPriceRepository {
 
     Optional<TicketPrice> findByConcertIdAndTicketRating(
         final Long concertId,
-        final TicketRating ticketRating);
+        final TicketRating ticketRating
+    );
 
     List<TicketPrice> getTicketPricesByIds(List<Long> ticketIds);
 }
