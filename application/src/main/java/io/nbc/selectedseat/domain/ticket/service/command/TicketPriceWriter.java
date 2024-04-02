@@ -5,6 +5,7 @@ import io.nbc.selectedseat.domain.ticket.model.TicketPrice;
 import io.nbc.selectedseat.domain.ticket.model.TicketRating;
 import io.nbc.selectedseat.domain.ticket.repository.TicketPriceRepository;
 import io.nbc.selectedseat.domain.ticket.service.exception.ExistTicketPriceException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,6 @@ public class TicketPriceWriter {
         if (findTicketPrice(concertId, ticketRating).isPresent()) {
             throw new ExistTicketPriceException("이미 등록된 등급의 콘서트 티켓 가격입니다. 수정을 이용해주세요");
         }
-        ;
 
         TicketPrice ticketPrice = ticketPriceRepository.save(
             TicketPrice.builder()
@@ -34,6 +34,13 @@ public class TicketPriceWriter {
                 .price(price)
                 .build()
         );
+        return TicketPriceInfo.from(ticketPrice);
+    }
+
+    public TicketPriceInfo updateTicketPrice(final Long ticketId, final Long changePrice) {
+        ticketPriceRepository.findById(ticketId)
+            .orElseThrow(() -> new NoSuchElementException("존재하지 않는 ticketPrice 입니다"));
+        TicketPrice ticketPrice = ticketPriceRepository.updateTicketPrice(ticketId, changePrice);
         return TicketPriceInfo.from(ticketPrice);
     }
 

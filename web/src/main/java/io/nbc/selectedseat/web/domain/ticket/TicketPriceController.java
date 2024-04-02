@@ -2,19 +2,22 @@ package io.nbc.selectedseat.web.domain.ticket;
 
 import io.nbc.selectedseat.domain.ticket.service.command.TicketPriceWriter;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
+import io.nbc.selectedseat.web.domain.ticket.dto.TicketPriceUpdateRequestDTO;
 import io.nbc.selectedseat.web.domain.ticket.dto.request.TicketPriceRequestDto;
 import io.nbc.selectedseat.web.domain.ticket.dto.response.TicketPriceIdResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/ticket-prices")
+@RequestMapping("/api/v1/tickets/prices")
 @RequiredArgsConstructor
 public class TicketPriceController {
 
@@ -37,5 +40,22 @@ public class TicketPriceController {
                 .message("티켓가격 등록 성공")
                 .data(responseDto)
                 .build());
+    }
+
+    @PatchMapping("/{ticketId}")
+    public ResponseEntity<ResponseDTO<TicketPriceIdResponseDto>> updateTicketPrice(
+        @PathVariable("ticketId") Long ticketId,
+        @RequestBody @Valid TicketPriceUpdateRequestDTO requestDTO
+        //Todo : admin
+    ) {
+        TicketPriceIdResponseDto responseDTO = TicketPriceIdResponseDto.from(
+            ticketPriceWriter.updateTicketPrice(ticketId, requestDTO.price()));
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<TicketPriceIdResponseDto>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("티켓가격 수정 성공")
+                .data(responseDTO)
+                .build()
+        );
     }
 }

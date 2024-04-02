@@ -39,4 +39,17 @@ public class TicketPricePersistenceAdapter implements TicketPriceRepository {
             .stream().map(TicketPriceEntity::toModel)
             .toList();
     }
+
+    @Override
+    public Optional<TicketPrice> findById(final Long ticketId) {
+        return ticketPriceJpaRepository.findById(ticketId)
+            .map(TicketPriceEntity::toModel);
+    }
+
+    @Override
+    public TicketPrice updateTicketPrice(final Long ticketId, final Long changePrice) {
+        TicketPriceEntity ticketPriceEntity = ticketPriceJpaRepository.findById(ticketId).get();
+        ticketPriceEntity.update(changePrice);
+        return ticketPriceEntity.toModel();
+    }
 }
