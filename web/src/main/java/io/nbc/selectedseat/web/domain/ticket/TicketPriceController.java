@@ -1,15 +1,20 @@
 package io.nbc.selectedseat.web.domain.ticket;
 
+import io.nbc.selectedseat.domain.ticket.dto.TicketPriceInfo;
 import io.nbc.selectedseat.domain.ticket.service.command.TicketPriceWriter;
+import io.nbc.selectedseat.domain.ticket.service.query.TicketPriceReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
+import io.nbc.selectedseat.web.domain.dto.TicketPriceGetRequestDTO;
 import io.nbc.selectedseat.web.domain.ticket.dto.TicketPriceUpdateRequestDTO;
 import io.nbc.selectedseat.web.domain.ticket.dto.request.TicketPriceRequestDto;
 import io.nbc.selectedseat.web.domain.ticket.dto.response.TicketPriceIdResponseDto;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TicketPriceController {
 
     private final TicketPriceWriter ticketPriceWriter;
+    private final TicketPriceReader ticketPriceReader;
 
     @PostMapping
     public ResponseEntity<ResponseDTO<TicketPriceIdResponseDto>> createTicketPrice(
@@ -67,5 +73,19 @@ public class TicketPriceController {
     ) {
         ticketPriceWriter.deleteTicketPrice(ticketId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO<List<TicketPriceInfo>>> getTicketPriceByConcertID(
+        @RequestBody @Valid TicketPriceGetRequestDTO requestDTO
+    ) {
+        List<TicketPriceInfo> responseDTO = ticketPriceReader.getTicketPriceByConcertId(
+            requestDTO.concertId());
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<List<TicketPriceInfo>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("콘서트 티켓 가격 조회 성공")
+                .data(responseDTO).build()
+        );
     }
 }

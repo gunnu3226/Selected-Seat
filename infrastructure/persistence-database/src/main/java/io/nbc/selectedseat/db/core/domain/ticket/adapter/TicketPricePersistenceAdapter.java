@@ -57,4 +57,11 @@ public class TicketPricePersistenceAdapter implements TicketPriceRepository {
     public void deleteTicketPrice(final Long ticketId) {
         ticketPriceJpaRepository.deleteById(ticketId);
     }
+
+    @Override
+    public List<TicketPrice> getTicketPriceByConcertId(final Long concertId) {
+        return ticketPriceJpaRepository.findByConcertId(concertId)
+            .stream().map(TicketPriceEntity::toModel)
+            .toList();
+    }
 }

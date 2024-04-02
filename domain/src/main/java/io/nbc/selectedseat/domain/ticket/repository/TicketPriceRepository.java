@@ -21,4 +21,6 @@ public interface TicketPriceRepository {
     TicketPrice updateTicketPrice(final Long ticketId, final Long changePrice);
 
     void deleteTicketPrice(final Long ticketId);
+
+    List<TicketPrice> getTicketPriceByConcertId(final Long concertId);
 }
