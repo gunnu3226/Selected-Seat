@@ -55,4 +55,8 @@ public class TicketPriceEntity {
             .price(price)
             .build();
     }
+
+    public void update(final Long changePrice) {
+        this.price = changePrice;
+    }
 }

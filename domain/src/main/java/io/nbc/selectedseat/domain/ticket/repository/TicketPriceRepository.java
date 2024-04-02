@@ -14,5 +14,13 @@ public interface TicketPriceRepository {
         final TicketRating ticketRating
     );
 
-    List<TicketPrice> getTicketPricesByIds(List<Long> ticketIds);
+    List<TicketPrice> getTicketPricesByIds(final List<Long> ticketIds);
+
+    Optional<TicketPrice> findById(final Long ticketId);
+
+    TicketPrice updateTicketPrice(final Long ticketId, final Long changePrice);
+
+    void deleteTicketPrice(final Long ticketId);
+
+    List<TicketPrice> getTicketPriceByConcertId(final Long concertId);
 }
