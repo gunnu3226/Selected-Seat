@@ -1,13 +1,13 @@
 package io.nbc.selectedseat.domain.member.facade;
 
 import io.nbc.selectedseat.domain.artist.model.Artist;
-import io.nbc.selectedseat.domain.artist.service.ArtistService;
+import io.nbc.selectedseat.domain.artist.service.query.ArtistReader;
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.service.query.ConcertReader;
 import io.nbc.selectedseat.domain.member.facade.dto.FollowArtistsInfo;
 import io.nbc.selectedseat.domain.member.facade.dto.ReservationDetailInfo;
 import io.nbc.selectedseat.domain.member.facade.dto.TicketDetailInfo;
-import io.nbc.selectedseat.domain.member.service.FollowService;
+import io.nbc.selectedseat.domain.member.service.query.FollowReader;
 import io.nbc.selectedseat.domain.reservation.model.Reservation;
 import io.nbc.selectedseat.domain.reservation.service.query.ReservationReader;
 import io.nbc.selectedseat.domain.ticket.model.TicketAndPrice;
@@ -27,8 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberFacade {
 
-    private final FollowService followService;
-    private final ArtistService artistService;
+    private final FollowReader followReader;
+    private final ArtistReader artistReader;
     private final ReservationReader reservationReader;
     private final TicketReader ticketReader;
     private final TicketPriceReader ticketPriceReader;
@@ -36,8 +36,8 @@ public class MemberFacade {
 
     @Transactional(readOnly = true)
     public List<FollowArtistsInfo> getFollowArtists(final Long memberId) {
-        List<Long> followArtistIds = followService.getFollowArtistIds(memberId);
-        List<Artist> artists = artistService.getArtistsByIds(followArtistIds);
+        List<Long> followArtistIds = followReader.getFollowArtistIds(memberId);
+        List<Artist> artists = artistReader.getArtistsByIds(followArtistIds);
         return artists.stream()
             .map(FollowArtistsInfo::from)
             .toList();

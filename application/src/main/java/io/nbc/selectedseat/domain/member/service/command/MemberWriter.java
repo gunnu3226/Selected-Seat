@@ -1,14 +1,15 @@
-package io.nbc.selectedseat.domain.member.service;
+package io.nbc.selectedseat.domain.member.service.command;
 
+import io.nbc.selectedseat.domain.member.dto.CoinInfo;
 import io.nbc.selectedseat.domain.member.dto.MemberInfo;
-import io.nbc.selectedseat.domain.member.dto.SignupResponseDTO;
 import io.nbc.selectedseat.domain.member.exception.EmailExistException;
 import io.nbc.selectedseat.domain.member.exception.MisMatchPasswordException;
-import io.nbc.selectedseat.domain.member.exception.NoSuchMemberException;
+import io.nbc.selectedseat.domain.member.exception.NotEnoughCoinException;
 import io.nbc.selectedseat.domain.member.exception.SamePasswordException;
 import io.nbc.selectedseat.domain.member.model.Member;
 import io.nbc.selectedseat.domain.member.model.MemberRole;
 import io.nbc.selectedseat.domain.member.repository.MemberRepository;
+import io.nbc.selectedseat.domain.member.service.query.MemberReader;
 import io.nbc.selectedseat.security.config.PasswordUtil;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -20,13 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberWriter {
 
+    private final Long COIN_ZERO = 0L;
+
+    private final MemberReader memberReader;
     private final MemberRepository memberRepository;
-
     private final PasswordUtil passwordUtil;
 
-    public SignupResponseDTO signup(
+    public MemberInfo signup(
         final String email,
         final String password,
         final String profile,
@@ -45,11 +48,11 @@ public class MemberService {
             .memberRole(MemberRole.USER)
             .coin(0L)
             .build());
-        return new SignupResponseDTO(savedMember.getMemberId());
+        return MemberInfo.from(savedMember);
     }
 
     public void deleteMember(final Long memberId, final String password) {
-        Member member = findMemberById(memberId);
+        Member member = memberReader.findMemberById(memberId);
         verifyPassword(password, member.getPassword());
         memberRepository.deleteMember(memberId);
     }
@@ -62,18 +65,38 @@ public class MemberService {
     ) {
         verifyDifferencePassword(password, changePassword);
         checkPasswordMatch(changePassword, confirmPassword);
-        Member member = findMemberById(userId);
+        Member member = memberReader.findMemberById(userId);
         verifyPassword(password, member.getPassword());
         String encodedPassword = passwordUtil.encode(changePassword);
         memberRepository.updatePassword(userId, encodedPassword);
 
-        return new MemberInfo(userId);
+        return MemberInfo.from(member);
     }
 
-    public Member findMemberById(final Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(
-            () -> new NoSuchMemberException("존재하지 않는 회원입니다")
-        );
+    public CoinInfo chargeCoin(
+        final Long memberId,
+        final Long chargeAmount
+    ) {
+        memberReader.findMemberById(memberId);
+        Long coin = memberRepository.chargeCoin(memberId, chargeAmount);
+        return new CoinInfo(coin);
+    }
+
+    public CoinInfo deductionCoin(
+        final Long memberId,
+        final Long deductionAmount
+    ) {
+        Member member = memberReader.findMemberById(memberId);
+        checkMemberCoin(deductionAmount, member);
+        Long coin = memberRepository.deductionCoin(memberId, deductionAmount);
+        return new CoinInfo(coin);
+    }
+
+    private void checkMemberCoin(Long deductionAmount, Member member) {
+        if (member.getCoin() - deductionAmount >= COIN_ZERO) {
+            return;
+        }
+        throw new NotEnoughCoinException("코인이 부족합니다");
     }
 
     private void verifyPassword(
