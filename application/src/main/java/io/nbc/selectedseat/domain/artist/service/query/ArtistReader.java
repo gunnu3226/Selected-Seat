@@ -15,12 +15,10 @@ public class ArtistReader {
 
     private final ArtistRepository artistRepository;
 
-    @Transactional(readOnly = true)
     public List<Artist> getArtistsByIds(final List<Long> artistIds) {
         return artistRepository.findArtistsByIdList(artistIds);
     }
 
-    @Transactional(readOnly = true)
     public GetArtistResponseDTO getArtist(final Long artistId) {
         Artist artist = getArtistById(artistId);
         return GetArtistResponseDTO.from(artist);
