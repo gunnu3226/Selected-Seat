@@ -52,4 +52,9 @@ public class TicketPricePersistenceAdapter implements TicketPriceRepository {
         ticketPriceEntity.update(changePrice);
         return ticketPriceEntity.toModel();
     }
+
+    @Override
+    public void deleteTicketPrice(final Long ticketId) {
+        ticketPriceJpaRepository.deleteById(ticketId);
+    }
 }

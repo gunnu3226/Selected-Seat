@@ -38,10 +38,19 @@ public class TicketPriceWriter {
     }
 
     public TicketPriceInfo updateTicketPrice(final Long ticketId, final Long changePrice) {
-        ticketPriceRepository.findById(ticketId)
-            .orElseThrow(() -> new NoSuchElementException("존재하지 않는 ticketPrice 입니다"));
+        findTicketPriceById(ticketId);
         TicketPrice ticketPrice = ticketPriceRepository.updateTicketPrice(ticketId, changePrice);
         return TicketPriceInfo.from(ticketPrice);
+    }
+
+    public void deleteTicketPrice(final Long ticketId) {
+        findTicketPriceById(ticketId);
+        ticketPriceRepository.deleteTicketPrice(ticketId);
+    }
+
+    public TicketPrice findTicketPriceById(final Long ticketId) {
+        return ticketPriceRepository.findById(ticketId)
+            .orElseThrow(() -> new NoSuchElementException("존재하지 않는 ticketPrice 입니다"));
     }
 
     private Optional<TicketPrice> findTicketPrice(

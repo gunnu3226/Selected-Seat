@@ -19,4 +19,6 @@ public interface TicketPriceRepository {
     Optional<TicketPrice> findById(final Long ticketId);
 
     TicketPrice updateTicketPrice(final Long ticketId, final Long changePrice);
+
+    void deleteTicketPrice(final Long ticketId);
 }
