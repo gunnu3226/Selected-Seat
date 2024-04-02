@@ -2,7 +2,8 @@ package io.nbc.selectedseat.web.domain.artist;
 
 import io.nbc.selectedseat.domain.artist.dto.CreateArtistRequestDTO;
 import io.nbc.selectedseat.domain.artist.dto.GetArtistResponseDTO;
-import io.nbc.selectedseat.domain.artist.service.ArtistService;
+import io.nbc.selectedseat.domain.artist.service.command.ArtistWriter;
+import io.nbc.selectedseat.domain.artist.service.query.ArtistReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import io.nbc.selectedseat.web.domain.artist.dto.request.ArtistRequestDTO;
 import io.nbc.selectedseat.web.domain.artist.dto.response.ArtistResponseDTO;
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ArtistController {
 
-    public final ArtistService artistService;
+    private final ArtistWriter artistWriter;
+    private final ArtistReader artistReader;
 
     @PostMapping
     public ResponseEntity<ResponseDTO<ArtistResponseDTO>> createArtist(
@@ -35,7 +37,7 @@ public class ArtistController {
             artistRequestDTO.profile());
 
         ArtistResponseDTO responseDTO = new ArtistResponseDTO(
-            artistService.createArtist(requestDTO));
+            artistWriter.createArtist(requestDTO));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
             ResponseDTO.<ArtistResponseDTO>builder()
@@ -50,7 +52,7 @@ public class ArtistController {
     public ResponseEntity<ResponseDTO<GetArtistResponseDTO>> getArtist(
         @PathVariable Long artistId
     ) {
-        GetArtistResponseDTO responseDTO = artistService.getArtist(artistId);
+        GetArtistResponseDTO responseDTO = artistReader.getArtist(artistId);
         return ResponseEntity.ok().body(
             ResponseDTO.<GetArtistResponseDTO>builder()
                 .statusCode(HttpStatus.OK.value())
@@ -66,7 +68,7 @@ public class ArtistController {
         @RequestBody ArtistRequestDTO requestDTO
     ) {
         ArtistResponseDTO responseDTO = new ArtistResponseDTO(
-            artistService.updateArtist(artistId, requestDTO.name(), requestDTO.profile()));
+            artistWriter.updateArtist(artistId, requestDTO.name(), requestDTO.profile()));
 
         return ResponseEntity.status(HttpStatus.OK).body(
             ResponseDTO.<ArtistResponseDTO>builder()
@@ -81,7 +83,7 @@ public class ArtistController {
     public ResponseEntity<ResponseDTO<Void>> deleteArtist(
         @PathVariable Long artistId
     ) {
-        artistService.deleteArtist(artistId);
+        artistWriter.deleteArtist(artistId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
             ResponseDTO.<Void>builder().build()
         );

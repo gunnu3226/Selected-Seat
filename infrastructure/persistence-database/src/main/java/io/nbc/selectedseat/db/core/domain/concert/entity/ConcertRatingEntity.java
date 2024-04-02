@@ -23,7 +23,7 @@ public class ConcertRatingEntity extends BaseEntity {
     @Column(name = "concert_rating_id")
     private Long concertRatingId;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
 }

@@ -23,7 +23,7 @@ public class StateEntity extends BaseEntity {
     @Column(name = "state_id")
     private Long stateId;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
 }

@@ -26,17 +26,18 @@ import lombok.NoArgsConstructor;
 public class TicketEntity extends BaseEntity {
 
     @Id
+    @Column(name = "ticket_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long ticketId;
 
-    @Column(nullable = false)
+    @Column(name = "concert_id", nullable = false)
     private Long concertId;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "ticket_rating", nullable = false)
     private TicketRating ticketRating;
 
-    @Column(nullable = false)
+    @Column(name = "ticket_number", nullable = false)
     private String ticketNumber;
 
     public static TicketEntity from(final Ticket ticket) {

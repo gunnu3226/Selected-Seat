@@ -23,13 +23,14 @@ import lombok.NoArgsConstructor;
 public class FollowEntity extends BaseEntity {
 
     @Id
+    @Column(name = "follow_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long followId;
 
-    @Column(nullable = false)
+    @Column(name = "artist_id", nullable = false)
     private Long artistId;
 
-    @Column(nullable = false)
+    @Column(name = "member_id", nullable = false)
     private Long memberId;
 
     public FollowEntity(Long artistId, Long memberId) {

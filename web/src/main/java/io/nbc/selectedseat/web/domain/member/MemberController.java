@@ -1,13 +1,17 @@
 package io.nbc.selectedseat.web.domain.member;
 
+import io.nbc.selectedseat.domain.member.dto.CoinInfo;
 import io.nbc.selectedseat.domain.member.dto.MemberInfo;
-import io.nbc.selectedseat.domain.member.dto.SignupResponseDTO;
 import io.nbc.selectedseat.domain.member.facade.MemberFacade;
 import io.nbc.selectedseat.domain.member.facade.dto.FollowArtistsInfo;
 import io.nbc.selectedseat.domain.member.facade.dto.ReservationDetailInfo;
 import io.nbc.selectedseat.domain.member.facade.dto.TicketDetailInfo;
-import io.nbc.selectedseat.domain.member.service.MemberService;
+import io.nbc.selectedseat.domain.member.service.command.MemberWriter;
+import io.nbc.selectedseat.domain.member.service.query.MemberReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
+import io.nbc.selectedseat.web.domain.dto.CoinResponseDTO;
+import io.nbc.selectedseat.web.domain.dto.MemberIdResponseDTO;
+import io.nbc.selectedseat.web.domain.member.dto.CoinRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.DeleteMemberRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.SignupRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.UpdateRequestDTO;
@@ -29,21 +33,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberService memberService;
+    private final MemberWriter memberWriter;
+    private final MemberReader memberReader;
     private final MemberFacade memberFacade;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<SignupResponseDTO>> signUp(
+    public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> signUp(
         @Valid @RequestBody SignupRequestDTO requestDTO
     ) {
-        SignupResponseDTO responseDTO = memberService.signup(
+        MemberIdResponseDTO responseDTO = new MemberIdResponseDTO(
+            memberWriter.signup(
             requestDTO.email(),
             requestDTO.password(),
             requestDTO.profile(),
-            requestDTO.birth()
-        );
+                    requestDTO.birth())
+                .id());
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ResponseDTO.<SignupResponseDTO>builder()
+            .body(ResponseDTO.<MemberIdResponseDTO>builder()
                 .statusCode(HttpStatus.CREATED.value())
                 .message("회원가입 성공")
                 .data(responseDTO)
@@ -51,18 +57,20 @@ public class MemberController {
     }
 
     @PutMapping
-    public ResponseEntity<ResponseDTO<MemberInfo>> updateMember(
+    public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> updateMember(
         @Valid @RequestBody UpdateRequestDTO requestDTO
         // Todo: user
     ) {
-        MemberInfo responseDTO = memberService.updatePassword(
-            1L, // Todo: user
-            requestDTO.password(),
-            requestDTO.changePassword(),
-            requestDTO.confirmPassword()
+        MemberIdResponseDTO responseDTO = new MemberIdResponseDTO(
+            memberWriter.updatePassword(
+                1L, // Todo: user
+                requestDTO.password(),
+                requestDTO.changePassword(),
+                requestDTO.confirmPassword()
+            ).id()
         );
         return ResponseEntity.status(HttpStatus.OK).body(
-            ResponseDTO.<MemberInfo>builder()
+            ResponseDTO.<MemberIdResponseDTO>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message("비밀번호 수정 성공")
                 .data(responseDTO)
@@ -74,8 +82,53 @@ public class MemberController {
         @Valid @RequestBody DeleteMemberRequestDTO requestDTO
         // Todo: user logic
     ) {
-        memberService.deleteMember(1L, requestDTO.password());
+        memberWriter.deleteMember(1L, requestDTO.password());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/coins/charges")
+    public ResponseEntity<ResponseDTO<CoinResponseDTO>> chargeCoin(
+        @Valid @RequestBody CoinRequestDTO requestDTO
+        // Todo: user
+    ) {
+        CoinResponseDTO responseDTO = new CoinResponseDTO(
+            memberWriter.chargeCoin(1L, requestDTO.amount())
+                .coinAmount()
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<CoinResponseDTO>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("코인 충전 성공")
+                .data(responseDTO)
+                .build());
+    }
+
+    @PutMapping("/coins/deductions")
+    public ResponseEntity<ResponseDTO<CoinInfo>> deductionCoin(
+        @Valid @RequestBody CoinRequestDTO requestDTO
+        // Todo: user
+    ) {
+        CoinInfo responseDTO = memberWriter.deductionCoin(1L, requestDTO.amount());
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<CoinInfo>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("코인 차감 성공")
+                .data(responseDTO)
+                .build());
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO<MemberInfo>> getMemberByID(
+        //Todo: user
+    ) {
+        MemberInfo responseDTO = memberReader.getMemberById(1L);
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<MemberInfo>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("회원 조회 성공")
+                .data(responseDTO)
+                .build()
+        );
     }
 
     @GetMapping("/follows")

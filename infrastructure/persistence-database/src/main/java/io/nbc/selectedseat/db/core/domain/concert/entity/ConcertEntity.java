@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.springframework.data.annotation.CreatedDate;
 
 @Getter
 @Builder
@@ -33,34 +32,34 @@ public class ConcertEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long concertId;
 
-    @Column(nullable = false)
+    @Column(name = "rating_id", nullable = false)
     public Long ratingId;
 
-    @Column(nullable = false)
+    @Column(name = "stateId", nullable = false)
     public Long stateId;
 
-    @Column(nullable = false)
+    @Column(name = "region_id", nullable = false)
     public Long regionId;
 
-    @Column(nullable = false)
+    @Column(name = "category_id", nullable = false)
     public Long categoryId;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(updatable = false)
+    @Column(name = "started_at", updatable = false)
     public LocalDateTime startedAt;
 
-    @Column(updatable = false)
+    @Column(name = "ended_at", updatable = false)
     public LocalDateTime endedAt;
 
-    @Column(nullable = false)
+    @Column(name = "thumbnail", nullable = false)
     private String thumbnail;
 
-    @Column(nullable = false)
+    @Column(name = "hall", nullable = false)
     private String hall;
 
-    @Column(nullable = false)
+    @Column(name = "ticket_amount", nullable = false)
     private Long ticketAmount;
 
     public static ConcertEntity from(final Concert concert) {

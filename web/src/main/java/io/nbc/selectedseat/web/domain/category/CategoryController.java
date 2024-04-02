@@ -1,7 +1,8 @@
 package io.nbc.selectedseat.web.domain.category;
 
 import io.nbc.selectedseat.domain.category.dto.GetCategoryResponseDTO;
-import io.nbc.selectedseat.domain.category.service.CategoryService;
+import io.nbc.selectedseat.domain.category.service.command.CategoryWriter;
+import io.nbc.selectedseat.domain.category.service.query.CategoryReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import io.nbc.selectedseat.web.domain.category.dto.request.CategoryRequestDTO;
 import io.nbc.selectedseat.web.domain.category.dto.response.CategoryResponseDTO;
@@ -24,7 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private final CategoryWriter categoryWriter;
+    private final CategoryReader categoryReader;
 
     @PostMapping
     public ResponseEntity<ResponseDTO<CategoryResponseDTO>> createCategory(
@@ -34,7 +36,7 @@ public class CategoryController {
         //TODO : userDetails.getUser(); admin check
 
         CategoryResponseDTO responseDTO = CategoryResponseDTO.from(
-            categoryService.createCategory(requestDTO.name())
+            categoryWriter.createCategory(requestDTO.name())
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -55,7 +57,7 @@ public class CategoryController {
         //TODO : userDetails.getUser(); admin check
 
         CategoryResponseDTO responseDTO = CategoryResponseDTO.from(
-            categoryService.updateCategory(categoryId, requestDTO.name())
+            categoryWriter.updateCategory(categoryId, requestDTO.name())
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -74,7 +76,7 @@ public class CategoryController {
     ) {
         //TODO : userDetails.getUser(); admin check
 
-        categoryService.deleteCategory(categoryId);
+        categoryWriter.deleteCategory(categoryId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -86,7 +88,7 @@ public class CategoryController {
             ResponseDTO.<List<GetCategoryResponseDTO>>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message("카테고리 조회가 완료되었습니다")
-                .data(categoryService.getCategories())
+                .data(categoryReader.getCategories())
                 .build()
         );
     }
