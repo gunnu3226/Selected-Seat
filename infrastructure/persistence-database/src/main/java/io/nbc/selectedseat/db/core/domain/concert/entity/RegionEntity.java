@@ -23,7 +23,7 @@ public class RegionEntity extends BaseEntity {
     @Column(name = "region_id")
     private Long regionId;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
 }

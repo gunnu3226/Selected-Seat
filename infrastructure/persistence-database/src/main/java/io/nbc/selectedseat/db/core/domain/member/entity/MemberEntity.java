@@ -31,8 +31,8 @@ import org.hibernate.annotations.SQLRestriction;
 public class MemberEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
     @Column(name = "email", nullable = false)

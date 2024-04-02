@@ -25,19 +25,20 @@ import org.springframework.data.annotation.CreatedDate;
 public class ReservationEntity extends BaseEntity {
 
     @Id
+    @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long reservationId;
 
-    @Column(nullable = false)
+    @Column(name = "concert_id", nullable = false)
     public Long concertId;
 
-    @Column(nullable = false)
+    @Column(name = "member_id", nullable = false)
     public Long memberId;
 
-    @Column(nullable = false)
+    @Column(name = "ticket_id", nullable = false)
     public Long ticketId;
 
-    @Column(nullable = false)
+    @Column(name = "ticket_price_id", nullable = false)
     public Long ticketPriceId;
 
     @CreatedDate

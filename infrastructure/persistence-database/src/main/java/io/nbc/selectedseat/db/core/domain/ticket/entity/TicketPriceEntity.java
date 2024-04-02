@@ -25,17 +25,18 @@ import lombok.NoArgsConstructor;
 public class TicketPriceEntity {
 
     @Id
+    @Column(name = "ticket_price_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketPriceId;
 
     @Column(name = "concert_id", nullable = false)
     private Long concertId;
 
-    @Column(name = "ticket_rating", nullable = false)
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "ticket_rating", nullable = false)
     private TicketRating ticketRating;
 
-    @Column(nullable = false)
+    @Column(name = "price", nullable = false)
     private Long price;
 
     public static TicketPriceEntity from(final TicketPrice ticketPrice) {
