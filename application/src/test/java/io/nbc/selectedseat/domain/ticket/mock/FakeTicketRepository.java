@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.domain.ticket.mock;
 
 import io.nbc.selectedseat.domain.ticket.model.Ticket;
+import io.nbc.selectedseat.domain.ticket.model.TicketAndPrice;
 import io.nbc.selectedseat.domain.ticket.repository.TicketRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,11 @@ public class FakeTicketRepository implements TicketRepository {
 
     @Override
     public void deleteById(Long id) {
+    }
+
+    @Override
+    public List<TicketAndPrice> getTicketsAndPriceByTicketIds(List<Long> ticketIds) {
+        return null;
     }
 
     public void saveTicket(Ticket ticket) {

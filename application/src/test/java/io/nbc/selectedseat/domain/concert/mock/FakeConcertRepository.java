@@ -63,6 +63,11 @@ public class FakeConcertRepository implements ConcertRepository {
         return List.copyOf(store.values());
     }
 
+    @Override
+    public List<Concert> getConcertsByConcertIds(List<Long> concertIds) {
+        return null;
+    }
+
     private <T> void updateFieldIfNotNull(Concert updatedConcert, String fieldName, T value) {
         if (value != null) {
             ReflectionTestUtils.setField(updatedConcert, fieldName, value);
