@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    stages{
+      stage('git pull'){
+        steps{
+          sh "echo 'git pull'"
+          git branch: 'dev/deploy',
+            credentialsId: 'yiyaaa',
+            url: 'https://github.com/Selected-Seat/selected-seat'
+        }
+      }
+
+      stage('build') {
+          steps {
+             sh '''
+                echo '빌드를 시작합니다.'
+                chmod +x gradlew
+                ./gradlew clean bootJar
+                echo '성공합니다.'
+              '''
+          }
+      }
+
+      stage('docker build image') {
+          steps {
+             sh '''
+                echo '도커 이미지를 빌드합니다.'
+                chmod +x docker.sh
+                sudo ./docker.sh
+              '''
+          }
+      }
+
+      stage('docker push'){
+        steps{
+          sshagent (credentials: ['ec2-selected']) {
+            sh '''
+              scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Selected-Seat/deploy-ec2.sh ubuntu@13.209.76.14:/home/ubuntu/
+              scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Selected-Seat/support/monitoring/prometheus/docker-compose.yml ubuntu@13.209.76.14:/home/ubuntu/
+              scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Selected-Seat/support/monitoring/prometheus/prometheus/config/prometheus.yml ubuntu@13.209.76.14:/home/ubuntu/
+              ssh -o StrictHostKeyChecking=no ubuntu@13.209.76.14 'chmod +x deploy-ec2.sh' &
+              ssh -o StrictHostKeyChecking=no ubuntu@13.209.76.14 'sudo ./deploy-ec2.sh'
+            '''
+          }
+        }
+      }
+
+    }
+}

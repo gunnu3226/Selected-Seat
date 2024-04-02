@@ -182,3 +182,8 @@ infrastructure/persistence-database/src/main/generated
 ### monitoring ###
 support/monitoring/prometheus/grafana
 support/monitoring/prometheus/prometheus/volume
+
+
+### yml ###
+*.yml
+*.yaml
