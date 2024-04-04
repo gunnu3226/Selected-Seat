@@ -10,6 +10,8 @@ import io.nbc.selectedseat.domain.artist.dto.CreateArtistRequestDTO;
 import io.nbc.selectedseat.domain.artist.dto.GetArtistResponseDTO;
 import io.nbc.selectedseat.domain.artist.model.Artist;
 import io.nbc.selectedseat.domain.artist.repository.ArtistRepository;
+import io.nbc.selectedseat.domain.artist.service.command.ArtistWriter;
+import io.nbc.selectedseat.domain.artist.service.query.ArtistReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,10 @@ public class ArtistServiceTest {
     ArtistRepository artistRepository;
 
     @InjectMocks
-    ArtistService artistService;
+    ArtistReader artistReader;
+
+    @InjectMocks
+    ArtistWriter artistWriter;
 
     Long artistId;
     String name;
@@ -44,7 +49,8 @@ public class ArtistServiceTest {
     @DisplayName("아티스트 등록 테스트")
     public void createArtistTest() {
         //given
-        CreateArtistRequestDTO requestDTO = new CreateArtistRequestDTO(name, profile);
+        CreateArtistRequestDTO requestDTO = new CreateArtistRequestDTO(name,
+            profile);
 
         Artist artist = new Artist(name, profile);
 
@@ -53,7 +59,7 @@ public class ArtistServiceTest {
         given(artistRepository.save(any(Artist.class))).willReturn(1L);
 
         //when
-        Long id = artistService.createArtist(requestDTO);
+        Long id = artistWriter.createArtist(requestDTO);
 
         //then
         assertEquals(1L, id);
@@ -69,7 +75,7 @@ public class ArtistServiceTest {
         given(artistRepository.getArtist(artistId)).willReturn(artist);
 
         //when
-        GetArtistResponseDTO responseDTO = artistService.getArtist(artistId);
+        GetArtistResponseDTO responseDTO = artistReader.getArtist(artistId);
 
         //then
         assertEquals(1L, responseDTO.artistId());
@@ -86,10 +92,12 @@ public class ArtistServiceTest {
         ArtistEntity artistEntity = new ArtistEntity();
         ReflectionTestUtils.setField(artistEntity, "artistId", artistId);
 
-        given(artistRepository.update(artistId, updatedName, updatedProfile)).willReturn(1L);
+        given(artistRepository.update(artistId, updatedName,
+            updatedProfile)).willReturn(1L);
 
         //when
-        Long id = artistService.updateArtist(artistId, updatedName, updatedProfile);
+        Long id = artistWriter.updateArtist(artistId, updatedName,
+            updatedProfile);
         //then
         assertEquals(1L, id);
     }
@@ -100,6 +108,6 @@ public class ArtistServiceTest {
         //given
         ArtistEntity artistEntity = new ArtistEntity(artistId, name, profile);
         //when
-        artistService.deleteArtist(artistId);
+        artistWriter.deleteArtist(artistId);
     }
 }
