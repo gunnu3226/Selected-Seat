@@ -8,3 +8,5 @@ include 'common:common-security'
 include 'common:common-model'
 include 'common:common-util'
 include 'support:monitoring'
+include 'batch'
+
