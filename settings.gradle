@@ -9,4 +9,4 @@ include 'common:common-model'
 include 'common:common-util'
 include 'support:monitoring'
 include 'batch'
-
+include 'support:notification'
