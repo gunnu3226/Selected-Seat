@@ -27,6 +27,7 @@ public class TicketCreateItemReader implements ItemReader<TicketBatchEntity>,
     StepExecutionListener {
 
     private Iterator<TicketBatchEntity> iterator;
+
     @Value("#{jobParameters['concertId']}")
     private Long concertId;
 
