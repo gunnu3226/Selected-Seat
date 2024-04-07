@@ -22,12 +22,17 @@ public class TicketBatchJobController {
     @PostMapping
     public ResponseEntity<Void> createTicket(
         @RequestBody @Valid TicketCreateRequestDTO ticket) {
-        JobParameters jobParameters = new JobParametersBuilder()
+        final Long totalSeats = ticket.numOfARatingTicket()
+            + ticket.numOfRRatingTicket()
+            + ticket.numOfSRatingTicket();
+
+        final JobParameters jobParameters = new JobParametersBuilder()
             .addLong("concertId", ticket.concertId())
             .addLong("numOfRow", ticket.numOfRow())
             .addLong("numOfRRatingTicket", ticket.numOfRRatingTicket())
             .addLong("numOfSRatingTicket", ticket.numOfSRatingTicket())
             .addLong("numOfARatingTicket", ticket.numOfARatingTicket())
+            .addLong("totalSeats", totalSeats)
             .toJobParameters();
 
         ticketService.createTickets(jobParameters);
