@@ -1,0 +1,14 @@
+dependencies {
+    implementation(project(":application"))
+    implementation(project(":domain")) // TODO: just for init test
+    implementation(project(":common:common-security"))
+    implementation(project(":support:monitoring"))
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // spring batch
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+}
