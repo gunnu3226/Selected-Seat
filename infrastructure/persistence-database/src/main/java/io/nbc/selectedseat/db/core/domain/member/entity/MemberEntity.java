@@ -112,4 +112,8 @@ public class MemberEntity extends BaseEntity {
     public void deductionCoin(final Long deductionAmount) {
         this.coin -= deductionAmount;
     }
+
+    public void updateProfile(final String profile) {
+        this.profile = profile;
+    }
 }
