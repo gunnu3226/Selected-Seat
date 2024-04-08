@@ -187,3 +187,8 @@ support/monitoring/prometheus/prometheus/volume
 ### yml ###
 *.yml
 *.yaml
+
+
+### node_modules ###
+node_modules
+.vscode
