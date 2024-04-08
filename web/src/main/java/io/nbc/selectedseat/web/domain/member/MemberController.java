@@ -15,6 +15,7 @@ import io.nbc.selectedseat.web.domain.member.dto.CoinRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.DeleteMemberRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.SignupRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.UpdateRequestDTO;
+import io.nbc.selectedseat.web.excpetion.ImageNotFoundException;
 import io.nbc.selectedseat.web.image.UploadService;
 import jakarta.validation.Valid;
 import java.io.IOException;
@@ -64,9 +65,15 @@ public class MemberController {
 
     @PutMapping("/profile")
     public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> updateMemberProfile(
-        @RequestPart MultipartFile profile
+        @RequestPart(required = false) MultipartFile profile
     ) throws IOException {
+
+        if (profile == null) {
+            throw new ImageNotFoundException("이미지를 넣어주세요");
+        }
+
         String profileLink = uploadService.upload(profile);
+
         MemberIdResponseDTO responseDTO = new MemberIdResponseDTO(
             memberWriter.updateMember(
                 1L, // TODO : member id
