@@ -15,7 +15,9 @@ import io.nbc.selectedseat.web.domain.member.dto.CoinRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.DeleteMemberRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.SignupRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.UpdateRequestDTO;
+import io.nbc.selectedseat.web.image.UploadService;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +28,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/members")
@@ -36,6 +40,7 @@ public class MemberController {
     private final MemberWriter memberWriter;
     private final MemberReader memberReader;
     private final MemberFacade memberFacade;
+    private final UploadService uploadService;
 
     @PostMapping
     public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> signUp(
@@ -45,9 +50,10 @@ public class MemberController {
             memberWriter.signup(
             requestDTO.email(),
             requestDTO.password(),
-            requestDTO.profile(),
-                    requestDTO.birth())
-                .id());
+                    requestDTO.birth()
+                )
+                .id()
+        );
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ResponseDTO.<MemberIdResponseDTO>builder()
                 .statusCode(HttpStatus.CREATED.value())
@@ -55,6 +61,27 @@ public class MemberController {
                 .data(responseDTO)
                 .build());
     }
+
+    @PutMapping("/profile")
+    public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> updateMemberProfile(
+        @RequestPart MultipartFile profile
+    ) throws IOException {
+        String profileLink = uploadService.upload(profile);
+        MemberIdResponseDTO responseDTO = new MemberIdResponseDTO(
+            memberWriter.updateMember(
+                1L, // TODO : member id
+                profileLink
+            )
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<MemberIdResponseDTO>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("프로필 이미지 수정 성공")
+                .data(responseDTO)
+                .build());
+    }
+
 
     @PutMapping
     public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> updateMember(

@@ -30,6 +30,16 @@ public class MemberPersistenceAdaptor implements MemberRepository {
     }
 
     @Override
+    public Long updateProfile(
+        final Long memberId,
+        final String profile
+    ) {
+        MemberEntity memberEntity = memberJpaRepository.findById(memberId).get();
+        memberEntity.updateProfile(profile);
+        return memberEntity.getMemberId();
+    }
+
+    @Override
     public void updatePassword(
         final Long memberId,
         final String changePassword
