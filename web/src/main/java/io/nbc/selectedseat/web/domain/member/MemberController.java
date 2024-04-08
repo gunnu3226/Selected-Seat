@@ -52,9 +52,7 @@ public class MemberController {
             requestDTO.email(),
             requestDTO.password(),
                     requestDTO.birth()
-                )
-                .id()
-        );
+            ).id());
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ResponseDTO.<MemberIdResponseDTO>builder()
                 .statusCode(HttpStatus.CREATED.value())
