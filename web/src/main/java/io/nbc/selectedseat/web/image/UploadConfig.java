@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class S3Config {
+public class UploadConfig {
 
     @Value("${cloud.aws.s3.credentials.accessKey}")
     private String accessKey;
