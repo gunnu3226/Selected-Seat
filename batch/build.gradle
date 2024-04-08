@@ -3,6 +3,7 @@ dependencies {
     implementation(project(":domain")) // TODO: just for init test
     implementation(project(":common:common-security"))
     implementation(project(":support:monitoring"))
+    implementation(project(":support:notification"))
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
