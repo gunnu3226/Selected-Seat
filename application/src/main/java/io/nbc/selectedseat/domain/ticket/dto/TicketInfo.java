@@ -21,4 +21,8 @@ public record TicketInfo(
             ticket.getCreatedAt()
         );
     }
+
+    public String ticketRatingToString(){
+        return ticketRating.toString();
+    }
 }
