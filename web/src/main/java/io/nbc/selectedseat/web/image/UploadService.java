@@ -23,7 +23,7 @@ public class UploadService {
 
     private final AmazonS3 amazonS3;
 
-    public String upload(MultipartFile multipartFile) throws IOException {
+    public String upload(final MultipartFile multipartFile) throws IOException {
         String S3fileName = UUID.randomUUID() + "";
         ObjectMetadata objMeta = new ObjectMetadata();
         objMeta.setContentLength(multipartFile.getInputStream().available());
@@ -32,7 +32,7 @@ public class UploadService {
         return URLDecoder.decode(amazonS3.getUrl(bucket, S3fileName).toString(), "utf-8");
     }
 
-    public void delete(String keyName) {
+    public void delete(final String keyName) {
         try {
             amazonS3.deleteObject(bucket, keyName);
         } catch (AmazonServiceException e) {

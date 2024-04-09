@@ -61,7 +61,7 @@ public class MemberController {
                 .build());
     }
 
-    @PutMapping("/profile")
+    @PutMapping("/profiles")
     public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> updateMemberProfile(
         @RequestPart(required = false) MultipartFile profile
     ) throws IOException {
