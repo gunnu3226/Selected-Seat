@@ -4,6 +4,7 @@ import io.nbc.selectedseat.domain.concert.dto.ConcertInfo;
 import io.nbc.selectedseat.domain.concert.exception.ConcertExistException;
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
+import io.nbc.selectedseat.elasticsearch.domain.concert.repository.ConcertSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ConcertWriter {
 
     private final ConcertRepository concertRepository;
+    private final ConcertSearchRepository concertSearchRepository;
 
     public Long createConcert(final ConcertInfo concertInfo) {
         return concertRepository.save(Concert.builder()
