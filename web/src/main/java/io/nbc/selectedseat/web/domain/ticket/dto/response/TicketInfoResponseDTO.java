@@ -1,7 +1,6 @@
 package io.nbc.selectedseat.web.domain.ticket.dto.response;
 
 import io.nbc.selectedseat.domain.ticket.dto.TicketInfo;
-import io.nbc.selectedseat.domain.ticket.model.TicketRating;
 import java.time.LocalDateTime;
 import lombok.Builder;
 
@@ -9,7 +8,7 @@ import lombok.Builder;
 public record TicketInfoResponseDTO(
     Long ticketId,
     Long concertId,
-    TicketRating ticketRating,
+    String ticketRating,
     String ticketNumber,
     LocalDateTime createdAt
 ) {
@@ -18,7 +17,7 @@ public record TicketInfoResponseDTO(
         return TicketInfoResponseDTO.builder()
             .ticketId(ticketInfo.ticketId())
             .concertId(ticketInfo.concertId())
-            .ticketRating(ticketInfo.ticketRating())
+            .ticketRating(ticketInfo.ticketRatingToString())
             .ticketNumber(ticketInfo.ticketNumber())
             .createdAt(ticketInfo.createdAt())
             .build();
