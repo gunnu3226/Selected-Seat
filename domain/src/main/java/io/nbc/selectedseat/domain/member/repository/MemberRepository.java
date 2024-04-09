@@ -12,6 +12,8 @@ public interface MemberRepository {
 
     Optional<Member> findByEmail(final String email);
 
+    Long updateProfile(final Long memberId, final String profileLink);
+
     void updatePassword(final Long memberId, final String changePassword);
 
     void deleteMember(final Long memberId);
