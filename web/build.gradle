@@ -1,7 +1,6 @@
 bootJar.enabled = true
 dependencies {
     implementation(project(":application"))
-    implementation(project(":domain")) // TODO: just for init test
     implementation(project(":common:common-security"))
     implementation(project(":support:monitoring"))
 
