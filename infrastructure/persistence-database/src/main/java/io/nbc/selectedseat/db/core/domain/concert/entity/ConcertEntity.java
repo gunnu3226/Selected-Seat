@@ -78,7 +78,7 @@ public class ConcertEntity extends BaseEntity {
             .build();
     }
 
-    public Concert tomodel() {
+    public Concert toModel() {
         return new Concert(
             concertId,
             ratingId,

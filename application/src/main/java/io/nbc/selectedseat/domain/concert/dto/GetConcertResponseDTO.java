@@ -2,6 +2,7 @@ package io.nbc.selectedseat.domain.concert.dto;
 
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public record GetConcertResponseDTO(
     Long concertId,
@@ -10,7 +11,9 @@ public record GetConcertResponseDTO(
     Long regionId,
     Long categoryId,
     String name,
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime startedAt,
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime endedAt,
     String thumbnail,
     String hall,
