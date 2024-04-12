@@ -9,6 +9,7 @@ import io.nbc.selectedseat.web.domain.reservation.dto.response.ReservationIdResp
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequestMapping("/api/v1/reservations")
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReservationController {
     private final ReservationReader reservationReader;
     private final ReservationWriter reservationWriter;
+
 
     @GetMapping
     public ResponseEntity<ResponseDTO<List<ReservationInfoDTO>>> getReservations() {
@@ -71,4 +74,5 @@ public class ReservationController {
         reservationWriter.deleteReservation(reservationId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }
