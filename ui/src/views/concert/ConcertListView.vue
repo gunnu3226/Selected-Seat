@@ -1,59 +1,59 @@
 <template>
-	<section class="py-5">
-		<CategoryList
-			:selectedCategory="selectedCategory"
-			@selectCategory="selectCategory"
-		>
-		</CategoryList>
-		<div class="container px-4 px-lg-5 mt-5">
-			<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
-				<div v-for="concertInfo in concertList" :key="concertInfo.title">
+  <section class="py-5">
+    <CategoryList
+        :selectedCategory="selectedCategory"
+        @selectCategory="selectCategory"
+    >
+    </CategoryList>
+    <div class="container px-4 px-lg-5 mt-5">
+      <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+        <div v-for="concertInfo in concertList" :key="concertInfo.title">
 					<span class="concert-info-wrapper">
 						<ConcertItem
-              :concertInfo="concertInfo"
-							@click="goToDetail(concertInfo.concertId)"
-						></ConcertItem>
+                :concertInfo="concertInfo"
+                @click="goToDetail(concertInfo.concertId)"
+            ></ConcertItem>
 					</span>
-				</div>
-			</div>
-		</div>
-	</section>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup>
 import CategoryList from '@/components/concert/CategoryList.vue';
 import ConcertItem from '@/components/concert/ConcertItem.vue';
-import {onBeforeMount, ref} from 'vue';
-import { useRouter } from 'vue-router';
-import { getConcertByCategory } from '@/api/concert.js'
+import {ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {getConcertByCategory} from '@/api/concert.js'
+
 const selectedCategory = ref(8);
 const concertList = ref([]);
 (async () => {
-  const response = await getConcertByCategory({category: selectedCategory.value});
+  const response = await getConcertByCategory(
+      {category: selectedCategory.value});
   concertList.value = response.data.data;
 })();
 
-
-
-const selectCategory = async(category) => {
-	selectedCategory.value = category;
+const selectCategory = async (category) => {
+  selectedCategory.value = category;
   const response = await getConcertByCategory({category: category});
   concertList.value = response.data.data;
 };
 
 const router = useRouter();
 const goToDetail = id => {
-	router.push({
-		name: 'ConcertDetailView',
-		params: {
-			id,
-		},
-	});
+  router.push({
+    name: 'ConcertDetailView',
+    params: {
+      id,
+    },
+  });
 };
 </script>
 
 <style scoped>
 .concert-info-wrapper {
-	cursor: pointer;
+  cursor: pointer;
 }
 </style>

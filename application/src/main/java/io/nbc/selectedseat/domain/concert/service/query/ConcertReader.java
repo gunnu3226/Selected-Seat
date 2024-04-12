@@ -47,7 +47,8 @@ public class ConcertReader {
     }
 
     public List<GetConcertResponseDTO> getConcertsByCategory(
-        final Long categoryId) {
+        final Long categoryId
+    ) {
         return concertRepository.getConcertsByCategory(categoryId).stream()
             .map(GetConcertResponseDTO::from)
             .toList();

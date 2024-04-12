@@ -7,7 +7,7 @@ public record ConcertDateResponseDTO(
     Long concertDateId,
     LocalDateTime concertDate
 ) {
-    public static ConcertDateResponseDTO from(ConcertDate concertDate) {
+    public static ConcertDateResponseDTO from(final ConcertDate concertDate) {
         return new ConcertDateResponseDTO(
             concertDate.getConcertDateId(),
             concertDate.getConcertDate()

@@ -32,8 +32,6 @@ const categories = ref({
   "팬클럽": 0,
 });
 
-
-
 const props = defineProps({
   selectedCategory: {
     type: Number,
