@@ -4,7 +4,6 @@ import io.nbc.selectedseat.domain.ticket.dto.TicketPriceInfo;
 import io.nbc.selectedseat.domain.ticket.service.command.TicketPriceWriter;
 import io.nbc.selectedseat.domain.ticket.service.query.TicketPriceReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
-import io.nbc.selectedseat.web.domain.ticket.dto.request.TicketPriceGetRequestDTO;
 import io.nbc.selectedseat.web.domain.ticket.dto.request.TicketPriceRequestDto;
 import io.nbc.selectedseat.web.domain.ticket.dto.request.TicketPriceUpdateRequestDTO;
 import io.nbc.selectedseat.web.domain.ticket.dto.response.TicketPriceIdResponseDto;
@@ -75,12 +74,12 @@ public class TicketPriceController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping
-    public ResponseEntity<ResponseDTO<List<TicketPriceInfo>>> getTicketPriceByConcertID(
-        @RequestBody @Valid TicketPriceGetRequestDTO requestDTO
+    @GetMapping("/concert/{concertId}")
+    public ResponseEntity<ResponseDTO<List<TicketPriceInfo>>> getTicketPriceByConcertId(
+        @PathVariable Long concertId
     ) {
-        List<TicketPriceInfo> responseDTO = ticketPriceReader.getTicketPriceByConcertId(
-            requestDTO.concertId());
+        List<TicketPriceInfo> responseDTO
+            = ticketPriceReader.getTicketPriceByConcertId(concertId);
         return ResponseEntity.status(HttpStatus.OK).body(
             ResponseDTO.<List<TicketPriceInfo>>builder()
                 .statusCode(HttpStatus.OK.value())
