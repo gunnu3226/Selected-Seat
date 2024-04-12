@@ -15,7 +15,6 @@ public class CustomSpELParser {
 
         for (int i = 0; i < parameters.length; i++) {
             context.setVariable(parameters[i], args[i]);
-
         }
 
         return spelExpressionParser.parseExpression(name).getValue(context);
