@@ -2,9 +2,9 @@ package io.nbc.selectedseat.domain.concert.service.query;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import io.nbc.selectedseat.domain.concert.dto.ConcertInfo;
 import io.nbc.selectedseat.domain.concert.mock.FakeConcertRepository;
 import io.nbc.selectedseat.domain.concert.model.Concert;
+import io.nbc.selectedseat.elasticsearch.domain.concert.mapper.ConcertSearchQueryMapper;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -20,6 +20,7 @@ public class ConcertReaderTest {
 
     private ConcertReader concertReader;
     private FakeConcertRepository fakeConcertRepository;
+    private ConcertSearchQueryMapper concertSearchQueryMapper;
 
     private static final Long CONCERT_ID = 1L;
     private static final Long RATING_ID = 1L;
@@ -37,7 +38,7 @@ public class ConcertReaderTest {
     @BeforeEach
     void init() {
         fakeConcertRepository = new FakeConcertRepository();
-        concertReader = new ConcertReader(fakeConcertRepository);
+        concertReader = new ConcertReader(fakeConcertRepository, concertSearchQueryMapper);
     }
 
     @Nested

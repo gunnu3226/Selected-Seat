@@ -14,17 +14,29 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
+@EnableElasticsearchRepositories(basePackages = "io.nbc.selectedseat.elasticsearch")
 public class ElasticSearchConfig {
 
-    String host = "43.203.215.243";
-    int port = 9200;
-    String fingerprint = "8cd17c4ea86a4f2ace14ea2eb819c0ff60177f8f89969323ad8d9f4fdd2f8921";
-    String id = "elastic";
-    String password = "VJ7T39ui382KA-qY-ldQ";
+    @Value("${es.host}")
+    private String host;
+
+    @Value("${es.port}")
+    private int port;
+
+    @Value("${es.fingerprint}")
+    private String fingerprint;
+
+    @Value("${es.id}")
+    private String id;
+
+    @Value("${es.password}")
+    private String password;
 
     @Bean(name = "esClient")
     public ElasticsearchClient esClient() {
@@ -69,6 +81,7 @@ public class ElasticSearchConfig {
             .setHttpClientConfigCallback(hc -> hc
                 .setSSLContext(sslContext)
                 .setDefaultCredentialsProvider(credsProv)
+                .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
             );
 
         return new RestHighLevelClient(restClientBuilder);

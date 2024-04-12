@@ -1,13 +1,17 @@
 package io.nbc.selectedseat.web.domain.concert;
 
+import io.nbc.selectedseat.common.WebPage;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
 import io.nbc.selectedseat.domain.concert.service.command.ConcertWriter;
+import io.nbc.selectedseat.domain.concert.service.dto.ConcertDetailInfo;
+import io.nbc.selectedseat.domain.concert.service.dto.ConcertSearchRequestDTO;
 import io.nbc.selectedseat.domain.concert.service.query.ConcertReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import io.nbc.selectedseat.web.domain.concert.dto.request.CreateConcertRequestDTO;
 import io.nbc.selectedseat.web.domain.concert.dto.request.UpdateConcertRequestDTO;
 import io.nbc.selectedseat.web.domain.concert.dto.response.ConcertResponseDTO;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -107,4 +112,20 @@ public class ConcertController {
         );
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<ResponseDTO<WebPage<List<ConcertDetailInfo>>>> searchConcerts(
+        @RequestBody ConcertSearchRequestDTO requestDTO,
+        @RequestParam(value = "page", defaultValue = "0") Integer page,
+        @RequestParam(value = "size", defaultValue = "10") Integer size
+    ) throws IOException {
+        WebPage<List<ConcertDetailInfo>> searchResponse = concertReader.searchConcertByTextAndFilter(
+            requestDTO, page, size);
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<WebPage<List<ConcertDetailInfo>>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("콘서트 검색 성공")
+                .data(searchResponse)
+                .build()
+        );
+    }
 }
