@@ -2,6 +2,7 @@ package io.nbc.selectedseat.domain.reservation.service.command;
 
 import io.nbc.selectedseat.domain.reservation.model.Reservation;
 import io.nbc.selectedseat.domain.reservation.repository.ReservationRepository;
+import io.nbc.selectedseat.redis.distributedlock.DistributedLock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ public class ReservationWriter {
 
     private final ReservationRepository reservationRepository;
 
+    @DistributedLock(key = "'concert:' + #concertId + ':ticketId:' + #ticketId")
     public Long createReservation(
         final Long concertId,
         final Long memberId,

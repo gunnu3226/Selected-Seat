@@ -23,6 +23,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableRedisRepositories
 public class RedisConfig {
 
+    public static final String REDISSON_HOST_PREFIX = "redis://";
     @Value("${spring.data.redis.port}")
     private int port;
 
@@ -33,19 +34,22 @@ public class RedisConfig {
     public RedissonClient redissonClient() {
         Config config = new Config();
         config.useSingleServer()
-            .setAddress("redis://" + host + ":" + port)
+            .setAddress(REDISSON_HOST_PREFIX + host + ":" + port)
             .setDnsMonitoringInterval(-1);
         return Redisson.create(config);
     }
 
     @Bean
-    public RedisConnectionFactory redisConnectionFactory(RedissonClient redissonClient) {
+    public RedisConnectionFactory redisConnectionFactory(
+        final RedissonClient redissonClient
+    ) {
         return new RedissonConnectionFactory(redissonClient);
     }
 
     @Bean
     public RedisTemplate<String, Object> objectRedisTemplate(
-        RedisConnectionFactory connectionFactory) {
+        final RedisConnectionFactory connectionFactory
+    ) {
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator
             .builder()
             .allowIfSubType(Object.class)
@@ -61,7 +65,8 @@ public class RedisConfig {
 
         template.setConnectionFactory(connectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
+        template.setValueSerializer(
+            new GenericJackson2JsonRedisSerializer(objectMapper));
         return template;
     }
 }
