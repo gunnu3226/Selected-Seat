@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.db.core.domain.concert.entity;
 
 import io.nbc.selectedseat.db.core.domain.common.BaseEntity;
+import io.nbc.selectedseat.domain.concert.model.ConcertRating;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -25,5 +26,15 @@ public class ConcertRatingEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    public ConcertRating toModel(){
+        return ConcertRating.builder()
+            .ratingId(concertRatingId)
+            .rating(name)
+            .createdAt(getCreatedAt())
+            .modifiedAt(getModifiedAt())
+            .deletedAt(getDeletedAt())
+            .build();
+    }
 
 }
