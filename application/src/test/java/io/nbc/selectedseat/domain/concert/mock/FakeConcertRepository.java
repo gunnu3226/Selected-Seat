@@ -1,6 +1,8 @@
 package io.nbc.selectedseat.domain.concert.mock;
 
 import io.nbc.selectedseat.domain.concert.model.Concert;
+import io.nbc.selectedseat.domain.concert.model.ConcertDate;
+import io.nbc.selectedseat.domain.concert.model.ConcertRating;
 import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +67,21 @@ public class FakeConcertRepository implements ConcertRepository {
 
     @Override
     public List<Concert> getConcertsByConcertIds(List<Long> concertIds) {
+        return null;
+    }
+
+    @Override
+    public Optional<ConcertRating> getConcertRating(final Long ratingId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<ConcertDate> getConcertDates(final Long concertId) {
+        return null;
+    }
+
+    @Override
+    public List<Concert> getConcertsByCategory(final Long categoryId) {
         return null;
     }
 
