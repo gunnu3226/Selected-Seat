@@ -10,7 +10,6 @@ import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +20,8 @@ public class ConcertSearchQueryMapper {
 
     public Page<ConcertDocument> searchConcertByTextAndFilter(
         final ConcertSearchMapperDTO requestDTO,
-        final Pageable pageable
+        final int page,
+        final int size
     ) throws IOException {
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
@@ -47,6 +47,6 @@ public class ConcertSearchQueryMapper {
                 requestDTO.concertRating());
             boolQuery.filter(regionFilter);
         }
-        return concertSearchRepository.findByNameAndFilter(boolQuery, pageable);
+        return concertSearchRepository.findByNameAndFilter(boolQuery, page, size);
     }
 }
