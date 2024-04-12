@@ -10,11 +10,8 @@
 				<div v-for="concertInfo in concertList" :key="concertInfo.title">
 					<span class="concert-info-wrapper">
 						<ConcertItem
-							:title="concertInfo.title"
-							:description="concertInfo.description"
-							:startDate="concertInfo.startDate"
-							:endDate="concertInfo.endDate"
-							@click="goToDetail(concertInfo.id)"
+              :concertInfo="concertInfo"
+							@click="goToDetail(concertInfo.concertId)"
 						></ConcertItem>
 					</span>
 				</div>
@@ -26,42 +23,22 @@
 <script setup>
 import CategoryList from '@/components/concert/CategoryList.vue';
 import ConcertItem from '@/components/concert/ConcertItem.vue';
-import { ref } from 'vue';
+import {onBeforeMount, ref} from 'vue';
 import { useRouter } from 'vue-router';
-const selectedCategory = ref('아이돌');
-const concertList = [
-	{
-		id: 1,
-		title: '공연 제목',
-		description: '공연 설명',
-		startDate: '2023.12.03',
-		endDate: '2023.12.03',
-	},
-	{
-		id: 2,
-		title: '공연 제목',
-		description: '공연 설명',
-		startDate: '2023.12.03',
-		endDate: '2023.12.03',
-	},
-	{
-		id: 3,
-		title: '공연 제목',
-		description: '공연 설명',
-		startDate: '2023.12.03',
-		endDate: '2023.12.03',
-	},
-	{
-		id: 4,
-		title: '공연 제목',
-		description: '공연 설명',
-		startDate: '2023.12.03',
-		endDate: '2023.12.03',
-	},
-];
+import { getConcertByCategory } from '@/api/concert.js'
+const selectedCategory = ref(8);
+const concertList = ref([]);
+(async () => {
+  const response = await getConcertByCategory({category: selectedCategory.value});
+  concertList.value = response.data.data;
+})();
 
-const selectCategory = category => {
+
+
+const selectCategory = async(category) => {
 	selectedCategory.value = category;
+  const response = await getConcertByCategory({category: category});
+  concertList.value = response.data.data;
 };
 
 const router = useRouter();

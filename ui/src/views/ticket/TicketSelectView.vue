@@ -64,7 +64,7 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue';
-const concertDate = ref(history.state.date);
+const concertDate = ref(history.state.dateId);
 const concertId = ref(history.state.concertId);
 
 const concertInfo = reactive({
