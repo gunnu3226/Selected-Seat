@@ -13,15 +13,30 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class TicketExpireSchedule {
+public class TicketScheduleJob {
 
     private final JobLauncher jobLauncher;
     private final Job ticketExpireJob;
+    private final Job ticketSeatKeyGenerationJob;
 
     @Scheduled(cron = "0 0 0 * * 1")
     public void ticketExpireJob() {
         try {
             jobLauncher.run(ticketExpireJob, new JobParameters());
+        } catch (
+            JobExecutionAlreadyRunningException |
+            JobInstanceAlreadyCompleteException |
+            JobParametersInvalidException |
+            JobRestartException e
+        ) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void ticketSeatKeyGenerationJob() {
+        try {
+            jobLauncher.run(ticketSeatKeyGenerationJob, new JobParameters());
         } catch (
             JobExecutionAlreadyRunningException |
             JobInstanceAlreadyCompleteException |

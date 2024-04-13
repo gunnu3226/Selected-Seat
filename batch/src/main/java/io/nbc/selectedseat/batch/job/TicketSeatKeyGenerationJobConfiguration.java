@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.batch.job;
 
-import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertEntity;
+import io.nbc.selectedseat.batch.task.concert.SeatKeyInfo;
+import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertDateEntity;
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketEntity;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
@@ -22,47 +23,47 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class TicketDistributedLockKeyJobConfiguration {
+public class TicketSeatKeyGenerationJobConfiguration {
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
     private final Integer CHUNK_SIZE = 1000;
 
     @Bean
-    public Job ticketDistributedLockKeyJob(
-        final Step ticketDistributedLockKeyStep,
-        final Step ticketDistributedLockKeyGenerationStep
+    public Job ticketSeatKeyGenerationJob(
+        final Step concertDate1DayBeforeStep,
+        final Step ticketSeatKeyGenerationStep
     ) {
-        return new JobBuilder("ticketDistributedLockKeyJob", jobRepository)
-            .start(ticketDistributedLockKeyStep)
-            .next(ticketDistributedLockKeyGenerationStep)
+        return new JobBuilder("ticketSeatKeyGenerationJob", jobRepository)
+            .start(concertDate1DayBeforeStep)
+            .next(ticketSeatKeyGenerationStep)
             .build();
     }
 
     @Bean
-    public Step ticketDistributedLockKeyStep(
-        final ItemReader<ConcertEntity> concertEntityItemReader,
-        final ItemWriter<ConcertEntity> concert1DayBeforeItemWriter,
-        final ExecutionContextPromotionListener concert1DaysBeforeExecutionListener
+    public Step concertDate1DayBeforeStep(
+        final ItemReader<ConcertDateEntity> concertDate1DayBeforeItemReader,
+        final ItemWriter<ConcertDateEntity> concertDate1DayBeforeItemWriter,
+        final ExecutionContextPromotionListener concertDate1DaysBeforeExecutionListener
     ) {
-        return new StepBuilder("ticketDistributedLockKeyStep", jobRepository)
-            .<ConcertEntity, ConcertEntity>chunk(CHUNK_SIZE,
+        return new StepBuilder("concertDate1DayBeforeStep", jobRepository)
+            .<ConcertDateEntity, ConcertDateEntity>chunk(CHUNK_SIZE,
                 platformTransactionManager)
-            .reader(concertEntityItemReader)
-            .writer(concert1DayBeforeItemWriter)
-            .listener(concert1DaysBeforeExecutionListener)
+            .reader(concertDate1DayBeforeItemReader)
+            .writer(concertDate1DayBeforeItemWriter)
+            .listener(concertDate1DaysBeforeExecutionListener)
             .allowStartIfComplete(true)
             .build();
     }
 
     @Bean
-    public Step ticketDistributedLockKeyGenerationStep(
+    public Step ticketSeatKeyGenerationStep(
         final ItemReader<TicketEntity> concert1DayBeforeTicketItemReader,
-        final ItemProcessor<TicketEntity, String> concert1DayBeforeTicketItemProcessor,
-        final ItemWriter<String> concert1DayBeforeTicketItemWriter
+        final ItemProcessor<TicketEntity, SeatKeyInfo> concert1DayBeforeTicketItemProcessor,
+        final ItemWriter<SeatKeyInfo> concert1DayBeforeTicketItemWriter
     ){
-        return new StepBuilder("ticketDistributedLockKeyGenerationStep", jobRepository)
-            .<TicketEntity, String>chunk(CHUNK_SIZE,
+        return new StepBuilder("ticketSeatKeyGenerationStep", jobRepository)
+            .<TicketEntity, SeatKeyInfo>chunk(CHUNK_SIZE,
                 platformTransactionManager)
             .reader(concert1DayBeforeTicketItemReader)
             .processor(concert1DayBeforeTicketItemProcessor)
@@ -71,29 +72,27 @@ public class TicketDistributedLockKeyJobConfiguration {
             .build();
     }
 
+
     @Bean
-    public ItemReader<ConcertEntity> concertEntityItemReader(
+    public ItemReader<ConcertDateEntity> concertDate1DayBeforeItemReader(
         final EntityManagerFactory entityManagerFactory
     ) {
-        return new JpaPagingItemReaderBuilder<ConcertEntity>()
-            .name("concertEntityItemReader")
-            .entityManagerFactory(entityManagerFactory)
+        return new JpaPagingItemReaderBuilder<ConcertDateEntity>()
+            .name("concertDate1DayBeforeItemReader")
+            .entityManagerFactory( entityManagerFactory)
             .pageSize(CHUNK_SIZE)
-            .queryString(getConcert1DaysBeforeStart())
+            .queryString("select c from ConcertDateEntity c WHERE DATEDIFF(c.concertDate, NOW()) = 1 ORDER BY c.concertDateId")
             .build();
-    }
 
-    private static String getConcert1DaysBeforeStart() {
-        return "SELECT c FROM ConcertEntity c WHERE DATEDIFF(c.startedAt,NOW()) = 1 ORDER BY c.concertId ";
     }
 
     @Bean
-    public ExecutionContextPromotionListener concert1DaysBeforeExecutionListener() {
+    public ExecutionContextPromotionListener concertDate1DaysBeforeExecutionListener() {
         ExecutionContextPromotionListener executionContextPromotionListener
             = new ExecutionContextPromotionListener();
 
         executionContextPromotionListener
-            .setKeys(new String[]{"concert1DayBeforeItemWriter"});
+            .setKeys(new String[]{"concertDate1DayBeforeItem"});
 
         return executionContextPromotionListener;
     }

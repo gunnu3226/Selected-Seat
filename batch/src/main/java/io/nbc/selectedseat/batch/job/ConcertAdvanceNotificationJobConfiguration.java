@@ -31,6 +31,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.transaction.PlatformTransactionManager;
 
+// TODO: reservation 의 변경으로 인해서 전체 수정 작업이 필요
 @Slf4j
 @Configuration
 @RequiredArgsConstructor

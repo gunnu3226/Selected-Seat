@@ -34,7 +34,6 @@ public class TicketJobExecutionListener implements
 //        endTime.atZone()
         final LocalDateTime startTime = jobExecution.getStartTime();
         final LocalDateTime diff = endTime.minusSeconds(totalSeats);
-        log.info(String.valueOf(diff.getSecond()));
         if (jobExecution.getStatus() == BatchStatus.FAILED) {
 //            SlackNotificationUtil.sendMessage(
 //                slackWebhookUrl,

@@ -1,6 +1,6 @@
 package io.nbc.selectedseat.batch.task.concert;
 
-import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertEntity;
+import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertDateEntity;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
@@ -10,27 +10,27 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Concert1DayBeforeItemWriter implements
-    ItemWriter<ConcertEntity>,
+public class ConcertDate1DayBeforeItemWriter implements
+    ItemWriter<ConcertDateEntity>,
     StepExecutionListener {
 
     private StepExecution stepExecution;
 
     @Override
     public void write(
-        final Chunk<? extends ConcertEntity> chunk
+        final Chunk<? extends ConcertDateEntity> chunk
     ) throws Exception {
         ExecutionContext executionContext
             = this.stepExecution.getExecutionContext();
 
         ConcurrentHashMap<Long, Boolean> concert1DaysBeforeStart
             = (ConcurrentHashMap<Long, Boolean>) executionContext
-            .get("concert1DayBeforeItemWriter");
+            .get("concertDate1DayBeforeItem");
 
-        chunk.forEach(concertEntity -> {
+        chunk.forEach(concertDate -> {
             assert concert1DaysBeforeStart != null;
             concert1DaysBeforeStart.put(
-                concertEntity.getConcertId(),
+                concertDate.getConcertDateId(),
                 Boolean.TRUE
             );
         });
@@ -42,10 +42,10 @@ public class Concert1DayBeforeItemWriter implements
     ) {
         this.stepExecution = stepExecution;
 
-        ConcurrentHashMap<Long, Boolean> concert1DaysBeforeStart =
+        ConcurrentHashMap<Long, Boolean> concertDate1DayBeforeItem =
             new ConcurrentHashMap<>();
 
         stepExecution.getExecutionContext()
-            .put("concert1DayBeforeItemWriter", concert1DaysBeforeStart);
+            .put("concertDate1DayBeforeItem", concertDate1DayBeforeItem);
     }
 }

@@ -1,7 +1,6 @@
 package io.nbc.selectedseat.batch.task.concert;
 
-import io.nbc.selectedseat.redis.service.RedissonRedisService;
-import java.time.Duration;
+import io.nbc.selectedseat.redis.service.RedissonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
@@ -10,18 +9,21 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class Concert1DayBeforeTicketItemWriter implements
-    ItemWriter<String> {
+    ItemWriter<SeatKeyInfo> {
 
-    private final RedissonRedisService redissonRedisService;
+    private final RedissonService redissonService;
 
     @Override
     public void write(
-        final Chunk<? extends String> chunk
+        final Chunk<? extends SeatKeyInfo> chunk
     ) throws Exception {
         chunk.forEach(key -> {
             if (key != null) {
-                redissonRedisService.setIfAbsent(key, true,
-                    Duration.ofSeconds(24 * 60 * 60 * 30));
+                redissonService.setSeats(
+                    key.key(),
+                    key.hashKey(),
+                    true
+                );
             }
         });
     }

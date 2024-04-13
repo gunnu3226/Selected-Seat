@@ -90,7 +90,7 @@ public class TicketCreateItemReader implements ItemReader<TicketBatchEntity>,
 
         for (int i = 0; i < numOfSeats; i++) {
             String ticketNumber =
-                ((i / numOfRow) + 1) + "행:" + ((i % numOfRow) + 1) + "열";
+                ((i / numOfRow) + 1) + ":" + ((i % numOfRow) + 1);
 
             LocalDateTime now = LocalDateTime.now();
 
