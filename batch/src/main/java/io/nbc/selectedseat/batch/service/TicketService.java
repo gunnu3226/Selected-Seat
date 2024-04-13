@@ -16,6 +16,9 @@ public class TicketService {
 
     private final JobLauncher jobLauncher;
     private final Job ticketCreateJob;
+    private final Job concertAdvanceNotificationJob;
+    private final Job reservationDocumentJob;
+    private final Job ticketDistributedLockKeyJob;
 
     public void createTickets(
         final JobParameters jobParameters
@@ -23,6 +26,45 @@ public class TicketService {
         // TODO: apply logback error
         try {
             jobLauncher.run(ticketCreateJob, jobParameters);
+        } catch (
+            JobExecutionAlreadyRunningException |
+            JobInstanceAlreadyCompleteException |
+            JobParametersInvalidException |
+            JobRestartException e
+        ) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void notification() {
+        try {
+            jobLauncher.run(concertAdvanceNotificationJob, new JobParameters());
+        } catch (
+            JobExecutionAlreadyRunningException |
+            JobInstanceAlreadyCompleteException |
+            JobParametersInvalidException |
+            JobRestartException e
+        ) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void getMongo() {
+        try {
+            jobLauncher.run(reservationDocumentJob, new JobParameters());
+        } catch (
+            JobExecutionAlreadyRunningException |
+            JobInstanceAlreadyCompleteException |
+            JobParametersInvalidException |
+            JobRestartException e
+        ) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void createDistributedKey() {
+        try {
+            jobLauncher.run(ticketDistributedLockKeyJob, new JobParameters());
         } catch (
             JobExecutionAlreadyRunningException |
             JobInstanceAlreadyCompleteException |
