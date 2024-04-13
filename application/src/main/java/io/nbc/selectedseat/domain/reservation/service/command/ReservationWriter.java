@@ -1,6 +1,8 @@
 package io.nbc.selectedseat.domain.reservation.service.command;
 
+import io.nbc.selectedseat.db.core.domain.reservation.exception.ReservationExistException;
 import io.nbc.selectedseat.domain.reservation.model.Reservation;
+import io.nbc.selectedseat.domain.reservation.model.ReservationState;
 import io.nbc.selectedseat.domain.reservation.repository.ReservationRepository;
 import io.nbc.selectedseat.redis.distributedlock.DistributedLock;
 import java.time.LocalDateTime;
@@ -28,8 +30,18 @@ public class ReservationWriter {
                 .memberId(memberId)
                 .ticketId(ticketId)
                 .ticketPriceId(ticketPriceId)
+                .reservationState(ReservationState.PROGRESS)
                 .build()
         );
+    }
+
+    public Long completeReservation(final Long reservationId) {
+        Reservation reservation = reservationRepository.getReservation(
+                reservationId)
+            .orElseThrow(ReservationExistException::new);
+
+        Reservation completed = reservation.complete();
+        return reservationRepository.createReservation(completed);
     }
 
     public void deleteReservation(final Long reservationId) {

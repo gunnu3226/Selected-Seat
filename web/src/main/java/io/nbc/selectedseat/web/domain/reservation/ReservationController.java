@@ -56,7 +56,6 @@ public class ReservationController {
             requestDTO.concertId(),
             requestDTO.memberId(),
             requestDTO.ticketId(),
-            requestDTO.ticketPriceId(),
             requestDTO.concertDateId()
         );
 
@@ -64,6 +63,17 @@ public class ReservationController {
             .statusCode(HttpStatus.OK.value())
             .message("예약을 생성했습니다")
             .data(new ReservationIdResponseDTO(reservationId))
+            .build());
+    }
+
+    @PostMapping("/{reservationId}")
+    public ResponseEntity<ResponseDTO<ReservationIdResponseDTO>> confirmReservation(
+        @PathVariable("reservationId") Long reservationId
+    ){
+        reservationFacade.createReservationDocument(reservationId);
+        return ResponseEntity.ok(ResponseDTO.<ReservationIdResponseDTO>builder()
+            .statusCode(HttpStatus.OK.value())
+            .message("예약을 확정이 완료되었습니다")
             .build());
     }
 

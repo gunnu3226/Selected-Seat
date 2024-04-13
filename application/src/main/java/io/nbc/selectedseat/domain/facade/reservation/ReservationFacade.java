@@ -5,7 +5,10 @@ import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
 import io.nbc.selectedseat.domain.concert.service.query.ConcertReader;
 import io.nbc.selectedseat.domain.member.dto.MemberInfo;
 import io.nbc.selectedseat.domain.member.service.query.MemberReader;
+import io.nbc.selectedseat.domain.reservation.dto.ReservationInfoDTO;
 import io.nbc.selectedseat.domain.reservation.service.command.ReservationWriter;
+import io.nbc.selectedseat.domain.reservation.service.query.ReservationReader;
+import io.nbc.selectedseat.domain.seat.command.SeatWriter;
 import io.nbc.selectedseat.domain.ticket.dto.TicketInfo;
 import io.nbc.selectedseat.domain.ticket.dto.TicketPriceInfo;
 import io.nbc.selectedseat.domain.ticket.service.query.TicketPriceReader;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class ReservationFacade {
 
@@ -25,26 +29,18 @@ public class ReservationFacade {
     private final TicketReader ticketReader;
     private final TicketPriceReader ticketPriceReader;
     private final ReservationWriter reservationWriter;
+    private final ReservationReader reservationReader;
+    private final SeatWriter seatWriter;
 
-    @Transactional
     public Long createReservation(
         final Long concertId,
         final Long memberId,
         final Long ticketId,
-        final Long ticketPriceId,
         final Long concertDateId
     ) {
-        GetConcertResponseDTO concert = concertReader.getConcert(concertId);
-
-        ConcertDateResponseDTO concertDate
-            = concertReader.getConcertDate(concertDateId);
-
-        MemberInfo memberInfo = memberReader.getMemberById(memberId);
-
         TicketInfo ticket = ticketReader.getTicket(ticketId);
-        System.out.println(ticket.concertId() + " : " + ticket.ticketRating());
-        TicketPriceInfo priceInfo = ticketPriceReader.getTicketPriceInfoByConcertIdAndRating(
-            ticket.concertId(),
+        TicketPriceInfo priceInfo = ticketPriceReader.getTicketPriceByConcertAndRating(
+            concertId,
             ticket.ticketRating()
         );
 
@@ -52,7 +48,42 @@ public class ReservationFacade {
             concertId,
             memberId,
             ticketId,
-            ticketPriceId
+            priceInfo.ticketPriceId()
+        );
+
+        seatWriter.selectedSeat(
+            concertId,
+            concertDateId,
+            ticketId,
+            ticket.ticketRating().name(),
+            ticket.ticketNumber()
+        );
+
+        return reservationId;
+    }
+
+    public void createReservationDocument(
+        final Long reservationId
+    ) {
+        Long completedId = reservationWriter.completeReservation(reservationId);
+
+        ReservationInfoDTO reservation = reservationReader.getReservation(
+            completedId);
+
+        GetConcertResponseDTO concert = concertReader.getConcert(
+            reservation.concertId());
+
+        TicketInfo ticket = ticketReader.getTicket(reservation.ticketId());
+
+        MemberInfo memberInfo = memberReader.getMemberById(
+            reservation.memberId());
+
+        ConcertDateResponseDTO concertDate = concertReader.getConcertDate(
+            ticket.concertDateId());
+
+        TicketPriceInfo priceInfo = ticketPriceReader.getTicketPriceByConcertAndRating(
+            ticket.concertId(),
+            ticket.ticketRating()
         );
 
         reservationWriter.createReservationDocument(
@@ -64,7 +95,5 @@ public class ReservationFacade {
             priceInfo.price(),
             concertDate.concertDate()
         );
-
-        return reservationId;
     }
 }
