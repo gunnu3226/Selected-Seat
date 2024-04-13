@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.batch.job.ticket;
+package io.nbc.selectedseat.batch.task.ticket;
 
 import static io.nbc.selectedseat.domain.ticket.model.TicketRating.A;
 import static io.nbc.selectedseat.domain.ticket.model.TicketRating.R;
@@ -57,12 +57,17 @@ public class TicketCreateItemReader implements ItemReader<TicketBatchEntity>,
     public void beforeStep(final StepExecution stepExecution) {
         List<TicketBatchEntity> allSeats = new ArrayList<>();
 
-        allSeats.addAll(generateTicketsByRating(numOfRRatingTicket, numOfRow, R,
-            concertId));
-        allSeats.addAll(generateTicketsByRating(numOfSRatingTicket, numOfRow, S,
-            concertId));
-        allSeats.addAll(generateTicketsByRating(numOfARatingTicket, numOfRow, A,
-            concertId));
+        allSeats.addAll(
+            generateTicketsByRating(numOfRRatingTicket, numOfRow, R, concertId)
+        );
+
+        allSeats.addAll(
+            generateTicketsByRating(numOfSRatingTicket, numOfRow, S, concertId)
+        );
+
+        allSeats.addAll(
+            generateTicketsByRating(numOfARatingTicket, numOfRow, A, concertId)
+        );
 
         this.iterator = allSeats.iterator();
     }
