@@ -31,6 +31,7 @@ public class TicketJobExecutionListener implements
         final Long jobId = jobExecution.getJobId();
         final LocalDateTime endTime = jobExecution.getEndTime();
 
+        // TODO: WIP
 //        endTime.atZone()
         final LocalDateTime startTime = jobExecution.getStartTime();
         final LocalDateTime diff = endTime.minusSeconds(totalSeats);

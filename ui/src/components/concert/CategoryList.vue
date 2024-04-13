@@ -1,14 +1,15 @@
 <template>
   <ul class="nav container px-4 px-lg-5 d-flex justify-content-between">
+    <div class="category-item">|</div>
     <li
         class="d-flex flex-grow-1"
-        v-for="(id, category) in categories"
+        v-for="(id, category) in props.categories"
         :key="id"
     >
       <div
           class="item px-3"
-          :class="isActive(id)"
-          @click="$emit('selectCategory', id)"
+          :class="isActive(category)"
+          @click="$emit('selectCategory', id, category)"
       >
         {{ category }}
       </div>
@@ -18,33 +19,18 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue';
-import {getCategories} from "@/api/category.js"
-
-const categories = ref({
-  "콘서트": 0,
-  "아이돌": 0,
-  "발라드": 0,
-  "페스티벌": 0,
-  "인디/록": 0,
-  "투어": 0,
-  "힙합": 0,
-  "팬클럽": 0,
-});
+import {computed} from 'vue';
 
 const props = defineProps({
   selectedCategory: {
-    type: Number,
+    type: String,
     required: true,
   },
+  categories: {
+    type: Object,
+    required: true,
+  }
 });
-
-(async () => {
-  const response = await getCategories({category: props.selectedCategory});
-  response.data.data.forEach((category) => {
-    categories.value[category.name] = category.categoryId;
-  });
-})();
 
 const isActive = computed(() => {
   return value => {
@@ -63,6 +49,7 @@ const isActive = computed(() => {
   font-weight: 500;
   color: white;
   background-color: #9963e0;
+  border-radius: 4px;
 }
 
 .category-item {
