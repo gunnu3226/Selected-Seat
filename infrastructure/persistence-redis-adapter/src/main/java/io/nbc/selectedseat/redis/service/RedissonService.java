@@ -2,20 +2,21 @@ package io.nbc.selectedseat.redis.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RedissonRedisService implements RedisService {
+public class RedissonService implements RedisService {
 
     private static final String KEY_PREFIX = "redisson:";
     private final RedisTemplate<String, Object> redisTemplate;
     private final StringRedisTemplate stringRedisTemplate;
     private final ObjectMapper objectMapper;
 
-    public RedissonRedisService(
+    public RedissonService(
         RedisTemplate<String, Object> redisTemplate,
         StringRedisTemplate stringRedisTemplate,
         ObjectMapper objectMapper
@@ -56,17 +57,29 @@ public class RedissonRedisService implements RedisService {
         try {
             String serializedValue = objectMapper.writeValueAsString(value);
             return Boolean.TRUE.equals(stringRedisTemplate.opsForValue()
-                .setIfAbsent(redisKey(key), serializedValue, duration));
+                .setIfAbsent(key, serializedValue, duration));
         } catch (Exception e) {
             // TODO logging
         }
-
         return false;
     }
 
     @Override
     public boolean delete(final String key) {
         return Boolean.TRUE.equals(stringRedisTemplate.delete(redisKey(key)));
+    }
+
+    @Override
+    public void setSeats(final String key, final String hashKey, final boolean value) {
+        redisTemplate.opsForHash().put(key, hashKey, value);
+    }
+
+    public Map<Object, Object> getSeats(final String key) {
+        return redisTemplate.opsForHash().entries(key);
+    }
+
+    public void selectedSeat(final String key, final String hashKey) {
+        redisTemplate.opsForHash().put(key, hashKey, Boolean.FALSE);
     }
 
     private String redisKey(final String key) {

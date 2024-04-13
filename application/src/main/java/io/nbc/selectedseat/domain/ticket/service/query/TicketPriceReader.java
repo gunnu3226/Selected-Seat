@@ -27,7 +27,7 @@ public class TicketPriceReader {
         return ticketPriceRepository.getTicketPricesByIds(ticketIds);
     }
 
-    public TicketPriceInfo getTicketPriceInfoByConcertIdAndRating(
+    public TicketPriceInfo getTicketPriceByConcertAndRating(
         final Long concertId,
         final TicketRating rating
     ) {

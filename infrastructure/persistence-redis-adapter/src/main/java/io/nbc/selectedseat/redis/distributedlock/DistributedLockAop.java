@@ -1,6 +1,6 @@
 package io.nbc.selectedseat.redis.distributedlock;
 
-import io.nbc.selectedseat.redis.service.RedissonRedisService;
+import io.nbc.selectedseat.redis.service.RedissonService;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class DistributedLockAop {
 
     private static final String LOCK_PREFIX = "SS_LOCK:";
     private final TransactionForLock transactionForLock;
-    private final RedissonRedisService redissonRedisService;
+    private final RedissonService redissonService;
 
     @Around("@annotation(io.nbc.selectedseat.redis.distributedlock.DistributedLock)")
     public Object lock(final ProceedingJoinPoint joinPoint) throws Throwable {
@@ -43,7 +43,7 @@ public class DistributedLockAop {
 
     private boolean isReserved(final String key) {
         return Boolean.FALSE.equals(
-            redissonRedisService.setIfAbsent(key, true,
+            redissonService.setIfAbsent(key, true,
                 Duration.ofSeconds(31 * 24 * 60 * 60))
         );
     }
