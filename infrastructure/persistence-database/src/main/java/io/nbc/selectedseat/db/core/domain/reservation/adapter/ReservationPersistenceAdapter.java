@@ -21,8 +21,8 @@ public class ReservationPersistenceAdapter implements ReservationRepository {
 
     @Override
     public Long createReservation(final Reservation reservation) {
-        return reservationJpaRepository.save(
-                ReservationEntity.from(reservation))
+        return reservationJpaRepository
+            .save(ReservationEntity.from(reservation))
             .getReservationId();
     }
 
