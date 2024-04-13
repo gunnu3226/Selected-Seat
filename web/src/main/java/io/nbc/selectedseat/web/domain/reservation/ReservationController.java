@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.web.domain.reservation;
 
+import io.nbc.selectedseat.domain.facade.reservation.ReservationFacade;
 import io.nbc.selectedseat.domain.reservation.dto.ReservationInfoDTO;
 import io.nbc.selectedseat.domain.reservation.service.command.ReservationWriter;
 import io.nbc.selectedseat.domain.reservation.service.query.ReservationReader;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
+    private final ReservationFacade reservationFacade;
     private final ReservationReader reservationReader;
     private final ReservationWriter reservationWriter;
 
@@ -50,11 +52,12 @@ public class ReservationController {
     public ResponseEntity<ResponseDTO<ReservationIdResponseDTO>> createReservation(
         @Validated @RequestBody ReservationCreateRequestDTO requestDTO
     ) {
-        Long reservationId = reservationWriter.createReservation(
+        Long reservationId = reservationFacade.createReservation(
             requestDTO.concertId(),
             requestDTO.memberId(),
             requestDTO.ticketId(),
-            requestDTO.ticketPriceId()
+            requestDTO.ticketPriceId(),
+            requestDTO.concertDateId()
         );
 
         return ResponseEntity.ok(ResponseDTO.<ReservationIdResponseDTO>builder()

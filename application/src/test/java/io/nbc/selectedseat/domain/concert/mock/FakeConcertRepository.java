@@ -85,6 +85,11 @@ public class FakeConcertRepository implements ConcertRepository {
         return null;
     }
 
+    @Override
+    public Optional<ConcertDate> getConcertDate(final Long concertId) {
+        return Optional.empty();
+    }
+
     private <T> void updateFieldIfNotNull(Concert updatedConcert, String fieldName, T value) {
         if (value != null) {
             ReflectionTestUtils.setField(updatedConcert, fieldName, value);

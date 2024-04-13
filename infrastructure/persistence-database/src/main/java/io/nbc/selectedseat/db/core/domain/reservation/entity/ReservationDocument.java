@@ -18,20 +18,27 @@ public class ReservationDocument {
     private String concertName;
     private String hall;
     private String ticketNumber;
-    private LocalDateTime startedAt;
+    private Long ticketPrice;
+    private LocalDateTime concertDate;
 
     public ReservationDocument() {
     }
 
-    public ReservationDocument(final Long reservationId,
+    public ReservationDocument(
+        final Long reservationId,
         final String memberEmail,
-        final String concertName, final String hall, final String ticketNumber,
-        final LocalDateTime startedAt) {
+        final String concertName,
+        final String hall,
+        final String ticketNumber,
+        final Long ticketPrice,
+        final LocalDateTime concertDate
+    ) {
         this.reservationId = reservationId;
         this.memberEmail = memberEmail;
         this.concertName = concertName;
         this.hall = hall;
         this.ticketNumber = ticketNumber;
-        this.startedAt = startedAt;
+        this.ticketPrice = ticketPrice;
+        this.concertDate = concertDate;
     }
 }

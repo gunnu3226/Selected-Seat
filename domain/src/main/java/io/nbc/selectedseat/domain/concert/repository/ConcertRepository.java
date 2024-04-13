@@ -19,7 +19,12 @@ public interface ConcertRepository {
     List<Concert> getConcerts();
 
     List<Concert> getConcertsByConcertIds(final List<Long> concertIds);
+
     Optional<ConcertRating> getConcertRating(final Long ratingId);
+
     List<ConcertDate> getConcertDates(final Long concertId);
+
     List<Concert> getConcertsByCategory(final Long categoryId);
+
+    Optional<ConcertDate> getConcertDate(Long concertId);
 }

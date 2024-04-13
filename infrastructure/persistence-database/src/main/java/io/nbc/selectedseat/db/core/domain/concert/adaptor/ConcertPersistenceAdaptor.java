@@ -76,4 +76,10 @@ public class ConcertPersistenceAdaptor implements ConcertRepository {
             .map(ConcertEntity::toModel)
             .toList();
     }
+
+    @Override
+    public Optional<ConcertDate> getConcertDate(final Long concertId) {
+        return concertDateJpaRepository.findById(concertId)
+            .map(ConcertDateEntity::toModel);
+    }
 }

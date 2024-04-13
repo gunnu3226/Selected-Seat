@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ConcertDateJpaRepository extends
-    JpaRepository<ConcertDateEntity, String> {
+    JpaRepository<ConcertDateEntity, Long> {
 
     List<ConcertDateEntity> findAllByConcertId(final Long concertId);
 }

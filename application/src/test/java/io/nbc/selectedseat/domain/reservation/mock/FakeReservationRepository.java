@@ -27,6 +27,7 @@ public class FakeReservationRepository implements ReservationRepository {
         final String concertName,
         final String memberEmail,
         final String ticketNumber,
+        final Long ticketPrice,
         final LocalDateTime startedAt
     ) {
 
