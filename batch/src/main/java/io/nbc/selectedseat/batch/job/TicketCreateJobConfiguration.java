@@ -66,9 +66,9 @@ public class TicketCreateJobConfiguration {
     private static String ticketCreateBatchSql() {
         return """
             INSERT INTO
-                tickets(concert_id, ticket_rating, ticket_number, created_at, modified_at, deleted_at)
+                tickets(concert_id, concert_date_id, ticket_rating, ticket_number, created_at, modified_at, deleted_at)
             VALUES
-                (:concertId, :ticketRating, :ticketNumber, :createdAt, :modifiedAt, :deletedAt)
+                (:concertId, :concertDateId, :ticketRating, :ticketNumber, :createdAt, :modifiedAt, :deletedAt)
             """;
     }
 }

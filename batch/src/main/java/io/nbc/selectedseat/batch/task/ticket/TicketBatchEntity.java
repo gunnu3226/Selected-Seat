@@ -15,6 +15,7 @@ public class TicketBatchEntity {
 
     private Long ticketId;
     private Long concertId;
+    private Long concertDateId;
     private String ticketRating;
     private String ticketNumber;
     private LocalDateTime createdAt;
@@ -25,6 +26,7 @@ public class TicketBatchEntity {
         return new TicketBatchEntity(
             ticket.getTicketId(),
             ticket.getConcertId(),
+            ticket.getConcertDateId(),
             ticket.getTicketRating().toString(),
             ticket.getTicketNumber(),
             ticket.getCreatedAt(),
