@@ -2,6 +2,8 @@ package io.nbc.selectedseat.domain.reservation.mock;
 
 import io.nbc.selectedseat.domain.reservation.model.Reservation;
 import io.nbc.selectedseat.domain.reservation.repository.ReservationRepository;
+import io.nbc.selectedseat.domain.ticket.model.Ticket;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,19 @@ public class FakeReservationRepository implements ReservationRepository {
     @Override
     public Long createReservation(final Reservation reservation) {
         return 1L;
+    }
+
+    @Override
+    public String createReservationDocument(
+        final Long reservationId,
+        final String hall,
+        final String concertName,
+        final String memberEmail,
+        final String ticketNumber,
+        final LocalDateTime startedAt
+    ) {
+
+        return null;
     }
 
     @Override
