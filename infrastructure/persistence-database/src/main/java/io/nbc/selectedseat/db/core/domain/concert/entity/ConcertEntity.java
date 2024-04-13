@@ -35,7 +35,7 @@ public class ConcertEntity extends BaseEntity {
     @Column(name = "rating_id", nullable = false)
     public Long ratingId;
 
-    @Column(name = "stateId", nullable = false)
+    @Column(name = "state_id", nullable = false)
     public Long stateId;
 
     @Column(name = "region_id", nullable = false)
