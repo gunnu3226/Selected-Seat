@@ -1,4 +1,6 @@
 bootJar.enabled = true
+jar.enabled = false
+
 dependencies {
     implementation(project(":application"))
     implementation(project(":common:common-security"))

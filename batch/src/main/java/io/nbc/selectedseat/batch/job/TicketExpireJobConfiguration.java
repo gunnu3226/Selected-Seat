@@ -1,8 +1,10 @@
 package io.nbc.selectedseat.batch.job;
 
 import io.nbc.selectedseat.batch.task.ticket.TicketBatchEntity;
+import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertDateEntity;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertEntity;
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketEntity;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
@@ -33,45 +35,45 @@ public class TicketExpireJobConfiguration {
 
     @Bean
     public Job ticketExpireJob(
-        final Step preConcertReadStep,
+        final Step concertDateReadJob,
         final Step ticketExpireStep
     ) {
         return new JobBuilder("ticketExpireJob", jobRepository)
-            .start(preConcertReadStep)
+            .start(concertDateReadJob)
             .next(ticketExpireStep)
             .build();
     }
 
     @Bean
-    public Step preConcertReadStep(
-        final ItemReader<ConcertEntity> preConcertItemReader,
-        final ItemWriter<ConcertEntity> preConcertItemWriter,
-        final ExecutionContextPromotionListener preConcertPromotionListener
+    public Step concertDateReadJob(
+        final ItemReader<ConcertDateEntity> concertDateItemReader,
+        final ItemWriter<ConcertDateEntity> concertDateItemWriter,
+        final ExecutionContextPromotionListener concertDatePromotionListener
     ) {
-        return new StepBuilder("preConcertReadJob", jobRepository)
-            .<ConcertEntity, ConcertEntity>chunk(CHUNK_SIZE,
+        return new StepBuilder("concertDateReadJob", jobRepository)
+            .<ConcertDateEntity, ConcertDateEntity>chunk(CHUNK_SIZE,
                 platformTransactionManager)
-            .reader(preConcertItemReader)
-            .writer(preConcertItemWriter)
-            .listener(preConcertPromotionListener)
+            .reader(concertDateItemReader)
+            .writer(concertDateItemWriter)
+            .listener(concertDatePromotionListener)
             .allowStartIfComplete(true)
             .build();
     }
 
     @Bean
-    public ItemReader<ConcertEntity> preConcertItemReader(
+    public ItemReader<ConcertDateEntity> concertDateItemReader(
         final EntityManagerFactory entityManagerFactory
     ) {
-        return new JpaPagingItemReaderBuilder<ConcertEntity>()
-            .name("entityManagerFactory")
+        return new JpaPagingItemReaderBuilder<ConcertDateEntity>()
+            .name("concertDateItemReader")
             .entityManagerFactory(entityManagerFactory)
             .pageSize(CHUNK_SIZE)
-            .queryString("SELECT t FROM ConcertEntity t ORDER BY t.id ASC")
+            .queryString("SELECT c FROM ConcertDateEntity c WHERE DATEDIFF(c.concertDate, NOW()) < 0 ORDER BY c.concertDateId")
             .build();
     }
 
     @Bean
-    public ExecutionContextPromotionListener preConcertPromotionListener() {
+    public ExecutionContextPromotionListener concertDatePromotionListener() {
         final ExecutionContextPromotionListener executionContextPromotionListener
             = new ExecutionContextPromotionListener();
 

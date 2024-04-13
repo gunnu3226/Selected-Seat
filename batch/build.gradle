@@ -1,3 +1,5 @@
+bootJar.enabled = true
+jar.enabled = false
 dependencies {
     implementation(project(":application"))
     implementation(project(":domain")) // TODO: just for init test

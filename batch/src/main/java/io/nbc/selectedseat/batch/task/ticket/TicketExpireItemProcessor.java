@@ -19,7 +19,7 @@ public class TicketExpireItemProcessor implements
     @Override
     public TicketBatchEntity process(final TicketEntity ticket)
         throws Exception {
-        if (this.concertExpiredMap.get(ticket.getConcertId())) {
+        if (this.concertExpiredMap.get(ticket.getConcertDateId()) != null) {
             ticket.setDeletedAt(LocalDateTime.now());
         }
 
