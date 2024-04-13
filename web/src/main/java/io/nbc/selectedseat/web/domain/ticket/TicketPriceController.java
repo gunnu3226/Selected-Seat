@@ -74,7 +74,7 @@ public class TicketPriceController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/concert/{concertId}")
+    @GetMapping("/concerts/{concertId}")
     public ResponseEntity<ResponseDTO<List<TicketPriceInfo>>> getTicketPriceByConcertId(
         @PathVariable Long concertId
     ) {
