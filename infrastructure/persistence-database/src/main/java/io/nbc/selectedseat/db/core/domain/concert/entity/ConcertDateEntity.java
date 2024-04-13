@@ -24,11 +24,11 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "concert_dates")
 @SQLRestriction(value = "deleted_at is NULL")
-@SQLDelete(sql = "update concert_dates set deleted_at = now() where id = ?")
+@SQLDelete(sql = "update concert_dates set deleted_at = now() where concert_date_id = ?")
 public class ConcertDateEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "concer_date_id")
+    @Column(name = "concert_date_id")
     private Long concertDateId;
     @Column(name = "concert_id", nullable = false)
     private Long concertId;
