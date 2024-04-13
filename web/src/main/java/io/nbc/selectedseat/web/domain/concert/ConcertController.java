@@ -1,5 +1,7 @@
 package io.nbc.selectedseat.web.domain.concert;
 
+import io.nbc.selectedseat.domain.concert.dto.ConcertDateResponseDTO;
+import io.nbc.selectedseat.domain.concert.dto.GetConcertRatingResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
 import io.nbc.selectedseat.domain.concert.service.command.ConcertWriter;
 import io.nbc.selectedseat.domain.concert.service.query.ConcertReader;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -97,14 +100,40 @@ public class ConcertController {
 
     @GetMapping
     public ResponseEntity<ResponseDTO<List<GetConcertResponseDTO>>> getConcerts(
+        @RequestParam("category") Long categoryId
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(
             ResponseDTO.<List<GetConcertResponseDTO>>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message("콘서트 전체 조회 성공")
-                .data(concertReader.getConcerts())
+                .data(concertReader.getConcertsByCategory(categoryId))
                 .build()
         );
     }
 
+    @GetMapping("/rating/{ratingId}")
+    public ResponseEntity<ResponseDTO<GetConcertRatingResponseDTO>> getConcertRating(
+        @PathVariable Long ratingId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<GetConcertRatingResponseDTO>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("콘서트 등급 조회 성공")
+                .data(concertReader.getConcertRating(ratingId))
+                .build()
+        );
+    }
+
+    @GetMapping("/dates/{concertId}")
+    public ResponseEntity<ResponseDTO<List<ConcertDateResponseDTO>>> getConcertDates(
+        @PathVariable Long concertId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<List<ConcertDateResponseDTO>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("콘서트 일정 조회 성공")
+                .data(concertReader.getConcertDates(concertId))
+                .build()
+        );
+    }
 }
