@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.web.domain.reservation;
 
+import io.nbc.selectedseat.domain.facade.reservation.ReservationFacade;
 import io.nbc.selectedseat.domain.reservation.dto.ReservationInfoDTO;
 import io.nbc.selectedseat.domain.reservation.service.command.ReservationWriter;
 import io.nbc.selectedseat.domain.reservation.service.query.ReservationReader;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @RequestMapping("/api/v1/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
+    private final ReservationFacade reservationFacade;
     private final ReservationReader reservationReader;
     private final ReservationWriter reservationWriter;
 
@@ -53,17 +55,28 @@ public class ReservationController {
     public ResponseEntity<ResponseDTO<ReservationIdResponseDTO>> createReservation(
         @Validated @RequestBody ReservationCreateRequestDTO requestDTO
     ) {
-        Long reservationId = reservationWriter.createReservation(
+        Long reservationId = reservationFacade.createReservation(
             requestDTO.concertId(),
             requestDTO.memberId(),
             requestDTO.ticketId(),
-            requestDTO.ticketPriceId()
+            requestDTO.concertDateId()
         );
 
         return ResponseEntity.ok(ResponseDTO.<ReservationIdResponseDTO>builder()
             .statusCode(HttpStatus.OK.value())
             .message("예약을 생성했습니다")
             .data(new ReservationIdResponseDTO(reservationId))
+            .build());
+    }
+
+    @PostMapping("/{reservationId}")
+    public ResponseEntity<ResponseDTO<ReservationIdResponseDTO>> confirmReservation(
+        @PathVariable("reservationId") Long reservationId
+    ){
+        reservationFacade.createReservationDocument(reservationId);
+        return ResponseEntity.ok(ResponseDTO.<ReservationIdResponseDTO>builder()
+            .statusCode(HttpStatus.OK.value())
+            .message("예약을 확정이 완료되었습니다")
             .build());
     }
 

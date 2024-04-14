@@ -33,6 +33,9 @@ public class TicketEntity extends BaseEntity {
     @Column(name = "concert_id", nullable = false)
     private Long concertId;
 
+    @Column(name = "concert_date_id", nullable = false)
+    private Long concertDateId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "ticket_rating", nullable = false)
     private TicketRating ticketRating;
@@ -43,6 +46,7 @@ public class TicketEntity extends BaseEntity {
     public static TicketEntity from(final Ticket ticket) {
         return TicketEntity.builder()
             .concertId(ticket.getConcertId())
+            .concertDateId(ticket.getConcertDateId())
             .ticketRating(ticket.getTicketRating())
             .ticketNumber(ticket.getTicketNumber())
             .build();
@@ -54,6 +58,7 @@ public class TicketEntity extends BaseEntity {
             .ticketRating(ticketRating)
             .ticketNumber(ticketNumber)
             .ticketId(ticketId)
+            .concertDateId(concertDateId)
             .createdAt(getCreatedAt())
             .modifiedAt(getModifiedAt())
             .build();

@@ -2,6 +2,7 @@
   <section class="py-5">
     <CategoryList
         :selectedCategory="selectedCategory"
+        :categories="categories"
         @selectCategory="selectCategory"
     >
     </CategoryList>
@@ -26,18 +27,36 @@ import ConcertItem from '@/components/concert/ConcertItem.vue';
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {getConcertByCategory} from '@/api/concert.js'
+import {getCategories} from "@/api/category.js";
 
-const selectedCategory = ref(8);
+const selectedCategory = ref('아이돌');
 const concertList = ref([]);
+const categories = ref({
+  "아이돌": 0,
+  "발라드": 0,
+  "페스티벌": 0,
+  "인디/록": 0,
+  "투어": 0,
+  "힙합": 0,
+  "팬클럽": 0,
+  "그 외": 0,
+});
+
 (async () => {
+  const categoryResponse = await getCategories();
+  categoryResponse.data.data.forEach((category) => {
+    categories.value[category.name] = category.categoryId;
+  });
+
   const response = await getConcertByCategory(
-      {category: selectedCategory.value});
+      {category: categories.value[selectedCategory.value]});
   concertList.value = response.data.data;
 })();
 
-const selectCategory = async (category) => {
-  selectedCategory.value = category;
-  const response = await getConcertByCategory({category: category});
+const selectCategory = async (categoryId, name) => {
+  console.log(categoryId, name);
+  selectedCategory.value = name;
+  const response = await getConcertByCategory({category: categoryId});
   concertList.value = response.data.data;
 };
 

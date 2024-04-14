@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.batch.job.ticket;
+package io.nbc.selectedseat.batch.entity;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

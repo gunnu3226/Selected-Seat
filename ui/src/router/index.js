@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import ConcertListView from '@/views/concert/ConcertListView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 import LoginView from '@/views/auth/LoginView.vue';
@@ -6,51 +6,59 @@ import SignupView from '@/views/auth/SignupView.vue';
 import MyPageView from '@/views/member/MyPageView.vue';
 import TicketSelectView from '@/views/ticket/TicketSelectView.vue';
 import ConcertDetailView from '@/views/concert/ConcertDetailView.vue';
+import TicketReservationView
+  from "@/views/reservation/TicketReservationView.vue";
 
 const routes = [
-	{
-		path: '/:pathMache(.*)*',
-		name: 'NotFound',
-		component: NotFoundView,
-	},
-	{
-		path: '/',
-		name: 'ConcertListView',
-		component: ConcertListView,
-		props: true,
-	},
-	{
-		path: '/login',
-		name: 'LoginView',
-		component: LoginView,
-	},
-	{
-		path: '/signup',
-		name: 'SignupView',
-		component: SignupView,
-	},
-	{
-		path: '/mypage',
-		name: 'MyPageView',
-		component: MyPageView,
-	},
-	{
-		path: '/concerts/:id',
-		name: 'ConcertDetailView',
-		component: ConcertDetailView,
-		props: true,
-	},
-	{
-		path: '/ticket/select',
-		name: 'TicketSelectView',
-		component: TicketSelectView,
-		props: true,
-	},
+  {
+    path: '/:pathMache(.*)*',
+    name: 'NotFound',
+    component: NotFoundView,
+  },
+  {
+    path: '/',
+    name: 'ConcertListView',
+    component: ConcertListView,
+    props: true,
+  },
+  {
+    path: '/login',
+    name: 'LoginView',
+    component: LoginView,
+  },
+  {
+    path: '/signup',
+    name: 'SignupView',
+    component: SignupView,
+  },
+  {
+    path: '/mypage',
+    name: 'MyPageView',
+    component: MyPageView,
+  },
+  {
+    path: '/concerts/:id',
+    name: 'ConcertDetailView',
+    component: ConcertDetailView,
+    props: true,
+  },
+  {
+    path: '/ticket/select',
+    name: 'TicketSelectView',
+    component: TicketSelectView,
+    props: true,
+  },
+  {
+    path: '/ticket/reservation',
+    name: 'TicketReservationView',
+    component: TicketReservationView,
+    props: true,
+  }
 ];
 
 const router = createRouter({
-	history: createWebHistory('/'),
-	routes: routes,
+  history: createWebHistory('/'),
+  routes: routes,
 });
 
 export default router;

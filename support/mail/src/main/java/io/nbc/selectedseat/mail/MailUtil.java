@@ -9,6 +9,7 @@ import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -20,6 +21,9 @@ public class MailUtil {
 
     private final AmazonSimpleEmailService amazonSimpleEmailService;
     private final TemplateEngine templateEngine;
+
+    @Value("${email.host}")
+    private String hostEmail;
 
     public void send(
         final String title,
@@ -62,7 +66,7 @@ public class MailUtil {
     ) {
         return new SendEmailRequest()
             .withDestination(new Destination().withToAddresses(to))
-            .withSource("") // TODO: will change
+            .withSource(hostEmail) // TODO: will change
             .withMessage(
                 new Message()
                     .withSubject(

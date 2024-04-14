@@ -1,5 +1,5 @@
-import { ticketPrice } from '@/api/index';
+import {ticketPrice} from '@/api/index';
 
 export function getTicketPrice(id) {
-	return ticketPrice.get(`/concert/${id}`);
+  return ticketPrice.get(`/concerts/${id}`);
 }

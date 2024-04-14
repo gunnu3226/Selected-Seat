@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class Ticket {
     private Long ticketId;
     private Long concertId;
+    private Long concertDateId;
     private TicketRating ticketRating;
     private String ticketNumber;
     private LocalDateTime createdAt;

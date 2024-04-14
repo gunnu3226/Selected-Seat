@@ -3,9 +3,11 @@ package io.nbc.selectedseat.domain.concert.service.query;
 import io.nbc.selectedseat.domain.concert.dto.ConcertDateResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertRatingResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
+import io.nbc.selectedseat.domain.concert.exception.ConcertDateExistException;
 import io.nbc.selectedseat.domain.concert.exception.ConcertExistException;
 import io.nbc.selectedseat.domain.concert.exception.ConcertRatingExistException;
 import io.nbc.selectedseat.domain.concert.model.Concert;
+import io.nbc.selectedseat.domain.concert.model.ConcertDate;
 import io.nbc.selectedseat.domain.concert.model.ConcertRating;
 import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
 import java.util.List;
@@ -58,5 +60,11 @@ public class ConcertReader {
         return concertRepository.getConcertDates(concertId).stream()
             .map(ConcertDateResponseDTO::from)
             .toList();
+    }
+
+    public ConcertDateResponseDTO getConcertDate(final Long concertId) {
+        ConcertDate concertDate = concertRepository.getConcertDate(concertId)
+            .orElseThrow(ConcertDateExistException::new);
+        return ConcertDateResponseDTO.from(concertDate);
     }
 }

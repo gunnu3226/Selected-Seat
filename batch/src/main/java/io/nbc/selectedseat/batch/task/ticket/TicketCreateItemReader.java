@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.batch.job.ticket;
+package io.nbc.selectedseat.batch.task.ticket;
 
 import static io.nbc.selectedseat.domain.ticket.model.TicketRating.A;
 import static io.nbc.selectedseat.domain.ticket.model.TicketRating.R;
@@ -31,6 +31,9 @@ public class TicketCreateItemReader implements ItemReader<TicketBatchEntity>,
     @Value("#{jobParameters['concertId']}")
     private Long concertId;
 
+    @Value("#{jobParameters['concertDateId']}")
+    private Long concertDateId;
+
     @Value("#{jobParameters['numOfRow']}")
     private Long numOfRow;
 
@@ -57,12 +60,20 @@ public class TicketCreateItemReader implements ItemReader<TicketBatchEntity>,
     public void beforeStep(final StepExecution stepExecution) {
         List<TicketBatchEntity> allSeats = new ArrayList<>();
 
-        allSeats.addAll(generateTicketsByRating(numOfRRatingTicket, numOfRow, R,
-            concertId));
-        allSeats.addAll(generateTicketsByRating(numOfSRatingTicket, numOfRow, S,
-            concertId));
-        allSeats.addAll(generateTicketsByRating(numOfARatingTicket, numOfRow, A,
-            concertId));
+        allSeats.addAll(
+            generateTicketsByRating(numOfRRatingTicket, numOfRow, R, concertId,
+                concertDateId)
+        );
+
+        allSeats.addAll(
+            generateTicketsByRating(numOfSRatingTicket, numOfRow, S, concertId,
+                concertDateId)
+        );
+
+        allSeats.addAll(
+            generateTicketsByRating(numOfARatingTicket, numOfRow, A, concertId,
+                concertDateId)
+        );
 
         this.iterator = allSeats.iterator();
     }
@@ -71,14 +82,15 @@ public class TicketCreateItemReader implements ItemReader<TicketBatchEntity>,
         final Long numOfSeats,
         final Long numOfRow,
         final TicketRating ticketRating,
-        final Long concertId
+        final Long concertId,
+        final Long concertDateId
     ) {
 
         List<TicketBatchEntity> ticketBatchEntities = new ArrayList<>();
 
         for (int i = 0; i < numOfSeats; i++) {
             String ticketNumber =
-                ((i / numOfRow) + 1) + "행:" + ((i % numOfRow) + 1) + "열";
+                ((i / numOfRow) + 1) + ":" + ((i % numOfRow) + 1);
 
             LocalDateTime now = LocalDateTime.now();
 
@@ -88,6 +100,7 @@ public class TicketCreateItemReader implements ItemReader<TicketBatchEntity>,
                 .ticketRating(ticketRating.toString())
                 .ticketNumber(ticketNumber)
                 .concertId(concertId)
+                .concertDateId(concertDateId)
                 .build());
         }
 
