@@ -25,6 +25,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class TicketSeatKeyGenerationJobConfiguration {
 
+    public static final String CONCERT_DATE_1DAYS_BEFORE_QUERY = "select c from ConcertDateEntity c WHERE DATEDIFF(c.concertDate, NOW()) = 1 ORDER BY c.concertDateId";
+    public static final String CONCERT_1DAYS_BEFORE_TICKET_QUERY = "SELECT t FROM TicketEntity t ORDER BY t.ticketId";
+
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
     private final Integer CHUNK_SIZE = 1000;
@@ -81,7 +84,7 @@ public class TicketSeatKeyGenerationJobConfiguration {
             .name("concertDate1DayBeforeItemReader")
             .entityManagerFactory( entityManagerFactory)
             .pageSize(CHUNK_SIZE)
-            .queryString("select c from ConcertDateEntity c WHERE DATEDIFF(c.concertDate, NOW()) = 1 ORDER BY c.concertDateId")
+            .queryString(CONCERT_DATE_1DAYS_BEFORE_QUERY)
             .build();
 
     }
@@ -105,7 +108,7 @@ public class TicketSeatKeyGenerationJobConfiguration {
             .name("concert1DayBeforeTicketItemReader")
             .entityManagerFactory(entityManagerFactory)
             .pageSize(CHUNK_SIZE)
-            .queryString("SELECT t FROM TicketEntity t ORDER BY t.ticketId")
+            .queryString(CONCERT_1DAYS_BEFORE_TICKET_QUERY)
             .build();
     }
 }

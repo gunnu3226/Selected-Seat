@@ -29,6 +29,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class TicketExpireJobConfiguration {
 
+    public static final String CONCERT_DATE_QUERY = "SELECT c FROM ConcertDateEntity c WHERE DATEDIFF(c.concertDate, NOW()) < 0 ORDER BY c.concertDateId";
+    public static final String TICKET_EXPIRE_QUERY = "SELECT t FROM TicketEntity t WHERE t.deletedAt IS NULL ORDER BY t.id ASC";
+    public static final String TICKET_UPDATE_QUERY = "UPDATE tickets SET deleted_at = :deletedAt WHERE ticket_id = :ticketId";
+
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
     private final Integer CHUNK_SIZE = 5000;
@@ -68,7 +72,7 @@ public class TicketExpireJobConfiguration {
             .name("concertDateItemReader")
             .entityManagerFactory(entityManagerFactory)
             .pageSize(CHUNK_SIZE)
-            .queryString("SELECT c FROM ConcertDateEntity c WHERE DATEDIFF(c.concertDate, NOW()) < 0 ORDER BY c.concertDateId")
+            .queryString(CONCERT_DATE_QUERY)
             .build();
     }
 
@@ -107,8 +111,7 @@ public class TicketExpireJobConfiguration {
             .name("ticketExpireItemReader")
             .entityManagerFactory(entityManagerFactory)
             .pageSize(CHUNK_SIZE)
-            .queryString(
-                "SELECT t FROM TicketEntity t WHERE t.deletedAt IS NULL ORDER BY t.id ASC")
+            .queryString(TICKET_EXPIRE_QUERY)
             .build();
     }
 
@@ -118,12 +121,8 @@ public class TicketExpireJobConfiguration {
     ) {
         return new JdbcBatchItemWriterBuilder<TicketBatchEntity>()
             .dataSource(masterDataSource)
-            .sql(ticketUpdateSql())
+            .sql(TICKET_UPDATE_QUERY)
             .beanMapped()
             .build();
-    }
-
-    private static String ticketUpdateSql() {
-        return "UPDATE tickets SET deleted_at = :deletedAt WHERE ticket_id = :ticketId";
     }
 }

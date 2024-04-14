@@ -37,6 +37,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class ConcertAdvanceNotificationJobConfiguration {
 
+    public static final String RESERVATION_READ_QUERY = "SELECT r FROM ReservationEntity r ORDER BY r.reservationId";
+    public static final String CONCERT_3DAYS_BEFORE_QUERY = "SELECT c FROM ConcertEntity c WHERE DATEDIFF(c.startedAt,NOW()) > 0 AND DATEDIFF(c.startedAt, NOW()) <= 3 ORDER BY c.concertId";
+
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
     private final Integer CHUNK_SIZE = 5000;
@@ -83,12 +86,8 @@ public class ConcertAdvanceNotificationJobConfiguration {
             .name("concertAdvanceNotificationItemReader")
             .entityManagerFactory(entityManagerFactory)
             .pageSize(CHUNK_SIZE)
-            .queryString(getConcert3DaysBeforeStart())
+            .queryString(CONCERT_3DAYS_BEFORE_QUERY)
             .build();
-    }
-
-    private static String getConcert3DaysBeforeStart() {
-        return "SELECT c FROM ConcertEntity c WHERE DATEDIFF(c.startedAt,NOW()) > 0 AND DATEDIFF(c.startedAt, NOW()) <= 3 ORDER BY c.concertId ";
     }
 
     @Bean
@@ -110,8 +109,7 @@ public class ConcertAdvanceNotificationJobConfiguration {
             .name("reservationItemReader")
             .entityManagerFactory(entityManagerFactory)
             .pageSize(CHUNK_SIZE)
-            .queryString(
-                "SELECT r FROM ReservationEntity r ORDER BY r.reservationId")
+            .queryString(RESERVATION_READ_QUERY)
             .build();
     }
 
