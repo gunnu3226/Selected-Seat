@@ -39,14 +39,12 @@ const categories = ref({
   "투어": 0,
   "힙합": 0,
   "팬클럽": 0,
-  "그외": 0,
+  "그 외": 0,
 });
 
 (async () => {
   const categoryResponse = await getCategories();
   categoryResponse.data.data.forEach((category) => {
-    console.log(category)
-
     categories.value[category.name] = category.categoryId;
   });
 

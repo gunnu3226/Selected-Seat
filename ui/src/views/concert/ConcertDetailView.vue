@@ -1,14 +1,14 @@
 <template>
-  <div class="container px-4" style="width: 100%">
-    <div class="mt-5" style="width: 100%">
+  <div class="container px-4" style="width: 100%;">
+    <div class="mt-5" style="width: 100%; height: 500px;">
       <div class="concert-wrapper" style="border-color: #dacced">
         <div
             class="concert-info-wrapper d-flex"
-            style="height: 100%; width: 100%"
+            style="height: 500px; width: 100%"
         >
           <div class="">
             <img
-                src="/src/assets/logo.svg"
+                :src="concertInfo.thumbnail"
                 class="img-fluid rounded-start thumbnail"
                 alt="..."
             />
@@ -168,6 +168,8 @@ const reservation = () => {
 
 .thumbnail {
   height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
 }
 
 .concert-info {
@@ -212,7 +214,7 @@ const reservation = () => {
 }
 
 .reservation-form {
-  margin-top: 10rem;
+  margin-top: 5rem;
 }
 
 .input-wrapper {

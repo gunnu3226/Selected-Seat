@@ -4,7 +4,7 @@
       <div class="card">
         <div class="row" style="width: 100%; height: 400px; max-height: 500px">
           <div class="col">
-            <img src="..." class="img-fluid rounded-start" alt="...">
+            <img :src="concertInfo.thumbnail" class="img-fluid rounded-start" alt="...">
           </div>
           <div class=" col-8 d-flex flex-column justify-content-between">
             <div class="col">
