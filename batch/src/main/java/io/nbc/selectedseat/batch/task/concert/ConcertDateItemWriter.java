@@ -40,7 +40,7 @@ public class ConcertDateItemWriter implements
     @Override
     public void beforeStep(final StepExecution stepExecution) {
         this.stepExecution = stepExecution;
-        final ConcurrentMap<Long, Boolean> concertExpiredMap // concurrent Map
+        final ConcurrentMap<Long, Boolean> concertExpiredMap
             = new ConcurrentHashMap<>();
 
         stepExecution.getExecutionContext()
