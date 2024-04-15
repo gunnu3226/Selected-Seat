@@ -20,7 +20,7 @@ public record ConcertDetailInfo(
 
 ) {
 
-    public static ConcertDetailInfo from(ConcertDocument concertDocument) {
+    public static ConcertDetailInfo from(final ConcertDocument concertDocument) {
         return new ConcertDetailInfo(
             concertDocument.getId(),
             concertDocument.getName(),

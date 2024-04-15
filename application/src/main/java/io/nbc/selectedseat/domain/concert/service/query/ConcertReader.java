@@ -75,7 +75,7 @@ public class ConcertReader {
             results);
     }
 
-    public List<SearchSuggestionResponseDTO> searchSuggestions(String keyword)
+    public List<SearchSuggestionResponseDTO> searchSuggestions(final String keyword)
         throws IOException {
         return concertSearchQueryMapper.searchSuggestions(keyword).stream()
             .map(SearchSuggestionResponseDTO::from)
