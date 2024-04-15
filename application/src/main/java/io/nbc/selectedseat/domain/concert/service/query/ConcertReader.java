@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.domain.concert.service.query;
 
+import io.nbc.selectedseat.common.WebPage;
 import io.nbc.selectedseat.domain.concert.dto.ConcertDateResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertRatingResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
@@ -10,8 +11,16 @@ import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.model.ConcertDate;
 import io.nbc.selectedseat.domain.concert.model.ConcertRating;
 import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
+import io.nbc.selectedseat.domain.concert.service.dto.ConcertDetailInfo;
+import io.nbc.selectedseat.domain.concert.service.dto.ConcertSearchRequestDTO;
+import io.nbc.selectedseat.domain.concert.service.dto.SearchSuggestionResponseDTO;
+import io.nbc.selectedseat.elasticsearch.domain.concert.document.ConcertDocument;
+import io.nbc.selectedseat.elasticsearch.domain.concert.dto.ConcertSearchMapperDTO;
+import io.nbc.selectedseat.elasticsearch.domain.concert.mapper.ConcertSearchQueryMapper;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ConcertReader {
 
     private final ConcertRepository concertRepository;
+    private final ConcertSearchQueryMapper concertSearchQueryMapper;
 
     public GetConcertResponseDTO getConcert(final Long concertId) {
         Concert concert = concertRepository.findById(concertId)
@@ -36,6 +46,40 @@ public class ConcertReader {
 
     public List<Concert> getConcertsByConcertIds(final List<Long> concertIds) {
         return concertRepository.getConcertsByConcertIds(concertIds);
+    }
+
+    public WebPage<List<ConcertDetailInfo>> searchConcertByTextAndFilter(
+        final ConcertSearchRequestDTO requestDTO,
+        final int page,
+        final int size
+    ) throws IOException {
+        ConcertSearchMapperDTO concertSearchMapperDTO = new ConcertSearchMapperDTO(
+            requestDTO.text(),
+            requestDTO.region(),
+            requestDTO.category(),
+            requestDTO.state(),
+            requestDTO.concertRating());
+
+        Page<ConcertDocument> concertDocumentPage = concertSearchQueryMapper.searchConcertByTextAndFilter(
+            concertSearchMapperDTO, page, size);
+
+        List<ConcertDetailInfo> results = concertDocumentPage.getContent().stream()
+            .map(ConcertDetailInfo::from)
+            .toList();
+
+        return new WebPage<>(
+            results.size(),
+            concertDocumentPage.getTotalElements(),
+            concertDocumentPage.getNumber(),
+            concertDocumentPage.getTotalPages(),
+            results);
+    }
+
+    public List<SearchSuggestionResponseDTO> searchSuggestions(final String keyword)
+        throws IOException {
+        return concertSearchQueryMapper.searchSuggestions(keyword).stream()
+            .map(SearchSuggestionResponseDTO::from)
+            .toList();
     }
 
     public GetConcertRatingResponseDTO getConcertRating(

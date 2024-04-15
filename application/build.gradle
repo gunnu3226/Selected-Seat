@@ -5,6 +5,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":common:common-security"))
     implementation(project(":infrastructure:persistence-database"))
+    implementation(project(":infrastructure:persistence-elasticsearch"))
     implementation(project(":infrastructure:persistence-redis-adapter"))
 
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
