@@ -28,6 +28,7 @@ public class TicketBatchJobController {
 
         final JobParameters jobParameters = new JobParametersBuilder()
             .addLong("concertId", ticket.concertId())
+            .addLong("concertDateId", ticket.concertDateId())
             .addLong("numOfRow", ticket.numOfRow())
             .addLong("numOfRRatingTicket", ticket.numOfRRatingTicket())
             .addLong("numOfSRatingTicket", ticket.numOfSRatingTicket())

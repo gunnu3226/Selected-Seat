@@ -20,9 +20,11 @@ public class TicketPriceWriter {
 
     public TicketPriceInfo createTicketPrice(
         final Long concertId,
-        final TicketRating ticketRating,
+        final String ticketRatingString,
         final Long price
     ) {
+        TicketRating ticketRating = TicketRating.valueOf(ticketRatingString);
+
         if (findTicketPrice(concertId, ticketRating).isPresent()) {
             throw new ExistTicketPriceException("이미 등록된 등급의 콘서트 티켓 가격입니다. 수정을 이용해주세요");
         }

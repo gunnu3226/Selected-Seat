@@ -29,10 +29,11 @@ public class MemberWriter {
     private final MemberRepository memberRepository;
     private final PasswordUtil passwordUtil;
 
+    private final String profile = "https://actions-cicdtest-bucket.s3.ap-northeast-2.amazonaws.com/images/profile/default.jpg";
+
     public MemberInfo signup(
         final String email,
         final String password,
-        final String profile,
         final LocalDate birth
     ) {
         if (memberRepository.findByEmail(email).isPresent()) {
@@ -49,6 +50,10 @@ public class MemberWriter {
             .coin(0L)
             .build());
         return MemberInfo.from(savedMember);
+    }
+
+    public Long updateMember(final Long memberId, final String profile) {
+        return memberRepository.updateProfile(memberId, profile);
     }
 
     public void deleteMember(final Long memberId, final String password) {

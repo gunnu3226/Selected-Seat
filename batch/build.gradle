@@ -1,15 +1,21 @@
+bootJar.enabled = true
+jar.enabled = false
 dependencies {
     implementation(project(":application"))
     implementation(project(":domain")) // TODO: just for init test
     implementation(project(":common:common-security"))
     implementation(project(":support:monitoring"))
     implementation(project(":support:notification"))
+    implementation(project(":support:mail"))
+    implementation(project(":infrastructure:persistence-database"))
+    implementation(project(":infrastructure:persistence-redis-adapter"))
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
-    // spring batch
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     testImplementation 'org.springframework.batch:spring-batch-test'
 }

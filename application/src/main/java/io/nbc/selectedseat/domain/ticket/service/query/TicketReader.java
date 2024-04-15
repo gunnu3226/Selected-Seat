@@ -27,7 +27,8 @@ public class TicketReader {
 
     public TicketInfo getTicket(final Long ticketId) {
         Ticket ticket = ticketRepository.getTicket(ticketId)
-            .orElseThrow(() -> new CustomTicketException(TicketExceptionCode.NOT_FOUND));
+            .orElseThrow(
+                () -> new CustomTicketException(TicketExceptionCode.NOT_FOUND));
         return TicketInfo.from(ticket);
     }
 
@@ -38,7 +39,9 @@ public class TicketReader {
             .toList();
     }
 
-    public List<TicketAndPrice> getTicketsAndPriceByTicketIds(final List<Long> ticketIds) {
+    public List<TicketAndPrice> getTicketsAndPriceByTicketIds(
+        final List<Long> ticketIds
+    ) {
         return ticketRepository.getTicketsAndPriceByTicketIds(ticketIds);
     }
 }

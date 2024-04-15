@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 public record TicketInfo(
     Long ticketId,
     Long concertId,
+    Long concertDateId,
     TicketRating ticketRating,
     String ticketNumber,
     LocalDateTime createdAt
@@ -16,9 +17,14 @@ public record TicketInfo(
         return new TicketInfo(
             ticket.getTicketId(),
             ticket.getConcertId(),
+            ticket.getConcertDateId(),
             ticket.getTicketRating(),
             ticket.getTicketNumber(),
             ticket.getCreatedAt()
         );
+    }
+
+    public String ticketRatingToString(){
+        return ticketRating.toString();
     }
 }
