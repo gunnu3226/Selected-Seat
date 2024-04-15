@@ -57,4 +57,24 @@ public class ConcertSearchQueryRepositoryImpl implements ConcertSearchQueryRepos
         Long totalCount = hits.getTotalHits().value;
         return new PageImpl<>(response, PageRequest.of(page, size), totalCount);
     }
+
+    @Override
+    public List<ConcertDocument> searchSuggestions(
+        final SearchSourceBuilder searchSourceBuilder
+    ) throws IOException {
+        SearchRequest searchRequest = new SearchRequest("concerts")
+            .source(searchSourceBuilder);
+
+        SearchResponse search = highLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        SearchHits hits = search.getHits();
+        List<ConcertDocument> response = new ArrayList<>();
+
+        for (SearchHit hit : hits) {
+            String sourceAsString = hit.getSourceAsString();
+            ConcertDocument concertDocument = jsonMapperUtil.mapper(sourceAsString,
+                ConcertDocument.class);
+            response.add(concertDocument);
+        }
+        return response;
+    }
 }

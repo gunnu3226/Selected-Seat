@@ -7,6 +7,7 @@ import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
 import io.nbc.selectedseat.domain.concert.service.dto.ConcertDetailInfo;
 import io.nbc.selectedseat.domain.concert.service.dto.ConcertSearchRequestDTO;
+import io.nbc.selectedseat.domain.concert.service.dto.SearchSuggestionResponseDTO;
 import io.nbc.selectedseat.elasticsearch.domain.concert.document.ConcertDocument;
 import io.nbc.selectedseat.elasticsearch.domain.concert.dto.ConcertSearchMapperDTO;
 import io.nbc.selectedseat.elasticsearch.domain.concert.mapper.ConcertSearchQueryMapper;
@@ -67,5 +68,12 @@ public class ConcertReader {
             concertDocumentPage.getNumber(),
             concertDocumentPage.getTotalPages(),
             results);
+    }
+
+    public List<SearchSuggestionResponseDTO> searchSuggestions(String keyword)
+        throws IOException {
+        return concertSearchQueryMapper.searchSuggestions(keyword).stream()
+            .map(SearchSuggestionResponseDTO::from)
+            .toList();
     }
 }

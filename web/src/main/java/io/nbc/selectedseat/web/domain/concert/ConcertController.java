@@ -5,9 +5,11 @@ import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
 import io.nbc.selectedseat.domain.concert.service.command.ConcertWriter;
 import io.nbc.selectedseat.domain.concert.service.dto.ConcertDetailInfo;
 import io.nbc.selectedseat.domain.concert.service.dto.ConcertSearchRequestDTO;
+import io.nbc.selectedseat.domain.concert.service.dto.SearchSuggestionResponseDTO;
 import io.nbc.selectedseat.domain.concert.service.query.ConcertReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import io.nbc.selectedseat.web.domain.concert.dto.request.CreateConcertRequestDTO;
+import io.nbc.selectedseat.web.domain.concert.dto.request.SearchSuggestionRequestDto;
 import io.nbc.selectedseat.web.domain.concert.dto.request.UpdateConcertRequestDTO;
 import io.nbc.selectedseat.web.domain.concert.dto.response.ConcertResponseDTO;
 import jakarta.validation.Valid;
@@ -125,6 +127,21 @@ public class ConcertController {
                 .statusCode(HttpStatus.OK.value())
                 .message("콘서트 검색 성공")
                 .data(searchResponse)
+                .build()
+        );
+    }
+
+    @GetMapping("/search/suggestions")
+    public ResponseEntity<ResponseDTO<List<SearchSuggestionResponseDTO>>> searchSuggestions(
+        @RequestBody SearchSuggestionRequestDto requestDTO
+    ) throws IOException {
+        List<SearchSuggestionResponseDTO> response = concertReader.searchSuggestions(
+            requestDTO.keyword());
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<List<SearchSuggestionResponseDTO>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("자동완성 검색어 추천 성공")
+                .data(response)
                 .build()
         );
     }
