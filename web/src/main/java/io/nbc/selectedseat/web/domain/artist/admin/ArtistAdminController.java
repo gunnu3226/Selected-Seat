@@ -1,9 +1,7 @@
-package io.nbc.selectedseat.web.domain.artist;
+package io.nbc.selectedseat.web.domain.artist.admin;
 
 import io.nbc.selectedseat.domain.artist.dto.CreateArtistRequestDTO;
-import io.nbc.selectedseat.domain.artist.dto.GetArtistResponseDTO;
 import io.nbc.selectedseat.domain.artist.service.command.ArtistWriter;
-import io.nbc.selectedseat.domain.artist.service.query.ArtistReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import io.nbc.selectedseat.web.domain.artist.dto.request.ArtistRequestDTO;
 import io.nbc.selectedseat.web.domain.artist.dto.response.ArtistResponseDTO;
@@ -13,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,10 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/artists")
 @RequiredArgsConstructor
-public class ArtistController {
+public class ArtistAdminController {
 
     private final ArtistWriter artistWriter;
-    private final ArtistReader artistReader;
 
     @Secured("ROLE_ADMIN")
     @PostMapping
@@ -45,20 +41,6 @@ public class ArtistController {
             ResponseDTO.<ArtistResponseDTO>builder()
                 .statusCode(HttpStatus.CREATED.value())
                 .message("아티스트 등록이 완료되었습니다")
-                .data(responseDTO)
-                .build()
-        );
-    }
-
-    @GetMapping("/{artistId}")
-    public ResponseEntity<ResponseDTO<GetArtistResponseDTO>> getArtist(
-        @PathVariable Long artistId
-    ) {
-        GetArtistResponseDTO responseDTO = artistReader.getArtist(artistId);
-        return ResponseEntity.ok().body(
-            ResponseDTO.<GetArtistResponseDTO>builder()
-                .statusCode(HttpStatus.OK.value())
-                .message("아티스트 조회가 완료되었습니다")
                 .data(responseDTO)
                 .build()
         );
