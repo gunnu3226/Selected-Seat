@@ -43,7 +43,7 @@ public class MemberController {
     private final MemberFacade memberFacade;
     private final UploadService uploadService;
 
-    @PostMapping
+    @PostMapping("/sign-up")
     public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> signUp(
         @Valid @RequestBody SignupRequestDTO requestDTO
     ) {
