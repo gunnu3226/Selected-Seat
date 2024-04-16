@@ -1,13 +1,16 @@
-package io.nbc.selectedseat.web.domain.member;
+package io.nbc.selectedseat.web.domain.member.user;
 
 import io.nbc.selectedseat.domain.member.dto.FollowInfo;
 import io.nbc.selectedseat.domain.member.service.command.FollowWriter;
+import io.nbc.selectedseat.security.userdetail.UserDetailsImpl;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import io.nbc.selectedseat.web.domain.member.dto.FollowRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,13 +24,14 @@ public class FollowController {
 
     private final FollowWriter followWriter;
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<ResponseDTO<FollowInfo>> followArtist(
-        @Valid @RequestBody FollowRequestDTO requestDTO
-        // Todo : 멤버 받는 부분 구현 필요(현재 @AuthenticationPrincipal 인식안됨)
+        @Valid @RequestBody FollowRequestDTO requestDTO,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         FollowInfo responseDTO = followWriter.followArtist(
-            1L, requestDTO.artistId());
+            userDetails.getMemberId(), requestDTO.artistId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
             ResponseDTO.<FollowInfo>builder()
@@ -37,13 +41,14 @@ public class FollowController {
                 .build());
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @DeleteMapping
     public ResponseEntity<Void> unFollowArtist(
-        @Valid @RequestBody FollowRequestDTO requestDTO
-        // Todo : 멤버 받는 부분 구현 필요(현재 @AuthenticationPrincipal 인식안됨)
+        @Valid @RequestBody FollowRequestDTO requestDTO,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         followWriter.unFollowArtist(
-            1L, requestDTO.artistId());
+            userDetails.getMemberId(), requestDTO.artistId());
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
