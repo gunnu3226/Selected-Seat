@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.web.domain.ticket;
+package io.nbc.selectedseat.web.domain.ticket.admin;
 
 import io.nbc.selectedseat.domain.seat.dto.SeatInfo;
 import io.nbc.selectedseat.domain.seat.query.SeatReader;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/seats")
 @RequiredArgsConstructor
-public class SeatController {
+public class SeatAdminController {
 
     private final SeatReader seatReader;
 

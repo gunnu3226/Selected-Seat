@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.web.domain.ticket;
+package io.nbc.selectedseat.web.domain.ticket.admin;
 
 import io.nbc.selectedseat.domain.ticket.dto.TicketInfo;
 import io.nbc.selectedseat.domain.ticket.service.command.TicketWriter;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/tickets")
 @RequiredArgsConstructor
-public class TicketController {
+public class TicketAdminController {
 
     private final TicketWriter ticketWriter;
     private final TicketReader ticketReader;
