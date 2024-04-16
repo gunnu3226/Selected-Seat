@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.web.domain.member;
+package io.nbc.selectedseat.web.domain.member.user;
 
 import io.nbc.selectedseat.domain.member.dto.CoinInfo;
 import io.nbc.selectedseat.domain.member.dto.MemberInfo;
@@ -65,7 +65,7 @@ public class MemberController {
                 .build());
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PutMapping("/profiles")
     public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> updateMemberProfile(
         @RequestPart(required = false) MultipartFile profile,
@@ -93,7 +93,7 @@ public class MemberController {
                 .build());
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PutMapping
     public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> updateMember(
         @Valid @RequestBody UpdateRequestDTO requestDTO,
@@ -127,7 +127,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PutMapping("/coins/charges")
     public ResponseEntity<ResponseDTO<CoinResponseDTO>> chargeCoin(
         @Valid @RequestBody CoinRequestDTO requestDTO,
@@ -146,7 +146,7 @@ public class MemberController {
                 .build());
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PutMapping("/coins/deductions")
     public ResponseEntity<ResponseDTO<CoinInfo>> deductionCoin(
         @Valid @RequestBody CoinRequestDTO requestDTO,
@@ -163,7 +163,7 @@ public class MemberController {
                 .build());
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping
     public ResponseEntity<ResponseDTO<MemberInfo>> getMemberByID(
         @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -179,7 +179,7 @@ public class MemberController {
         );
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/follows")
     public ResponseEntity<ResponseDTO<List<FollowArtistsInfo>>> getFollowArtists(
         @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -195,7 +195,7 @@ public class MemberController {
                 .build());
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/tickets")
     public ResponseEntity<ResponseDTO<List<TicketDetailInfo>>> getTicketsByMemberId(
         @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -211,7 +211,7 @@ public class MemberController {
                 .build());
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/reservations")
     public ResponseEntity<ResponseDTO<List<ReservationDetailInfo>>> getReservationsByMemberId(
         @AuthenticationPrincipal UserDetailsImpl userDetails
