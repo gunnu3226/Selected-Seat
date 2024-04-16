@@ -80,6 +80,7 @@ public class WebSecurityConfig {
                 .permitAll()
                 .requestMatchers("/api/v1/invites").permitAll()
                 .requestMatchers("/api/v1/members/sign-up").permitAll()
+                .requestMatchers("/api/v1/tickets/prices/concerts/**").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
         );
