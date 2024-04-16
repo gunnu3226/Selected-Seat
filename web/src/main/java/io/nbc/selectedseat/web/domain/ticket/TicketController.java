@@ -11,6 +11,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class TicketController {
     private final TicketWriter ticketWriter;
     private final TicketReader ticketReader;
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping
     public ResponseEntity<ResponseDTO<List<TicketInfoResponseDTO>>> getTickets() {
         List<TicketInfoResponseDTO> tickets = ticketReader.getTickets().stream()
@@ -42,6 +44,7 @@ public class TicketController {
         );
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/{ticketId}")
     public ResponseEntity<ResponseDTO<TicketInfoResponseDTO>> getTicket(
         @PathVariable("ticketId") Long ticketId
@@ -56,6 +59,7 @@ public class TicketController {
         );
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ResponseDTO<NumberOfTicketResponseDTO>> createTicket(
         @Validated @RequestBody TicketCreateRequestDTO requestDTO
@@ -72,6 +76,7 @@ public class TicketController {
         );
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{ticketId}")
     public ResponseEntity<ResponseDTO<Void>> deleteTicket(
         @PathVariable("ticketId") Long ticketId

@@ -12,6 +12,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,10 +30,10 @@ public class TicketPriceController {
     private final TicketPriceWriter ticketPriceWriter;
     private final TicketPriceReader ticketPriceReader;
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ResponseDTO<TicketPriceIdResponseDto>> createTicketPrice(
         @Valid @RequestBody TicketPriceRequestDto requestDto
-        // Todo : Adminuser
     ) {
         TicketPriceIdResponseDto responseDto = TicketPriceIdResponseDto.from(
             ticketPriceWriter.createTicketPrice(
@@ -48,11 +49,11 @@ public class TicketPriceController {
                 .build());
     }
 
+    @Secured("ROLE_ADMIN")
     @PatchMapping("/{ticketId}")
     public ResponseEntity<ResponseDTO<TicketPriceIdResponseDto>> updateTicketPrice(
         @PathVariable("ticketId") Long ticketId,
         @RequestBody @Valid TicketPriceUpdateRequestDTO requestDTO
-        //Todo : admin
     ) {
         TicketPriceIdResponseDto responseDTO = TicketPriceIdResponseDto.from(
             ticketPriceWriter.updateTicketPrice(ticketId, requestDTO.price()));
@@ -65,10 +66,10 @@ public class TicketPriceController {
         );
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{ticketId}")
     public ResponseEntity<Void> deleteTicketPrice(
         @PathVariable("ticketId") Long ticketId
-        //Todo : admin
     ) {
         ticketPriceWriter.deleteTicketPrice(ticketId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

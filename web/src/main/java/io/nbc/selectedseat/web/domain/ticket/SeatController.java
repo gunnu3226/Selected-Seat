@@ -2,11 +2,11 @@ package io.nbc.selectedseat.web.domain.ticket;
 
 import io.nbc.selectedseat.domain.seat.dto.SeatInfo;
 import io.nbc.selectedseat.domain.seat.query.SeatReader;
-import io.nbc.selectedseat.domain.ticket.service.query.TicketReader;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +19,7 @@ public class SeatController {
 
     private final SeatReader seatReader;
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping
     public ResponseEntity<ResponseDTO<SeatInfo>> getSeats(
         @RequestParam("concert") Long concertId,
