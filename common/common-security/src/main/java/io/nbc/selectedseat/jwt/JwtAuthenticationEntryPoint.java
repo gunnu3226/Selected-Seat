@@ -22,9 +22,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         String jsonResponse = new ObjectMapper().writeValueAsString(
             ResponseDTO.builder()
                 .statusCode(HttpStatus.UNAUTHORIZED.value())
-                .message("유효하지 않은 토큰 접근")
+                .message("api가 잘못되었습니다")
                 .build());
-        log.error("유효하지 않은 토큰 접근");
+        log.error("api가 잘못되었습니다");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write(jsonResponse);
     }
