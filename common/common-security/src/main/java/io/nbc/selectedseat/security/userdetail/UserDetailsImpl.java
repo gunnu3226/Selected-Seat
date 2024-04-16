@@ -13,16 +13,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class UserDetailsImpl implements UserDetails {
 
     private Member member;
+    private Long memberId;
 
     public UserDetailsImpl(Long id, MemberRole role) {
         this.member = Member.builder()
             .memberId(id)
             .memberRole(role)
             .build();
+        this.memberId = id;
     }
 
     public UserDetailsImpl(Member member) {
         this.member = member;
+        this.memberId = member.getMemberId();
     }
 
     @Override
