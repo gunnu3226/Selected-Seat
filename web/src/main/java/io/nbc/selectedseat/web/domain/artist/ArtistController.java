@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ public class ArtistController {
     private final ArtistWriter artistWriter;
     private final ArtistReader artistReader;
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ResponseDTO<ArtistResponseDTO>> createArtist(
         @RequestBody @Valid ArtistRequestDTO artistRequestDTO
@@ -62,6 +64,7 @@ public class ArtistController {
         );
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{artistId}")
     public ResponseEntity<ResponseDTO<ArtistResponseDTO>> updateArtist(
         @PathVariable Long artistId,
@@ -79,6 +82,7 @@ public class ArtistController {
         );
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{artistId}")
     public ResponseEntity<ResponseDTO<Void>> deleteArtist(
         @PathVariable Long artistId
