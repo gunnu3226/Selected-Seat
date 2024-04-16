@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.web.domain.reservation;
+package io.nbc.selectedseat.web.domain.reservation.admin;
 
 import io.nbc.selectedseat.domain.facade.reservation.ReservationFacade;
 import io.nbc.selectedseat.domain.reservation.dto.ReservationInfoDTO;
@@ -10,8 +10,8 @@ import io.nbc.selectedseat.web.domain.reservation.dto.response.ReservationIdResp
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,17 +20,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequestMapping("/api/v1/reservations")
 @RequiredArgsConstructor
-public class ReservationController {
+public class ReservationAdminController {
     private final ReservationFacade reservationFacade;
     private final ReservationReader reservationReader;
     private final ReservationWriter reservationWriter;
 
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping
     public ResponseEntity<ResponseDTO<List<ReservationInfoDTO>>> getReservations() {
         return ResponseEntity.ok(ResponseDTO.<List<ReservationInfoDTO>>builder()
@@ -40,6 +40,7 @@ public class ReservationController {
             .build());
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/{reservationId}")
     public ResponseEntity<ResponseDTO<ReservationInfoDTO>> getReservation(
         @PathVariable("reservationId") Long reservationId
@@ -51,6 +52,7 @@ public class ReservationController {
             .build());
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<ResponseDTO<ReservationIdResponseDTO>> createReservation(
         @Validated @RequestBody ReservationCreateRequestDTO requestDTO
@@ -69,6 +71,7 @@ public class ReservationController {
             .build());
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping("/{reservationId}")
     public ResponseEntity<ResponseDTO<ReservationIdResponseDTO>> confirmReservation(
         @PathVariable("reservationId") Long reservationId
@@ -80,6 +83,7 @@ public class ReservationController {
             .build());
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @DeleteMapping("/{reservationId}")
     public ResponseEntity<ResponseDTO<Void>> deleteReservation(
         @PathVariable("reservationId") Long reservationId
