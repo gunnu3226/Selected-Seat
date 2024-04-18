@@ -81,6 +81,8 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/v1/invites").permitAll()
                 .requestMatchers("/api/v1/members/sign-up").permitAll()
                 .requestMatchers("/api/v1/tickets/prices/concerts/**").permitAll()
+                .requestMatchers("/api/v1/categories").permitAll()
+                .requestMatchers("/api/v1/concerts/**").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
         );
