@@ -27,3 +27,7 @@ export const reservation = create(
 export const ticket = create(
     `${import.meta.env.VITE_APP_API_URL}/tickets`
 );
+
+export const waiting = create(
+    `${import.meta.env.VITE_APP_WEBFLUX_API_URL}/queue`
+)
