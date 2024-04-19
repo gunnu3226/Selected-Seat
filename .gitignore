@@ -192,3 +192,7 @@ support/monitoring/prometheus/prometheus/volume
 ### node_modules ###
 node_modules
 .vscode
+
+# env
+*.env
+.env
