@@ -83,6 +83,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/v1/tickets/prices/concerts/**").permitAll()
                 .requestMatchers("/api/v1/categories").permitAll()
                 .requestMatchers("/api/v1/concerts/**").permitAll()
+                .requestMatchers("/api/v1/artists/**").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
         );
