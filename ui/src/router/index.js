@@ -9,6 +9,8 @@ import ConcertDetailView from '@/views/concert/ConcertDetailView.vue';
 import TicketReservationView
   from "@/views/reservation/TicketReservationView.vue";
 
+import WaitingRoomView from "@/views/wating/WaitingRoomView.vue";
+
 const routes = [
   {
     path: '/:pathMache(.*)*',
@@ -52,6 +54,11 @@ const routes = [
     path: '/ticket/reservation',
     name: 'TicketReservationView',
     component: TicketReservationView,
+    props: true,
+  },{
+    path: '/ticket/waiting',
+    name: 'WaitingRoomView',
+    component: WaitingRoomView,
     props: true,
   }
 ];
