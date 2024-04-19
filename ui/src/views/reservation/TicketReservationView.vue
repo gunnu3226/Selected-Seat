@@ -4,7 +4,8 @@
       <div class="card">
         <div class="row" style="width: 100%; height: 400px; max-height: 500px">
           <div class="col">
-            <img :src="concertInfo.thumbnail" class="img-fluid rounded-start" alt="...">
+            <img :src="concertInfo.thumbnail" class="img-fluid rounded-start"
+                 alt="...">
           </div>
           <div class=" col-8 d-flex flex-column justify-content-between">
             <div class="col">
@@ -42,6 +43,7 @@ import {completeReservation, getReservation} from "@/api/reservation.js"
 import {useRouter} from "vue-router";
 import {getConcertById, getConcertRatingById} from "@/api/concert.js";
 import {getTicket} from "@/api/ticket.js";
+import {exitQueue} from "@/api/waiting.js";
 
 const reservationId = ref(history.state.reservationId);
 const router = useRouter();
@@ -60,11 +62,15 @@ const concertRating = ref("");
   concertInfo.value = concertResponse.data.data;
   ticketInfo.value = ticketResponse.data.data;
   concertRating.value = concertRatingResponse.data.data.rating;
-
 })();
 
+const memberId = localStorage.getItem("memberId");
 const complete = async () => {
   await completeReservation(reservationId.value);
+  await exitQueue({
+    queue: "seat",
+    memberId: memberId
+  })
   alert("예매가 확정되었습니다");
   await router.push("/");
 }
