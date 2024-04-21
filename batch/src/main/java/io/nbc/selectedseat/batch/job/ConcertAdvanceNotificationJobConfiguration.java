@@ -15,6 +15,8 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -47,11 +49,13 @@ public class ConcertAdvanceNotificationJobConfiguration {
 
     @Bean
     public Job concertAdvanceNotificationJob(
-        final Step concertAdvanceNotificationStep
+        final Step concertAdvanceNotificationStep,
+        final JobExecutionListener jobAlarmExecutionListener
     ) {
         return new JobBuilder("concertAdvanceNotificationJob", jobRepository)
             .start(concertAdvanceNotificationStep)
             .incrementer(new RunIdIncrementer())
+            .listener(jobAlarmExecutionListener)
             .build();
     }
 
