@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.batch.task.concert;
 
+import io.nbc.selectedseat.batch.task.ticket.SeatKeyInfo;
 import io.nbc.selectedseat.redis.service.RedissonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;

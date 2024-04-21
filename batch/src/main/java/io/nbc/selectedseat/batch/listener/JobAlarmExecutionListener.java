@@ -1,6 +1,5 @@
-package io.nbc.selectedseat.batch.task.ticket;
+package io.nbc.selectedseat.batch.listener;
 
-import io.nbc.selectedseat.batch.listener.AlarmTemplate;
 import io.nbc.selectedseat.notification.slack.NotificationType;
 import io.nbc.selectedseat.notification.slack.SlackNotificationUtil;
 import java.time.Duration;

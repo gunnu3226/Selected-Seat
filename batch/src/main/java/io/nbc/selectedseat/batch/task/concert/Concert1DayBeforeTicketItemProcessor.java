@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.batch.task.concert;
 
+import io.nbc.selectedseat.batch.task.ticket.SeatKeyInfo;
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketEntity;
 import java.util.concurrent.ConcurrentMap;
 import org.springframework.batch.core.JobExecution;

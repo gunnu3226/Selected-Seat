@@ -1,6 +1,6 @@
 package io.nbc.selectedseat.batch.job;
 
-import io.nbc.selectedseat.batch.task.concert.SeatKeyInfo;
+import io.nbc.selectedseat.batch.task.ticket.SeatKeyInfo;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertDateEntity;
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketEntity;
 import jakarta.persistence.EntityManagerFactory;
