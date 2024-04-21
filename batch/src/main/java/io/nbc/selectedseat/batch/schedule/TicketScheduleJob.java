@@ -33,7 +33,7 @@ public class TicketScheduleJob {
         }
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 0 * * *")
     public void ticketSeatKeyGenerationJob() {
         try {
             jobLauncher.run(ticketSeatKeyGenerationJob, new JobParameters());
