@@ -34,9 +34,10 @@ const routes = [
     component: SignupView,
   },
   {
-    path: '/mypage',
+    path: '/my-page',
     name: 'MyPageView',
     component: MyPageView,
+    meta: {requiresAuth: true}
   },
   {
     path: '/concerts/:id',
@@ -49,23 +50,37 @@ const routes = [
     name: 'TicketSelectView',
     component: TicketSelectView,
     props: true,
+    meta: {requiresAuth: true}
   },
   {
     path: '/ticket/reservation',
     name: 'TicketReservationView',
     component: TicketReservationView,
     props: true,
-  },{
+    meta: {requiresAuth: true}
+  }, {
     path: '/ticket/waiting',
     name: 'WaitingRoomView',
     component: WaitingRoomView,
     props: true,
+    meta: {requiresAuth: true}
   }
 ];
 
 const router = createRouter({
   history: createWebHistory('/'),
   routes: routes,
+});
+
+router.beforeEach((to, from) => {
+
+  if (to.meta.requiresAuth && localStorage.getItem('token') === null) {
+    alert("로그인이 필요한 서비스입니다")
+    return {
+      path: "/login",
+      query: {redirect: to.fullPath},
+    }
+  }
 });
 
 export default router;

@@ -64,7 +64,7 @@ const searching = () => {
 	if (keyword.value.trim() === '') {
 		return;
 	}
-	console.log(keyword.value);
+	// TODO: implement searching feature
 };
 
 const logout = () => {

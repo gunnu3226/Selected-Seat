@@ -127,7 +127,6 @@ const ticketList = [
 ];
 
 const showTicketModal = ticketInfo => {
-	console.log(ticketInfo);
 };
 
 const userInfo = reactive({
