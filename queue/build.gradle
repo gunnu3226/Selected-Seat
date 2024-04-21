@@ -1,0 +1,14 @@
+bootJar.enabled = true
+jar.enabled = false
+
+dependencies {
+    implementation(project(":infrastructure:persistence-reactive-redis-adapter"))
+
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.94.Final:osx-aarch_64'
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+}

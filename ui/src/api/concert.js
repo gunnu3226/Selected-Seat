@@ -13,5 +13,5 @@ export function getConcertRatingById(id){
 }
 
 export function getConcertDates(id){
-	return concert.get(`/dates/${id}`);
+	return concert.get(`/${id}/dates`);
 }

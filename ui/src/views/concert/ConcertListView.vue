@@ -45,7 +45,7 @@ const categories = ref({
 (async () => {
   const categoryResponse = await getCategories();
   categoryResponse.data.data.forEach((category) => {
-    categories.value[category.name] = category.categoryId;
+    categories.value[category.name] = category["categoryId"];
   });
 
   const response = await getConcertByCategory(

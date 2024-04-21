@@ -152,7 +152,7 @@ const reservation = () => {
   }
 
   router.push({
-    name: 'TicketSelectView',
+    name: 'WaitingRoomView',
     state: {
       dateId: dateId.value,
       concertId: concertInfo.concertId,
