@@ -30,4 +30,8 @@ export const ticket = create(
 
 export const waiting = create(
     `${import.meta.env.VITE_APP_WEBFLUX_API_URL}/queue`
-)
+);
+
+export const member = create(
+    `${import.meta.env.VITE_APP_API_URL}/members`
+);

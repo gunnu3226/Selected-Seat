@@ -40,10 +40,10 @@
 							>비밀번호</span
 						>
 						<input
-							type="text"
+							type="password"
 							class="form-control"
 							name="password"
-							v-model.trim="passwrod"
+							v-model.trim="password"
 						/>
 					</div>
 
@@ -52,10 +52,10 @@
 							>비밀번호 확인</span
 						>
 						<input
-							type="text"
+							type="password"
 							class="form-control"
 							name="passwordCheck"
-							v-model.trim="passwrodCheck"
+							v-model.trim="passwordCheck"
 						/>
 					</div>
 					<button type="button" class="btn signup-btn" @click="requestSignup">
@@ -69,12 +69,31 @@
 
 <script setup>
 import { ref } from 'vue';
+import {signup} from "@/api/member.js";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
 const email = ref('');
 const birth = ref('');
-const passwrod = ref('');
-const passwrodCheck = ref('');
-const requestSignup = () => {};
+const password = ref('');
+const passwordCheck = ref('');
+const requestSignup = async () => {
+  if (password.value !== passwordCheck.value) {
+    alert("비밀번호가 일치 하지 않습니다");
+    this.password.value = '';
+    this.passwordCheck.value = '';
+    return;
+  }
+
+  await signup({
+    email: email.value,
+    password: password.value,
+    profile: "",
+    birth: birth.value,
+  }).then(response => {
+    router.push("/login");
+  })
+};
 </script>
 <style scoped>
 .signup-form-wrapper {

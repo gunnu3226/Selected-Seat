@@ -23,10 +23,10 @@
 							>비밀번호</span
 						>
 						<input
-							type="text"
+							type="password"
 							class="form-control"
 							name="password"
-							v-model.trim="passwrod"
+							v-model.trim="password"
 						/>
 					</div>
 					<button type="button" class="btn login-btn" @click="requestLogin">
@@ -40,10 +40,38 @@
 
 <script setup>
 import { ref } from 'vue';
+import {login} from "@/api/member.js";
+import {useRouter} from "vue-router";
+import {useAuthenticationStore} from "@/store/authenticated.js";
 
+const store = useAuthenticationStore();
+const router = useRouter();
 const email = ref('');
-const passwrod = ref('');
-const requestLogin = () => {};
+const password = ref('');
+
+const requestLogin = async() => {
+  if (email.value.trim() === "" || password.value.trim() === "") {
+    alert("아이디 및 비밀번호를 입력해주세요");
+    return;
+  }
+
+  await login({
+    email: email.value,
+    password: password.value,
+  }).then(res => {
+    const memberId = res.data.data.memberId;
+    const token = res.headers.get("authorization").slice(7);
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("memberId", memberId);
+    store.setAuthenticated(true);
+    router.push("/")
+  }).catch(ex => {
+    alert("아이디 혹은 비밀번호가 틀립니다");
+    email.value = '';
+    password.value = '';
+  })
+}
 </script>
 <style scoped>
 .login-form-wrapper {
