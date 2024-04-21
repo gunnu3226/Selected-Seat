@@ -6,6 +6,7 @@ import io.nbc.selectedseat.db.core.domain.reservation.repository.ReservationJpaR
 import io.nbc.selectedseat.db.core.domain.reservation.repository.ReservationMongoRepository;
 import io.nbc.selectedseat.domain.reservation.model.Reservation;
 import io.nbc.selectedseat.domain.reservation.repository.ReservationRepository;
+import io.nbc.selectedseat.domain.ticket.model.TicketRating;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,7 @@ public class ReservationPersistenceAdapter implements ReservationRepository {
         final String concertName,
         final String memberEmail,
         final String ticketNumber,
+        final TicketRating ticketRating,
         final Long ticketPrice,
         final LocalDateTime concertDate
 
@@ -43,6 +45,7 @@ public class ReservationPersistenceAdapter implements ReservationRepository {
             concertName,
             hall,
             ticketNumber,
+            ticketRating.name(),
             ticketPrice,
             concertDate
         );

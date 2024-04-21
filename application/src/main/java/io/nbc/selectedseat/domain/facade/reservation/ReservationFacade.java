@@ -92,6 +92,7 @@ public class ReservationFacade {
             concert.name(),
             concert.hall(),
             ticket.ticketNumber(),
+            ticket.ticketRating(),
             priceInfo.price(),
             concertDate.concertDate()
         );

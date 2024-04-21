@@ -4,6 +4,7 @@ import io.nbc.selectedseat.db.core.domain.reservation.exception.ReservationExist
 import io.nbc.selectedseat.domain.reservation.model.Reservation;
 import io.nbc.selectedseat.domain.reservation.model.ReservationState;
 import io.nbc.selectedseat.domain.reservation.repository.ReservationRepository;
+import io.nbc.selectedseat.domain.ticket.model.TicketRating;
 import io.nbc.selectedseat.redis.distributedlock.DistributedLock;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -54,15 +55,17 @@ public class ReservationWriter {
         final String concertName,
         final String hall,
         final String ticketNumber,
+        final TicketRating ticketRating,
         final Long ticketPrice,
         final LocalDateTime concertDate
     ){
         reservationRepository.createReservationDocument(
             reservationId,
-            memberEmail,
-            concertName,
             hall,
+            concertName,
+            memberEmail,
             ticketNumber,
+            ticketRating,
             ticketPrice,
             concertDate
         );

@@ -1,6 +1,7 @@
 package io.nbc.selectedseat.domain.reservation.repository;
 
 import io.nbc.selectedseat.domain.reservation.model.Reservation;
+import io.nbc.selectedseat.domain.ticket.model.TicketRating;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public interface ReservationRepository {
         final String concertName,
         final String memberEmail,
         final String ticketNumber,
+        final TicketRating ticketRating,
         final Long ticketPrice,
         final LocalDateTime startedAt
     );

@@ -18,6 +18,7 @@ public class ReservationDocument {
     private String concertName;
     private String hall;
     private String ticketNumber;
+    private String ticketRating;
     private Long ticketPrice;
     private LocalDateTime concertDate;
 
@@ -30,6 +31,7 @@ public class ReservationDocument {
         final String concertName,
         final String hall,
         final String ticketNumber,
+        final String ticketRating,
         final Long ticketPrice,
         final LocalDateTime concertDate
     ) {
@@ -38,6 +40,7 @@ public class ReservationDocument {
         this.concertName = concertName;
         this.hall = hall;
         this.ticketNumber = ticketNumber;
+        this.ticketRating = ticketRating;
         this.ticketPrice = ticketPrice;
         this.concertDate = concertDate;
     }
