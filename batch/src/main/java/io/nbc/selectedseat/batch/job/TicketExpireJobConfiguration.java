@@ -2,16 +2,16 @@ package io.nbc.selectedseat.batch.job;
 
 import io.nbc.selectedseat.batch.task.ticket.TicketBatchEntity;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertDateEntity;
-import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertEntity;
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketEntity;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -40,11 +40,14 @@ public class TicketExpireJobConfiguration {
     @Bean
     public Job ticketExpireJob(
         final Step concertDateReadJob,
-        final Step ticketExpireStep
+        final Step ticketExpireStep,
+        final JobExecutionListener jobAlarmExecutionListener
     ) {
         return new JobBuilder("ticketExpireJob", jobRepository)
             .start(concertDateReadJob)
             .next(ticketExpireStep)
+            .incrementer(new RunIdIncrementer())
+            .listener(jobAlarmExecutionListener)
             .build();
     }
 

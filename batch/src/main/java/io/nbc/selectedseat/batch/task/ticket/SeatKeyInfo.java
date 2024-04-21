@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.batch.task.concert;
+package io.nbc.selectedseat.batch.task.ticket;
 
 public record SeatKeyInfo(
     String key,

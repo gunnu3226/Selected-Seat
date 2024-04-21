@@ -27,19 +27,15 @@ public class MailUtil {
 
     public void send(
         final String title,
-        final String content,
+        final String htmlContent,
         final String... to
     ) {
-        // TODO: WIP
-        String htmlContent = setContent(
-            "test invitor",
-            "test url",
-            "test workspace",
-            "test code"
-        );
 
-        SendEmailRequest emailRequest = createSendEmailRequest(title,
-            htmlContent, to);
+        SendEmailRequest emailRequest = createSendEmailRequest(
+            title,
+            htmlContent,
+            to
+        );
 
         amazonSimpleEmailService.sendEmail(emailRequest);
     }
@@ -48,7 +44,8 @@ public class MailUtil {
         final String invitor,
         final String urls,
         final String workspace,
-        final String code
+        final String code,
+        final String template
     ) {
         Context context = new Context();
         context.setVariable("urls", urls);
@@ -56,7 +53,7 @@ public class MailUtil {
         context.setVariable("workspace", workspace);
         context.setVariable("code", code);
 
-        return templateEngine.process("mail", context);
+        return templateEngine.process(template, context);
     }
 
     private SendEmailRequest createSendEmailRequest(
@@ -66,7 +63,7 @@ public class MailUtil {
     ) {
         return new SendEmailRequest()
             .withDestination(new Destination().withToAddresses(to))
-            .withSource(hostEmail) // TODO: will change
+            .withSource(hostEmail)
             .withMessage(
                 new Message()
                     .withSubject(

@@ -1,14 +1,16 @@
 package io.nbc.selectedseat.batch.job;
 
-import io.nbc.selectedseat.batch.task.concert.SeatKeyInfo;
+import io.nbc.selectedseat.batch.task.ticket.SeatKeyInfo;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertDateEntity;
 import io.nbc.selectedseat.db.core.domain.ticket.entity.TicketEntity;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -35,11 +37,14 @@ public class TicketSeatKeyGenerationJobConfiguration {
     @Bean
     public Job ticketSeatKeyGenerationJob(
         final Step concertDate1DayBeforeStep,
-        final Step ticketSeatKeyGenerationStep
+        final Step ticketSeatKeyGenerationStep,
+        final JobExecutionListener jobAlarmExecutionListener
     ) {
         return new JobBuilder("ticketSeatKeyGenerationJob", jobRepository)
             .start(concertDate1DayBeforeStep)
             .next(ticketSeatKeyGenerationStep)
+            .incrementer(new RunIdIncrementer())
+            .listener(jobAlarmExecutionListener)
             .build();
     }
 

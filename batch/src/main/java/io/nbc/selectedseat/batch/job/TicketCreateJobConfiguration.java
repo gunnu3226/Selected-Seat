@@ -30,11 +30,11 @@ public class TicketCreateJobConfiguration {
     @Bean
     public Job ticketCreateJob(
         final Step ticketCreateStep,
-        final JobExecutionListener ticketJobExecutionListener
+        final JobExecutionListener jobAlarmExecutionListener
     ) {
         return new JobBuilder("ticketCreateJob", jobRepository)
             .start(ticketCreateStep)
-            .listener(ticketJobExecutionListener)
+            .listener(jobAlarmExecutionListener)
             .build();
     }
 
