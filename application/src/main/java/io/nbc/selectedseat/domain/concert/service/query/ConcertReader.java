@@ -2,6 +2,8 @@ package io.nbc.selectedseat.domain.concert.service.query;
 
 import io.nbc.selectedseat.common.WebPage;
 import io.nbc.selectedseat.domain.concert.dto.ConcertDateResponseDTO;
+import io.nbc.selectedseat.domain.concert.dto.ConcertInfo;
+import io.nbc.selectedseat.domain.concert.dto.ConcertSearchMapper;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertRatingResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
 import io.nbc.selectedseat.domain.concert.exception.ConcertDateExistException;
@@ -75,6 +77,26 @@ public class ConcertReader {
             results);
     }
 
+    //todo : Temporary settings for performance measurement
+    public List<ConcertInfo> searchConcertByTextAndFilterInDB(
+        final ConcertSearchRequestDTO requestDTO,
+        final int page,
+        final int size
+    ) throws IOException {
+
+        ConcertSearchMapper concertSearchMapper = new ConcertSearchMapper(
+            requestDTO.text(),
+            requestDTO.region(),
+            requestDTO.category(),
+            requestDTO.state(),
+            requestDTO.concertRating());
+
+        return concertRepository.searchConcertByTextAndFilter(concertSearchMapper, page, size)
+            .stream()
+            .map(ConcertInfo::from)
+            .toList();
+    }
+
     public List<SearchSuggestionResponseDTO> searchSuggestions(final String keyword)
         throws IOException {
         return concertSearchQueryMapper.searchSuggestions(keyword).stream()
@@ -111,4 +133,5 @@ public class ConcertReader {
             .orElseThrow(ConcertDateExistException::new);
         return ConcertDateResponseDTO.from(concertDate);
     }
+
 }

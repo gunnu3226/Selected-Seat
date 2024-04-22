@@ -98,6 +98,19 @@ public class ConcertController {
         );
     }
 
+    //todo : Temporary settings for performance measurement
+    @GetMapping("/search/db")
+    public ResponseEntity<?> searchConcertsInDB(
+        @RequestBody ConcertSearchRequestDTO requestDTO,
+        @RequestParam(value = "page", defaultValue = "0") Integer page,
+        @RequestParam(value = "size", defaultValue = "10") Integer size
+    ) throws IOException {
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+            concertReader.searchConcertByTextAndFilterInDB(
+                requestDTO, page, size));
+    }
+
     @GetMapping("/search/suggestions")
     public ResponseEntity<ResponseDTO<List<SearchSuggestionResponseDTO>>> searchSuggestions(
         @RequestBody SearchSuggestionRequestDto requestDTO

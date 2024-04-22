@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.domain.concert.dto;
 
+import io.nbc.selectedseat.domain.concert.model.Concert;
 import java.time.LocalDateTime;
 
 public record ConcertInfo(
@@ -28,6 +29,22 @@ public record ConcertInfo(
             thumbnail(),
             hall(),
             ticketAmount()
+        );
+    }
+
+    //todo : Temporary settings for performance measurement
+    public static ConcertInfo from(Concert concert) {
+        return new ConcertInfo(
+            concert.getRatingId(),
+            concert.getStateId(),
+            concert.getRegionId(),
+            concert.getCategoryId(),
+            concert.getName(),
+            concert.getStartedAt(),
+            concert.getEndedAt(),
+            concert.getThumbnail(),
+            concert.getHall(),
+            concert.getTicketAmount()
         );
     }
 }

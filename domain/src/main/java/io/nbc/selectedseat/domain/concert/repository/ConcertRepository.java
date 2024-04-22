@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.domain.concert.repository;
 
+import io.nbc.selectedseat.domain.concert.dto.ConcertSearchMapper;
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.model.ConcertDate;
 import io.nbc.selectedseat.domain.concert.model.ConcertRating;
@@ -27,4 +28,7 @@ public interface ConcertRepository {
     List<Concert> getConcertsByCategory(final Long categoryId);
 
     Optional<ConcertDate> getConcertDate(Long concertId);
+
+    List<Concert> searchConcertByTextAndFilter(ConcertSearchMapper concertSearchVo, int page,
+        int size);
 }

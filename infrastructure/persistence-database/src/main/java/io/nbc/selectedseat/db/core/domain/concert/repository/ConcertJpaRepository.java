@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Long> {
     List<ConcertEntity> findAllByCategoryId(final Long categoryId);
+
 }

@@ -1,11 +1,21 @@
 package io.nbc.selectedseat.db.core.domain.concert.adaptor;
 
+import static io.nbc.selectedseat.db.core.domain.Artist.entity.QArtistEntity.artistEntity;
+import static io.nbc.selectedseat.db.core.domain.concert.entity.QConcertEntity.concertEntity;
+
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertDateEntity;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertEntity;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertRatingEntity;
+import io.nbc.selectedseat.db.core.domain.concert.entity.RegionEntity;
 import io.nbc.selectedseat.db.core.domain.concert.repository.ConcertDateJpaRepository;
 import io.nbc.selectedseat.db.core.domain.concert.repository.ConcertJpaRepository;
 import io.nbc.selectedseat.db.core.domain.concert.repository.ConcertRatingJpaRepository;
+import io.nbc.selectedseat.db.core.domain.concert.repository.temp.RegionJpaRepository;
+import io.nbc.selectedseat.db.core.domain.concert.repository.temp.StateJpaRepository;
+import io.nbc.selectedseat.domain.category.repository.CategoryRepository;
+import io.nbc.selectedseat.domain.concert.dto.ConcertSearchMapper;
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.model.ConcertDate;
 import io.nbc.selectedseat.domain.concert.model.ConcertRating;
@@ -13,6 +23,9 @@ import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,6 +35,13 @@ public class ConcertPersistenceAdaptor implements ConcertRepository {
     private final ConcertJpaRepository concertJpaRepository;
     private final ConcertRatingJpaRepository concertRatingJpaRepository;
     private final ConcertDateJpaRepository concertDateJpaRepository;
+
+    //todo : Temporary settings for performance measurement
+    private final JPAQueryFactory jpaQueryFactory;
+    private final RegionJpaRepository regionJpaRepository;
+    private final CategoryRepository categoryRepository;
+    private final StateJpaRepository stateJpaRepository;
+
     @Override
     public Long save(final Concert concert) {
         return concertJpaRepository.save(ConcertEntity.from(concert)).getConcertId();
@@ -82,4 +102,62 @@ public class ConcertPersistenceAdaptor implements ConcertRepository {
         return concertDateJpaRepository.findById(concertId)
             .map(ConcertDateEntity::toModel);
     }
+
+    //todo : Temporary settings for performance measurement
+    @Override
+    public List<Concert> searchConcertByTextAndFilter(ConcertSearchMapper concertSearchMapper,
+        int page,
+        int size) {
+
+        List<ConcertEntity> concertEntities = jpaQueryFactory
+            .select(concertEntity)
+            .from(concertEntity)
+            .where(concertEntity.name.contains(concertSearchMapper.getText()))
+            .where(concertRegionEq(concertSearchMapper.getRegion()))
+            .where(concertCategoryEq(concertSearchMapper.getCategory()))
+            .where(concertStateEq(concertSearchMapper.getState()))
+            .where(concertRatingEq(concertSearchMapper.getConcertRating()))
+            .offset((long) page * size)
+            .limit(size)
+            .fetch();
+
+        return concertEntities.stream()
+            .map(ConcertEntity::toModel)
+            .toList();
+    }
+
+    private BooleanExpression concertRegionEq(String region) {
+        if (region == null) {
+            return null;
+        }
+        Long regionId = regionJpaRepository.findByName(region).getRegionId();
+        return concertEntity.regionId.eq(regionId);
+    }
+
+    private BooleanExpression concertCategoryEq(String category) {
+        if (category == null) {
+            return null;
+        }
+        Long id = categoryRepository.findByName(category).get().getCategoryId();
+        return concertEntity.categoryId.eq(id);
+    }
+
+    private BooleanExpression concertStateEq(String state) {
+
+        if (state == null) {
+            return null;
+        }
+        Long id = stateJpaRepository.findByName(state).getStateId();
+        return concertEntity.stateId.eq(id);
+    }
+
+    private BooleanExpression concertRatingEq(String rating) {
+        if (rating == null) {
+            return null;
+        }
+        Long id = concertRatingJpaRepository.findByName(rating).getConcertRatingId();
+        return concertEntity.ratingId.eq(id);
+    }
+
+
 }
