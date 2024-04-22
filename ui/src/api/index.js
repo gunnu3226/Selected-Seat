@@ -35,3 +35,7 @@ export const waiting = create(
 export const member = create(
     `${import.meta.env.VITE_APP_API_URL}/members`
 );
+
+export const search = create(
+    `${import.meta.env.VITE_APP_API_URL}/concerts/search`,
+)
