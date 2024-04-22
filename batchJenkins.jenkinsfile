@@ -5,7 +5,7 @@ pipeline {
       stage('git pull'){
         steps{
           sh "echo 'git pull'"
-          git branch: 'feat/webflux',
+          git branch: 'feat/batch-149',
             credentialsId: 'yiyaaa',
             url: 'https://github.com/Selected-Seat/selected-seat'
         }
@@ -53,7 +53,7 @@ pipeline {
         }
       }
 
-      stage('back build') {
+      stage('batch build') {
           steps {
              sh '''
                 echo '빌드를 시작합니다.'
@@ -63,11 +63,11 @@ pipeline {
           }
       }
 
-      stage('webflux docker build'){
+      stage('batch docker build'){
         steps{
           script{
             sh'''
-              docker build -t webflux:webflux ./queue
+              docker build -t batch:batch ./batch
             '''
           }
         }
@@ -79,16 +79,16 @@ pipeline {
               sh "sudo aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${env.ECR_URI}"
 
               sh "echo '도커 기존 이미지 삭제'"
-              sh "sudo aws ecr batch-delete-image --repository-name selected-seat-test --image-ids imageTag=webflux"
+              sh "sudo aws ecr batch-delete-image --repository-name selected-seat-test --image-ids imageTag=batch"
 
-              sh "echo 'webflux image를 ECR에 태그합니다.'"
-              sh "sudo docker tag webflux:webflux ${env.ECR_URI}/selected-seat-test:webflux"
+              sh "echo 'batch image를 ECR에 태그합니다.'"
+              sh "sudo docker tag batch:batch ${env.ECR_URI}/selected-seat-test:batch"
 
-              sh "echo 'webflux image를  ECR에 push합니다.'"
-              sh "sudo docker push ${env.ECR_URI}/selected-seat-test:webflux"
+              sh "echo 'batch image를  ECR에 push합니다.'"
+              sh "sudo docker push ${env.ECR_URI}/selected-seat-test:batch"
 
               sh "echo 'back ecs 업데이트'"
-              sh "sudo aws ecs update-service --cluster selected-cluster --service webflux-test --force-new-deployment"
+              sh "sudo aws ecs update-service --cluster selected-cluster --service batch-test --force-new-deployment"
             }
         }
       }
