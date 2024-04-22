@@ -10,7 +10,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -32,23 +32,24 @@ public class ConcertSearchQueryMapper {
             requestDTO.text(), "name", "performers");
         boolQuery.must(multiMatchQueryBuilder);
 
-        if (requestDTO.region() != null) {
-            TermQueryBuilder regionFilter = QueryBuilders.termQuery("region", requestDTO.region());
+        if (requestDTO.regions() != null) {
+            TermsQueryBuilder regionFilter = QueryBuilders.termsQuery("region",
+                requestDTO.regions());
             boolQuery.filter(regionFilter);
         }
-        if (requestDTO.category() != null) {
-            TermQueryBuilder regionFilter = QueryBuilders.termQuery("category",
-                requestDTO.category());
-            boolQuery.filter(regionFilter);
+        if (requestDTO.categories() != null) {
+            TermsQueryBuilder categoryFilter = QueryBuilders.termsQuery("category",
+                requestDTO.categories());
+            boolQuery.filter(categoryFilter);
         }
-        if (requestDTO.state() != null) {
-            TermQueryBuilder regionFilter = QueryBuilders.termQuery("state", requestDTO.state());
-            boolQuery.filter(regionFilter);
+        if (requestDTO.states() != null) {
+            TermsQueryBuilder stateFilter = QueryBuilders.termsQuery("state", requestDTO.states());
+            boolQuery.filter(stateFilter);
         }
-        if (requestDTO.concertRating() != null) {
-            TermQueryBuilder regionFilter = QueryBuilders.termQuery("concertRating",
-                requestDTO.concertRating());
-            boolQuery.filter(regionFilter);
+        if (requestDTO.concertRatings() != null) {
+            TermsQueryBuilder concertRatingFilter = QueryBuilders.termsQuery("concertRating",
+                requestDTO.concertRatings());
+            boolQuery.filter(concertRatingFilter);
         }
         return concertSearchRepository.findByNameAndFilter(boolQuery, page, size);
     }
