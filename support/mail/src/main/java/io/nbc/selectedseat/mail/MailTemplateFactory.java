@@ -26,6 +26,22 @@ public class MailTemplateFactory {
         context.setVariable("ticketNumber", ticketNumber);
         context.setVariable("dayBefore", dayBefore);
 
-        return templateEngine.process("concert-advance-notification.html", context);
+        return templateEngine.process(
+            "concert-advance-notification.html",
+            context
+        );
+    }
+
+    public String generateEmailAuthenticationTemplate(
+        final String email,
+        final String code,
+        final String redirectUrl
+    ) {
+        Context context = new Context();
+        context.setVariable("email", email);
+        context.setVariable("code", code);
+        context.setVariable("redirectUrl", redirectUrl);
+
+        return templateEngine.process("email-authentication.html", context);
     }
 }
