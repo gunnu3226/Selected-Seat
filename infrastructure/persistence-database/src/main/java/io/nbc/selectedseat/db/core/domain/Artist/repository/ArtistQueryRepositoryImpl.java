@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.db.core.domain.Artist.repository;
+package io.nbc.selectedseat.db.core.domain.artist.repository;
 
 import static io.nbc.selectedseat.db.core.domain.Artist.entity.QArtistEntity.artistEntity;
 
@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class ArtistQueryRepositoryImpl implements ArtistQueryRepository {
+public class ArtistQueryRepositoryImpl implements
+    io.nbc.selectedseat.db.core.domain.Artist.repository.ArtistQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 

@@ -1,6 +1,6 @@
 import {waiting} from "@/api/index.js"
 
-export function isAllow(params){
+export function isAllow(params) {
   return waiting.get("/allowed", {params: params});
 }
 

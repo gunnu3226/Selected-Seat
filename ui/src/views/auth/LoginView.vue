@@ -23,10 +23,10 @@
 							>비밀번호</span
 						>
 						<input
-							type="password"
+                type="password"
 							class="form-control"
 							name="password"
-							v-model.trim="password"
+                v-model.trim="password"
 						/>
 					</div>
 					<button type="button" class="btn login-btn" @click="requestLogin">
@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
 import {login} from "@/api/member.js";
 import {useRouter} from "vue-router";
 import {useAuthenticationStore} from "@/store/authenticated.js";
@@ -49,7 +49,7 @@ const router = useRouter();
 const email = ref('');
 const password = ref('');
 
-const requestLogin = async() => {
+const requestLogin = async () => {
   if (email.value.trim() === "" || password.value.trim() === "") {
     alert("아이디 및 비밀번호를 입력해주세요");
     return;

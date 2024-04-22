@@ -22,7 +22,7 @@
 				/>
 			</form>
 			<div class="d-flex">
-				<ul class="nav" v-if="!isAuthenticated">
+        <ul class="nav" v-if="!isAuthenticated">
 					<li class="nav-item">
 						<RouterLink to="/login" class="nav-link" active-class="active">
 							로그인
@@ -36,7 +36,7 @@
 				</ul>
 				<ul class="nav" v-else>
 					<li class="nav-item">
-						<RouterLink to="/my-page" class="nav-link" active-class="active">
+            <RouterLink to="/my-page" class="nav-link" active-class="active">
 							마이페이지
 						</RouterLink>
 					</li>
@@ -52,19 +52,19 @@
 </template>
 
 <script setup>
-import { useAuthenticationStore } from '@/store/authenticated';
+import {useAuthenticationStore} from '@/store/authenticated';
 import {computed, ref} from 'vue';
 import {useRouter} from "vue-router";
 
 const store = useAuthenticationStore();
 const router = useRouter();
 const keyword = ref('');
-const isAuthenticated = computed(()=> store.isAuthenticated)
+const isAuthenticated = computed(() => store.isAuthenticated)
 const searching = () => {
 	if (keyword.value.trim() === '') {
 		return;
 	}
-	// TODO: implement searching feature
+  // TODO: implement searching feature
 };
 
 const logout = () => {

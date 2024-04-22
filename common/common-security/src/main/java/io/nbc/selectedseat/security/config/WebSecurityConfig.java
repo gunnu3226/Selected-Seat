@@ -109,6 +109,7 @@ public class WebSecurityConfig {
 
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedOrigin("http://selected-seat.shop");
         corsConfiguration.addAllowedOrigin("http://localhost:3000/");
         corsConfiguration.addAllowedOrigin("http://localhost:8080/");
         corsConfiguration.addAllowedOrigin("http://localhost:8081/");

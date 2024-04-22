@@ -2,7 +2,6 @@ package io.nbc.selectedseat.domain.reservation.mock;
 
 import io.nbc.selectedseat.domain.reservation.model.Reservation;
 import io.nbc.selectedseat.domain.reservation.repository.ReservationRepository;
-import io.nbc.selectedseat.domain.ticket.model.Ticket;
 import io.nbc.selectedseat.domain.ticket.model.TicketRating;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -73,7 +73,8 @@ import MemberCategoryList from '@/components/member/MemberCategoryList.vue';
 import TicketItem from '@/components/member/TicketItem.vue';
 import ReservationItem from '@/components/member/ReservationItem.vue';
 
-import { ref, reactive } from 'vue';
+import {reactive, ref} from 'vue';
+
 const selectedCategory = ref('티켓내역');
 
 const selectCategory = category => {
