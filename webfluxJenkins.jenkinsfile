@@ -33,7 +33,11 @@ pipeline {
             file(
               credentialsId: 'application-persistence-elasticsearch',
               variable: 'elasticsearch'
-            )
+            ),
+            file(
+              credentialsId: 'application-batch',
+              variable: 'batch'
+            ),
           ]){
             script{
               sh 'chmod +x ./sh/mkdir.sh'
@@ -43,6 +47,7 @@ pipeline {
               sh 'sudo cp $redis ./infrastructure/persistence-redis-adapter/src/main/resources/application-persistence-redis-adapter.yml'
               sh 'sudo cp $env ./ui/.env.production'
               sh 'sudo cp $elasticsearch ./infrastructure/persistence-elasticsearch/src/main/resources/application-persistence-elasticsearch.yml'
+              sh 'sudo cp $batch ./batch/src/main/resources/application.yml'
             }
           }
         }
