@@ -55,10 +55,10 @@ public class ConcertReader {
     ) throws IOException {
         ConcertSearchMapperDTO concertSearchMapperDTO = new ConcertSearchMapperDTO(
             requestDTO.text(),
-            requestDTO.region(),
-            requestDTO.category(),
-            requestDTO.state(),
-            requestDTO.concertRating());
+            requestDTO.regions(),
+            requestDTO.categories(),
+            requestDTO.states(),
+            requestDTO.concertRatings());
 
         Page<ConcertDocument> concertDocumentPage = concertSearchQueryMapper.searchConcertByTextAndFilter(
             concertSearchMapperDTO, page, size);
