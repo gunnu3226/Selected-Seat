@@ -22,7 +22,7 @@
 				/>
 			</form>
 			<div class="d-flex">
-				<ul class="nav" v-if="store.isAuthenticated">
+				<ul class="nav" v-if="!isAuthenticated">
 					<li class="nav-item">
 						<RouterLink to="/login" class="nav-link" active-class="active">
 							로그인
@@ -36,10 +36,15 @@
 				</ul>
 				<ul class="nav" v-else>
 					<li class="nav-item">
-						<RouterLink to="/Mypage" class="nav-link" active-class="active">
+						<RouterLink to="/my-page" class="nav-link" active-class="active">
 							마이페이지
 						</RouterLink>
 					</li>
+          <li class="nav-item">
+            <a class="nav-link cursor-pointer" @click="logout">
+              로그아웃
+            </a>
+          </li>
 				</ul>
 			</div>
 		</div>
@@ -48,22 +53,35 @@
 
 <script setup>
 import { useAuthenticationStore } from '@/store/authenticated';
-import { ref } from 'vue';
+import {computed, ref} from 'vue';
+import {useRouter} from "vue-router";
 
 const store = useAuthenticationStore();
-
+const router = useRouter();
 const keyword = ref('');
-
+const isAuthenticated = computed(()=> store.isAuthenticated)
 const searching = () => {
 	if (keyword.value.trim() === '') {
 		return;
 	}
-	console.log(keyword.value);
+	// TODO: implement searching feature
 };
+
+const logout = () => {
+  store.setAuthenticated(false);
+  localStorage.removeItem('token');
+  localStorage.removeItem('memberId');
+  isAuthenticated.value = false;
+  router.push("/login");
+}
 </script>
 
 <style scoped>
 .search-form {
 	width: 40%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 </style>

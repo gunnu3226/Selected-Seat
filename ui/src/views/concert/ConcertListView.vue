@@ -54,7 +54,6 @@ const categories = ref({
 })();
 
 const selectCategory = async (categoryId, name) => {
-  console.log(categoryId, name);
   selectedCategory.value = name;
   const response = await getConcertByCategory({category: categoryId});
   concertList.value = response.data.data;

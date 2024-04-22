@@ -129,13 +129,10 @@ const ticketPriceInfo = reactive({
       x => x.ticketRating === 'S')[0].price;
   ticketPriceInfo.A = ticketPriceResponse.data.data.filter(
       x => x.ticketRating === 'A')[0].price;
-
-  console.log(concertDates.value)
 })();
 
 const formatter = computed(() => {
   return value => {
-    console.log(value)
     return value != null && (value[0] + "." + value[1] + "." + value[2]);
   }
 })
