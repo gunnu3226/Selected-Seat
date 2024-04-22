@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedissonService implements RedisService {
 
-    private static final String KEY_PREFIX = "redisson:";
     private final RedisTemplate<String, Object> redisTemplate;
     private final StringRedisTemplate stringRedisTemplate;
     private final ObjectMapper objectMapper;
@@ -28,7 +27,7 @@ public class RedissonService implements RedisService {
 
     @Override
     public Optional<Object> get(final String key) {
-        var object = redisTemplate.opsForValue().get(redisKey(key));
+        var object = redisTemplate.opsForValue().get(key);
         try {
             if (object == null) {
                 return Optional.empty();
@@ -46,7 +45,7 @@ public class RedissonService implements RedisService {
     @Override
     public void set(final String key, final Object value, final Duration duration) {
         try {
-            redisTemplate.opsForValue().set(redisKey(key), value, duration);
+            redisTemplate.opsForValue().set(key, value, duration);
         } catch (Exception e) {
             // TODO logging
         }
@@ -66,7 +65,7 @@ public class RedissonService implements RedisService {
 
     @Override
     public boolean delete(final String key) {
-        return Boolean.TRUE.equals(stringRedisTemplate.delete(redisKey(key)));
+        return Boolean.TRUE.equals(stringRedisTemplate.delete(key));
     }
 
     @Override
@@ -80,9 +79,5 @@ public class RedissonService implements RedisService {
 
     public void selectedSeat(final String key, final String hashKey) {
         redisTemplate.opsForHash().put(key, hashKey, Boolean.FALSE);
-    }
-
-    private String redisKey(final String key) {
-        return KEY_PREFIX + key;
     }
 }
