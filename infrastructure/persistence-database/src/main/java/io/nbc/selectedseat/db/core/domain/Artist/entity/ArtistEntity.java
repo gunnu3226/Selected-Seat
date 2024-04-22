@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.db.core.domain.Artist.entity;
+package io.nbc.selectedseat.db.core.domain.artist.entity;
 
 import io.nbc.selectedseat.db.core.domain.common.BaseEntity;
 import io.nbc.selectedseat.domain.artist.model.Artist;
