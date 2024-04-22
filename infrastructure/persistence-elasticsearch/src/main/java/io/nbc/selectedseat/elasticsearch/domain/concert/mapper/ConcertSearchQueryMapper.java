@@ -54,14 +54,14 @@ public class ConcertSearchQueryMapper {
         return concertSearchRepository.findByNameAndFilter(boolQuery, page, size);
     }
 
-    public List<ConcertDocument> searchSuggestions(final String keyword) throws IOException {
+    public List<ConcertDocument> searchSuggestions(final String text) throws IOException {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
         MatchPhraseQueryBuilder matchPhraseNameQuery = QueryBuilders.matchPhraseQuery("name",
-            keyword);
+            text);
 
         MatchPhraseQueryBuilder matchPhrasePerformersQuery = QueryBuilders.matchPhraseQuery(
-            "performers", keyword);
+            "performers", text);
 
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
             .should(matchPhraseNameQuery)
