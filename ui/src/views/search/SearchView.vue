@@ -78,15 +78,16 @@
         </span>
       </div>
       <div class="search-btn-wrapper">
-        <button class="btn btn-primary" @click="searchConcert"> 검색</button>
+        <button class="btn btn-secondary reset-btn" @click="resetFilter">초기화</button>
+        <button class="btn btn-primary" @click="searchConcert">검색</button>
       </div>
       <hr>
       <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
         <div v-for="concertInfo in concertList" :key="concertInfo.title">
-					<span class="concert-info-wrapper">
+          <span class="concert-info-wrapper">
 						<ConcertItem
                 :concertInfo="concertInfo"
-                @click="goToDetail(concertInfo.concertId)"
+                @click="goToDetail(concertInfo.id)"
             ></ConcertItem>
 					</span>
         </div>
@@ -97,8 +98,9 @@
 
 <script setup>
 import {useRoute, useRouter} from "vue-router";
+import {computed, ref} from "vue";
+import {searchKeyword} from "@/api/search.js";
 import ConcertItem from "@/components/concert/ConcertItem.vue";
-import {ref} from "vue";
 
 const router = useRouter();
 const region = ref([]);
@@ -109,15 +111,51 @@ const route = useRoute();
 const keyword = ref("");
 const concertList = ref([]);
 
-keyword.value = route.query.keyword;
+(async () => {
+  if (route.query.keyword.trim() !== '') {
+  }
+  await searchKeyword({
+    text: route.query.keyword,
+  }).then(response => {
+    concertList.value = response.data.data.data;
+  })
+})();
+
 const searchConcert = async () => {
-  console.log(Object.keys(region.value).map(key => region.value[key]));
-  console.log(Object.keys(states.value.values()).map(key => region.value[key]));
-  console.log(
-      Object.keys(concertRating.value.values()).map(key => region.value[key]));
-  console.log(
-      Object.keys(categories.value.values()).map(key => region.value[key]));
-  console.log(keyword.value);
+  if (keyword.value.trim() === '') {
+    alert("키워드는 필수 항목입니다")
+    return;
+  }
+
+  let regionsList = Object.keys(region.value).map(key => region.value[key]);
+  let statesList = Object.keys(states.value.values()).map(key => states.value[key]);
+  let concertRatingsList = Object.keys(concertRating.value.values()).map(key => concertRating.value[key]);
+  let categoriesList = Object.keys(categories.value.values()).map(key => categories.value[key]);
+  await searchKeyword({
+    text: keyword.value,
+    regions: regionsList.length === 0? null : regionsList.join(","),
+    states: statesList.length === 0 ? null: statesList.join(","),
+    categories: categoriesList.length === 0 ? null : categoriesList.join(","),
+    concertRatings: concertRatingsList.length === 0 ? null : concertRatingsList.join(",")
+  }).then(response => {
+    concertList.value = response.data.data.data;
+  })
+}
+
+const formatter = computed(() => {
+  return value => {
+    return value[0] + "." + value[1] + "." + value[2];
+  }
+})
+
+const resetFilter = () => {
+  concertList.value = [];
+  keyword.value = "";
+  region.value = [];
+  categories.value = [];
+  concertRating.value = [];
+  states.value = [];
+  router.push("/search")
 }
 
 const goToDetail = id => {
@@ -175,5 +213,13 @@ const goToDetail = id => {
 .category-wrapper {
   width: 80%;
   display: inline-block;
+}
+
+.reset-btn {
+  margin-right: 1rem;
+}
+
+.concert-info-wrapper {
+  cursor: pointer;
 }
 </style>

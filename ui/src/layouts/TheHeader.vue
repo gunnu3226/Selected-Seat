@@ -24,8 +24,8 @@
             @keyup="searching"
             @keyup.enter="searching"
         />
-        <ul class="keywords-wrapper">
-          <li class="keyword-item" v-for="(suggestion, i) in suggestionsKeyword" :key="i">
+        <ul class="keywords-wrapper" v-show="suggestionsKeyword.length > 0">
+          <li class="keyword-item" v-for="(suggestion, i) in suggestionsKeyword" :key="i" @click="moveToSearchView(suggestion.suggestKeyword)">
             {{suggestion.suggestKeyword}}
           </li>
         </ul>
@@ -64,37 +64,32 @@
 import {useAuthenticationStore} from '@/store/authenticated';
 import {computed, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from "vue-router";
+import {getSuggestions} from "@/api/search.js";
 const route = useRoute();
 const store = useAuthenticationStore();
 const router = useRouter();
 const keyword = ref('');
 const isAuthenticated = computed(() => store.isAuthenticated)
-const suggestionsKeyword = ref([
-  {
-    suggestKeyword: "아이유 콘서트"
-  },
-  {
-    suggestKeyword: "아이유 연말 콘서트"
-  },
-  {
-    suggestKeyword: "아이유와 함께 크리스마스"
-  }
-]);
+const suggestionsKeyword = ref([]);
 
 onMounted(() => {
+  const formElement = document.querySelector('.keyword-search-form');
   const searchBar = document.querySelector(".search-input");
   const searchIcon = document.querySelector(".search-icon-wrapper");
   const suggestionList = document.querySelector(".keywords-wrapper");
-  searchBar.addEventListener("focusin", (e) => {
+
+  formElement.addEventListener("focusin", (e) => {
     searchBar.classList.add("search");
     searchIcon.classList.add("search");
     suggestionList.classList.add("show");
   })
 
-  searchBar.addEventListener("focusout", (e) => {
-    searchBar.classList.remove("search");
-    searchIcon.classList.remove("search");
-    suggestionList.classList.remove("show");
+  formElement.addEventListener("focusout", (e) => {
+    setTimeout(() => {
+      searchBar.classList.remove("search");
+      searchIcon.classList.remove("search");
+      suggestionList.classList.remove("show");
+    }, 1000);
   })
 
   searchBar.addEventListener("keyup", async (e) => {
@@ -108,31 +103,28 @@ onMounted(() => {
       searchIcon.classList.remove("search");
       suggestionList.classList.remove("show");
 
-      await router.push({
-        name: "SearchView",
-        query: {keyword}
-      }).catch(() =>{});
-
+      moveToSearchView(keyword);
       return;
     }
 
     if (keyword.trim() === '') {
       return;
     }
-    // await getSuggestions({
-    //   keyword:keyword,
-    // }).then(response => {
-    //   console.log(response.data);
-    // })
+
+    await getSuggestions({
+      text:keyword,
+    }).then(response => {
+      suggestionsKeyword.value = response.data.data;
+    })
   })
 })
 
-const searching = () => {
-  if (keyword.value.trim() === '') {
-    // return;
-  }
-  // TODO: implement searching feature
-};
+const moveToSearchView = (keyword) => {
+  router.push({
+    name: "SearchView",
+    query: {keyword}
+  }).catch(() =>{});
+}
 
 const logout = () => {
   store.setAuthenticated(false);
