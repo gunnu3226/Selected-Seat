@@ -1,4 +1,4 @@
-package io.nbc.selectedseat.db.core.domain.Artist.exception;
+package io.nbc.selectedseat.db.core.domain.artist.exception;
 
 public class NotExistArtistException extends RuntimeException {
 

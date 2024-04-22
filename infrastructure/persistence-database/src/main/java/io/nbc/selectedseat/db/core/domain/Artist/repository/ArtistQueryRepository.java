@@ -1,6 +1,6 @@
-package io.nbc.selectedseat.db.core.domain.Artist.repository;
+package io.nbc.selectedseat.db.core.domain.artist.repository;
 
-import io.nbc.selectedseat.db.core.domain.Artist.entity.ArtistEntity;
+import io.nbc.selectedseat.db.core.domain.artist.entity.ArtistEntity;
 import java.util.List;
 
 public interface ArtistQueryRepository {
