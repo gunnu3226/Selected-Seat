@@ -15,14 +15,39 @@ pipeline {
         steps{
           withCredentials([
             file(
+              credentialsId: 'application',
+              variable: 'application'
+            ),
+            file(
+              credentialsId: 'application-persistence-database',
+              variable: 'jpa'
+            ),
+            file(
+              credentialsId: 'application-persistence-redis-adapter',
+              variable: 'redis'
+            ),
+            file(
+              credentialsId: 'env',
+              variable: 'env'
+            ),
+            file(
+              credentialsId: 'application-persistence-elasticsearch',
+              variable: 'elasticsearch'
+            ),
+            file(
               credentialsId: 'application-batch',
               variable: 'batch'
-            )
+            ),
           ]){
             script{
-              sh 'chmod +x ./sh/webflux.sh'
-              sh 'sudo ./sh/webflux.sh'
-              sh 'sudo cp $batch ./batch/src/main/resources'
+              sh 'chmod +x ./sh/mkdir.sh'
+              sh 'sudo ./sh/mkdir.sh'
+              sh 'sudo cp $application ./web/src/main/resources/application.yml'
+              sh 'sudo cp $jpa ./infrastructure/persistence-database/src/main/resources/application-persistence-database.yml'
+              sh 'sudo cp $redis ./infrastructure/persistence-redis-adapter/src/main/resources/application-persistence-redis-adapter.yml'
+              sh 'sudo cp $env ./ui/.env.production'
+              sh 'sudo cp $elasticsearch ./infrastructure/persistence-elasticsearch/src/main/resources/application-persistence-elasticsearch.yml'
+              sh 'sudo cp $batch ./batch/src/main/resources/application.yml'
             }
           }
         }

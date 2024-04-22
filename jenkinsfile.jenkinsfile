@@ -38,11 +38,11 @@ pipeline {
             script{
               sh 'chmod +x ./sh/mkdir.sh'
               sh 'sudo ./sh/mkdir.sh'
-              sh 'sudo cp $application /var/lib/jenkins/workspace/Selected-Seat/web/src/main/resources/application.yml'
-              sh 'sudo cp $jpa /var/lib/jenkins/workspace/Selected-Seat/infrastructure/persistence-database/src/main/resources/application-persistence-database.yml'
-              sh 'sudo cp $redis /var/lib/jenkins/workspace/Selected-Seat/infrastructure/persistence-redis-adapter/src/main/resources/application-persistence-redis-adapter.yml'
-              sh 'sudo cp $env /var/lib/jenkins/workspace/Selected-Seat/ui/.env.production'
-              sh 'sudo cp $elasticsearch /var/lib/jenkins/workspace/Selected-Seat/infrastructure/persistence-elasticsearch/src/main/resources/application-persistence-elasticsearch.yml'
+              sh 'sudo cp $application ./web/src/main/resources/application.yml'
+              sh 'sudo cp $jpa ./infrastructure/persistence-database/src/main/resources/application-persistence-database.yml'
+              sh 'sudo cp $redis ./infrastructure/persistence-redis-adapter/src/main/resources/application-persistence-redis-adapter.yml'
+              sh 'sudo cp $env ./ui/.env.production'
+              sh 'sudo cp $elasticsearch ./infrastructure/persistence-elasticsearch/src/main/resources/application-persistence-elasticsearch.yml'
             }
           }
         }
