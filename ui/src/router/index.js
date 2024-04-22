@@ -10,6 +10,7 @@ import TicketReservationView
   from "@/views/reservation/TicketReservationView.vue";
 
 import WaitingRoomView from "@/views/wating/WaitingRoomView.vue";
+import SearchView from "@/views/search/SearchView.vue";
 
 const routes = [
   {
@@ -64,6 +65,11 @@ const routes = [
     component: WaitingRoomView,
     props: true,
     meta: {requiresAuth: true}
+  },{
+    path: '/search',
+    name: 'SearchView',
+    component: SearchView,
+    props: true,
   }
 ];
 
