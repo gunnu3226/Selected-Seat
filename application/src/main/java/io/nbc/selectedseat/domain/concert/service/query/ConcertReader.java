@@ -111,4 +111,9 @@ public class ConcertReader {
             .orElseThrow(ConcertDateExistException::new);
         return ConcertDateResponseDTO.from(concertDate);
     }
+
+    public void getConcertPerformers(final Long concertId) {
+        concertRepository.findById(concertId)
+            .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다"));
+    }
 }
