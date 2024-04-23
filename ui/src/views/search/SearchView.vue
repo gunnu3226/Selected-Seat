@@ -113,12 +113,12 @@ const concertList = ref([]);
 
 (async () => {
   if (route.query.keyword.trim() !== '') {
-  }
   await searchKeyword({
     text: route.query.keyword,
   }).then(response => {
     concertList.value = response.data.data.data;
   })
+  }
 })();
 
 const searchConcert = async () => {
@@ -155,7 +155,7 @@ const resetFilter = () => {
   categories.value = [];
   concertRating.value = [];
   states.value = [];
-  router.push("/search")
+  router.push("/search");
 }
 
 const goToDetail = id => {
