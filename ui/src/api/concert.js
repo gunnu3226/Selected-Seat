@@ -1,4 +1,4 @@
-import { concert } from '@/api/index';
+import {concert} from '@/api/index';
 
 export function getConcertByCategory(params) {
 	return concert.get('', { params });
@@ -13,5 +13,5 @@ export function getConcertRatingById(id){
 }
 
 export function getConcertDates(id){
-	return concert.get(`/${id}/dates`);
+  return concert.get(`/${id}/dates`);
 }

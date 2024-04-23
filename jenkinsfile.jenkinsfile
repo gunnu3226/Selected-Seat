@@ -5,7 +5,7 @@ pipeline {
       stage('git pull'){
         steps{
           sh "echo 'git pull'"
-          git branch: 'dev-deploy',
+          git branch: 'feat/deploy2',
             credentialsId: 'yiyaaa',
             url: 'https://github.com/Selected-Seat/selected-seat'
         }
@@ -25,34 +25,94 @@ pipeline {
             file(
               credentialsId: 'application-persistence-redis-adapter',
               variable: 'redis'
+            ),
+            file(
+              credentialsId: 'env',
+              variable: 'env'
+            ),
+            file(
+              credentialsId: 'application-persistence-elasticsearch',
+              variable: 'elasticsearch'
             )
           ]){
             script{
               sh 'chmod +x ./sh/mkdir.sh'
               sh 'sudo ./sh/mkdir.sh'
-              sh 'sudo cp $application /var/lib/jenkins/workspace/Selected-Seat/web/src/main/resources/application.yml'
-              sh 'sudo cp $jpa /var/lib/jenkins/workspace/Selected-Seat/infrastructure/persistence-database/src/main/resources/application-persistence-database.yml'
-              sh 'sudo cp $redis /var/lib/jenkins/workspace/Selected-Seat/infrastructure/persistence-redis-adapter/src/main/resources/application-persistence-redis-adapter.yml'
+              sh 'sudo cp $application ./web/src/main/resources/application.yml'
+              sh 'sudo cp $jpa ./infrastructure/persistence-database/src/main/resources/application-persistence-database.yml'
+              sh 'sudo cp $redis ./infrastructure/persistence-redis-adapter/src/main/resources/application-persistence-redis-adapter.yml'
+              sh 'sudo cp $env ./ui/.env.production'
+              sh 'sudo cp $elasticsearch ./infrastructure/persistence-elasticsearch/src/main/resources/application-persistence-elasticsearch.yml'
             }
           }
         }
       }
 
-      stage('build') {
+      stage('front build') {
+          steps {
+             sh '''
+                echo 'front 빌드를 시작합니다.'
+                docker build -t selected-seat-front:front ./ui
+              '''
+          }
+      }
+
+      stage('back build') {
           steps {
              sh '''
                 echo '빌드를 시작합니다.'
                 chmod +x gradlew
                 sudo ./gradlew clean bootjar
-                echo '성공합니다.'
               '''
           }
       }
 
-      stage('docker build image') {
+//       stage('batch build'){
+//         steps{
+//           sh '''
+//             echo 'batch 빌드를 시작합니다.'
+//             sudo docker build -t batch:batch ./batch
+//           '''
+//         }
+//       }
+
+      stage('docker push ECR and update ECS') {
+        steps {
+            script{
+              sh "sudo aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${env.ECR_URI}"
+
+              sh "echo '도커 image파일을 만듭니다.'"
+              sh "docker build -t selected-seat:latest ."
+
+              sh "echo '도커 기존 이미지 삭제'"
+              sh "sudo aws ecr batch-delete-image --repository-name selected-seat-test --image-ids imageTag=latest"
+              sh "sudo aws ecr batch-delete-image --repository-name selected-seat-test --image-ids imageTag=front"
+
+              sh "echo 'back image를 ECR에 태그합니다.'"
+              sh "sudo docker tag selected-seat:latest ${env.ECR_URI}/selected-seat-test:latest"
+
+              sh "echo 'back image를  ECR에 push합니다.'"
+              sh "sudo docker push ${env.ECR_URI}/selected-seat-test:latest"
+
+              sh "echo 'front image를 ECR에 태그합니다.'"
+              sh "sudo docker tag selected-seat-front:front ${env.ECR_URI}/selected-seat-test:front"
+
+              sh "echo 'front image를 ECR에 push합니다.'"
+              sh "sudo docker push ${env.ECR_URI}/selected-seat-test:front"
+
+              sh "echo 'back ecs 업데이트'"
+              sh "sudo aws ecs update-service --cluster selected-cluster --service back --force-new-deployment"
+
+              sh "echo 'back ecs 업데이트'"
+              sh "sudo aws ecs update-service --cluster selected-cluster --service front-service --force-new-deployment"
+            }
+        }
+      }
+
+      stage('docker image 정리') {
         steps {
            sh '''
-              echo '도커 이미지를 빌드합니다.'
+              echo '도커 이미지를 정리합니다.'
               chmod +x ./sh/docker.sh
               sudo ./sh/docker.sh
             '''

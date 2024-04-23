@@ -195,4 +195,8 @@ node_modules
 
 # env
 *.env
+*.development
+*.production
 .env
+.env.development
+.env.production

@@ -7,3 +7,11 @@ export function signup(data) {
 export function login(data) {
   return member.post("/login", data);
 }
+
+export function getEmailAuthCode(data) {
+  return member.post("/invites", data);
+}
+
+export function checkEmailAuthCode(data) {
+  return member.post("/invites/check", data);
+}

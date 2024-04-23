@@ -83,7 +83,7 @@ public class WebSecurityConfig {
             authorizeHttpRequests
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                 .permitAll()
-                .requestMatchers("/api/v1/invites").permitAll()
+                .requestMatchers("/api/v1/members/invites/**").permitAll()
                 .requestMatchers("/api/v1/members/sign-up").permitAll()
                 .requestMatchers("/api/v1/tickets/prices/concerts/**").permitAll()
                 .requestMatchers("/api/v1/categories").permitAll()
@@ -109,6 +109,7 @@ public class WebSecurityConfig {
 
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedOrigin("http://selected-seat.shop");
         corsConfiguration.addAllowedOrigin("http://localhost:3000/");
         corsConfiguration.addAllowedOrigin("http://localhost:8080/");
         corsConfiguration.addAllowedOrigin("http://localhost:8081/");

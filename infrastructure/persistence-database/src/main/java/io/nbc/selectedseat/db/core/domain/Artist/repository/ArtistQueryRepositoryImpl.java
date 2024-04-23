@@ -1,16 +1,17 @@
-package io.nbc.selectedseat.db.core.domain.Artist.repository;
+package io.nbc.selectedseat.db.core.domain.artist.repository;
 
-import static io.nbc.selectedseat.db.core.domain.Artist.entity.QArtistEntity.artistEntity;
+import static io.nbc.selectedseat.db.core.domain.artist.entity.QArtistEntity.artistEntity;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.nbc.selectedseat.db.core.domain.Artist.entity.ArtistEntity;
+import io.nbc.selectedseat.db.core.domain.artist.entity.ArtistEntity;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class ArtistQueryRepositoryImpl implements ArtistQueryRepository {
+public class ArtistQueryRepositoryImpl implements
+    io.nbc.selectedseat.db.core.domain.artist.repository.ArtistQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 

@@ -98,8 +98,9 @@ public class ConcertReader {
     }
 
     public List<SearchSuggestionResponseDTO> searchSuggestions(final String keyword)
+    public List<SearchSuggestionResponseDTO> searchSuggestions(final String text)
         throws IOException {
-        return concertSearchQueryMapper.searchSuggestions(keyword).stream()
+        return concertSearchQueryMapper.searchSuggestions(text).stream()
             .map(SearchSuggestionResponseDTO::from)
             .toList();
     }
@@ -134,4 +135,8 @@ public class ConcertReader {
         return ConcertDateResponseDTO.from(concertDate);
     }
 
+    public void getConcertPerformers(final Long concertId) {
+        concertRepository.findById(concertId)
+            .orElseThrow(() -> new ConcertExistException("해당 콘서트가 존재하지 않습니다"));
+    }
 }

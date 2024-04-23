@@ -2,7 +2,7 @@ bootJar.enabled = true
 jar.enabled = false
 dependencies {
     implementation(project(":application"))
-    implementation(project(":domain")) // TODO: just for init test
+    implementation(project(":domain"))
     implementation(project(":common:common-security"))
     implementation(project(":support:monitoring"))
     implementation(project(":support:notification"))

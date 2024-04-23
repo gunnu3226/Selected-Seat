@@ -4,6 +4,8 @@ import io.nbc.selectedseat.domain.concert.dto.ConcertSearchMapper;
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.model.ConcertDate;
 import io.nbc.selectedseat.domain.concert.model.ConcertRating;
+import io.nbc.selectedseat.domain.concert.model.Performer;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,4 +33,5 @@ public interface ConcertRepository {
 
     List<Concert> searchConcertByTextAndFilter(ConcertSearchMapper concertSearchVo, int page,
         int size);
+
 }

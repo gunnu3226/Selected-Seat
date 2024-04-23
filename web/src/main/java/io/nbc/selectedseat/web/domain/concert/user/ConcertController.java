@@ -4,12 +4,13 @@ import io.nbc.selectedseat.common.WebPage;
 import io.nbc.selectedseat.domain.concert.dto.ConcertDateResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertRatingResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
+import io.nbc.selectedseat.domain.concert.dto.PerformerInfo;
 import io.nbc.selectedseat.domain.concert.service.dto.ConcertDetailInfo;
 import io.nbc.selectedseat.domain.concert.service.dto.ConcertSearchRequestDTO;
 import io.nbc.selectedseat.domain.concert.service.dto.SearchSuggestionResponseDTO;
 import io.nbc.selectedseat.domain.concert.service.query.ConcertReader;
+import io.nbc.selectedseat.domain.facade.concert.ConcertFacade;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
-import io.nbc.selectedseat.web.domain.concert.dto.request.SearchSuggestionRequestDto;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConcertController {
 
     private final ConcertReader concertReader;
+    private final ConcertFacade concertFacade;
 
     @GetMapping("/{concertId}")
     public ResponseEntity<ResponseDTO<GetConcertResponseDTO>> getConcert(
@@ -81,12 +82,37 @@ public class ConcertController {
         );
     }
 
+    @GetMapping("/{concertId}/performers")
+    public ResponseEntity<ResponseDTO<List<PerformerInfo>>> getConcertPerformers(
+        @PathVariable Long concertId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<List<PerformerInfo>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("콘서트 공연자 조회 성공")
+                .data(concertFacade.getConcertPerformers(concertId))
+                .build()
+        );
+    }
+
     @GetMapping("/search")
     public ResponseEntity<ResponseDTO<WebPage<List<ConcertDetailInfo>>>> searchConcerts(
-        @RequestBody ConcertSearchRequestDTO requestDTO,
+        @RequestParam("text") String text,
+        @RequestParam(value = "regions", required = false) List<String> regions,
+        @RequestParam(value = "categories", required = false) List<String> categories,
+        @RequestParam(value = "states", required = false) List<String> states,
+        @RequestParam(value = "concertRatings", required = false) List<String> concertRatings,
         @RequestParam(value = "page", defaultValue = "0") Integer page,
         @RequestParam(value = "size", defaultValue = "10") Integer size
     ) throws IOException {
+        ConcertSearchRequestDTO requestDTO = new ConcertSearchRequestDTO(
+            text,
+            regions,
+            categories,
+            states,
+            concertRatings
+        );
+
         WebPage<List<ConcertDetailInfo>> searchResponse = concertReader.searchConcertByTextAndFilter(
             requestDTO, page, size);
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -113,10 +139,10 @@ public class ConcertController {
 
     @GetMapping("/search/suggestions")
     public ResponseEntity<ResponseDTO<List<SearchSuggestionResponseDTO>>> searchSuggestions(
-        @RequestBody SearchSuggestionRequestDto requestDTO
+        @RequestParam("text") String text
     ) throws IOException {
         List<SearchSuggestionResponseDTO> response = concertReader.searchSuggestions(
-            requestDTO.keyword());
+            text);
         return ResponseEntity.status(HttpStatus.OK).body(
             ResponseDTO.<List<SearchSuggestionResponseDTO>>builder()
                 .statusCode(HttpStatus.OK.value())

@@ -31,7 +31,8 @@ public class QueueWriter {
             .add(USER_WAIT_QUEUE.formatted(queue), memberId.toString(),
                 Instant.now().getEpochSecond())
             .filter(rs -> rs)
-            .switchIfEmpty(Mono.error(new Exception("[ERROR]"))) // TODO: will be replace to custom exception
+            .switchIfEmpty(
+                Mono.error(new Exception("[ERROR]"))) // TODO: will be replace to custom exception
             .flatMap(rs -> reactiveRedisTemplate.opsForZSet()
                 .rank(USER_WAIT_QUEUE.formatted(queue), memberId.toString()))
             .map(i -> i >= 0 ? i + 1 : i);
