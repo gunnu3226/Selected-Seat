@@ -45,7 +45,7 @@ public class AuthService {
 
     private String generateRedirectUrl(final String email, final String code) {
         // TODO: will replace the shop url
-        return "http://localhost:3000/signup?code=" + code + "&email=" + email;
+        return "http://selected-seat.shop/signup?code=" + code + "&email=" + email;
     }
 
     private String generateTitle(final String email) {
