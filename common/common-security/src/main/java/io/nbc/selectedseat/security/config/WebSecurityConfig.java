@@ -83,6 +83,7 @@ public class WebSecurityConfig {
             authorizeHttpRequests
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                 .permitAll()
+                .requestMatchers("/healthcheck").permitAll()
                 .requestMatchers("/api/v1/members/invites/**").permitAll()
                 .requestMatchers("/api/v1/members/sign-up").permitAll()
                 .requestMatchers("/api/v1/tickets/prices/concerts/**").permitAll()
