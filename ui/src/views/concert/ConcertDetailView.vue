@@ -197,13 +197,14 @@ const reservation = () => {
   border: 2px solid #c3a2ed;
   right: 0;
   top: 40%;
-  width: 200px;
+  min-width: 200px;
+  max-width: 300px;
   padding: 1rem;
   border-radius: 4px;
 }
 
 .rate-info {
-  margin-left: 3rem;
+  margin-left: 2rem;
 }
 
 .reservation-form {
