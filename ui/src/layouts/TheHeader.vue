@@ -119,11 +119,12 @@ onMounted(() => {
   })
 })
 
-const moveToSearchView = (keyword) => {
+const moveToSearchView = (text) => {
   router.push({
     name: "SearchView",
-    query: {keyword}
+    query: {text}
   }).catch(() =>{});
+  keyword.value = "";
 }
 
 const logout = () => {
