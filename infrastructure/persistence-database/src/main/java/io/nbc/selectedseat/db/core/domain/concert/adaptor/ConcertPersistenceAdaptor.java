@@ -1,6 +1,5 @@
 package io.nbc.selectedseat.db.core.domain.concert.adaptor;
 
-import static io.nbc.selectedseat.db.core.domain.Artist.entity.QArtistEntity.artistEntity;
 import static io.nbc.selectedseat.db.core.domain.concert.entity.QConcertEntity.concertEntity;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -8,7 +7,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertDateEntity;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertEntity;
 import io.nbc.selectedseat.db.core.domain.concert.entity.ConcertRatingEntity;
-import io.nbc.selectedseat.db.core.domain.concert.entity.RegionEntity;
 import io.nbc.selectedseat.db.core.domain.concert.repository.ConcertDateJpaRepository;
 import io.nbc.selectedseat.db.core.domain.concert.repository.ConcertJpaRepository;
 import io.nbc.selectedseat.db.core.domain.concert.repository.ConcertRatingJpaRepository;
@@ -23,9 +21,6 @@ import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 @Repository
