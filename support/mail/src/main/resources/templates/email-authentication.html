@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>[이선좌] 이메일 계정을 인증해주세요 ([[${email}]])</title>
+  <style>
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #292929 !important;
+    }
+
+    #app {
+      width: 900px;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+<div id="app" style="margin-bottom: 10px; color: #292929;">
+  <h3 style="text-align: center; margin-bottom: 2rem;">[이선좌] 이메일 계정을 인증해주세요 ([[${email}]])</h3>
+  <p>안녕하세요!</p>
+  <p>이선좌 티켓 서비스를 이용해주셔서 감사합니다. 🚀</p>
+  <p>이메일 계정을 인증받으시려면 아래 링크를 클릭해주세요.</p>
+  <p class="link-wrapper">
+    <a th:href="${redirectUrl}" target="_blank">이메일 인증하기</a>
+  </p>
+</div>
+</body>
+</html>

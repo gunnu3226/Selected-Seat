@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.web.domain.member.user;
 
+import io.nbc.selectedseat.domain.auth.service.AuthService;
 import io.nbc.selectedseat.domain.member.dto.CoinInfo;
 import io.nbc.selectedseat.domain.member.dto.MemberInfo;
 import io.nbc.selectedseat.domain.member.facade.MemberFacade;
@@ -10,10 +11,12 @@ import io.nbc.selectedseat.domain.member.service.command.MemberWriter;
 import io.nbc.selectedseat.domain.member.service.query.MemberReader;
 import io.nbc.selectedseat.security.userdetail.UserDetailsImpl;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
-import io.nbc.selectedseat.web.domain.dto.CoinResponseDTO;
-import io.nbc.selectedseat.web.domain.dto.MemberIdResponseDTO;
 import io.nbc.selectedseat.web.domain.member.dto.CoinRequestDTO;
+import io.nbc.selectedseat.web.domain.member.dto.CoinResponseDTO;
 import io.nbc.selectedseat.web.domain.member.dto.DeleteMemberRequestDTO;
+import io.nbc.selectedseat.web.domain.member.dto.EmailAuthCodeRequestDTO;
+import io.nbc.selectedseat.web.domain.member.dto.EmailAuthRequestDTO;
+import io.nbc.selectedseat.web.domain.member.dto.MemberIdResponseDTO;
 import io.nbc.selectedseat.web.domain.member.dto.SignupRequestDTO;
 import io.nbc.selectedseat.web.domain.member.dto.UpdateRequestDTO;
 import io.nbc.selectedseat.web.excpetion.ImageNotFoundException;
@@ -45,6 +48,27 @@ public class MemberController {
     private final MemberReader memberReader;
     private final MemberFacade memberFacade;
     private final UploadService uploadService;
+    private final AuthService authService;
+
+    @PostMapping("/invites")
+    public ResponseEntity<Void> getEmailAuthCode(
+        @Valid @RequestBody EmailAuthRequestDTO requestDTO
+    ) {
+        authService.sendEmailAuthentication(requestDTO.email());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/invites/check")
+    public ResponseEntity<EmailAuthResponseDTO> checkEmailAuthCode(
+        @Valid @RequestBody EmailAuthCodeRequestDTO requestDTO
+    ) {
+        return ResponseEntity.ok()
+            .body(new EmailAuthResponseDTO(authService.checkAuthCode(
+                    requestDTO.email(),
+                    requestDTO.authCode()
+                ))
+            );
+    }
 
     @PostMapping("/sign-up")
     public ResponseEntity<ResponseDTO<MemberIdResponseDTO>> signUp(
@@ -52,9 +76,9 @@ public class MemberController {
     ) {
         MemberIdResponseDTO responseDTO = new MemberIdResponseDTO(
             memberWriter.signup(
-            requestDTO.email(),
-            requestDTO.password(),
-                    requestDTO.birth()
+                requestDTO.email(),
+                requestDTO.password(),
+                requestDTO.birth()
             ).id());
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -122,7 +146,8 @@ public class MemberController {
         @Valid @RequestBody DeleteMemberRequestDTO requestDTO,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        memberWriter.deleteMember(userDetails.getMemberId(), requestDTO.password());
+        memberWriter.deleteMember(userDetails.getMemberId(),
+            requestDTO.password());
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -134,7 +159,8 @@ public class MemberController {
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         CoinResponseDTO responseDTO = new CoinResponseDTO(
-            memberWriter.chargeCoin(userDetails.getMemberId(), requestDTO.amount())
+            memberWriter.chargeCoin(userDetails.getMemberId(),
+                    requestDTO.amount())
                 .coinAmount()
         );
 
@@ -152,7 +178,8 @@ public class MemberController {
         @Valid @RequestBody CoinRequestDTO requestDTO,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        CoinInfo responseDTO = memberWriter.deductionCoin(userDetails.getMemberId(),
+        CoinInfo responseDTO = memberWriter.deductionCoin(
+            userDetails.getMemberId(),
             requestDTO.amount());
 
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -168,7 +195,8 @@ public class MemberController {
     public ResponseEntity<ResponseDTO<MemberInfo>> getMemberByID(
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        MemberInfo responseDTO = memberReader.getMemberById(userDetails.getMemberId());
+        MemberInfo responseDTO = memberReader.getMemberById(
+            userDetails.getMemberId());
 
         return ResponseEntity.status(HttpStatus.OK).body(
             ResponseDTO.<MemberInfo>builder()

@@ -1,8 +1,8 @@
 package io.nbc.selectedseat.queue.controller;
 
 import io.nbc.selectedseat.queue.controller.dto.request.AllowEnterRequest;
-import io.nbc.selectedseat.queue.controller.dto.response.AllowEnterResponse;
 import io.nbc.selectedseat.queue.controller.dto.request.QueueAndMemberIdRequest;
+import io.nbc.selectedseat.queue.controller.dto.response.AllowEnterResponse;
 import io.nbc.selectedseat.queue.controller.dto.response.RegisterQueueResponse;
 import io.nbc.selectedseat.queue.service.QueueWriter;
 import lombok.RequiredArgsConstructor;

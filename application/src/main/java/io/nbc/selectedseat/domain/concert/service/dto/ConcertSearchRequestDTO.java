@@ -1,11 +1,13 @@
 package io.nbc.selectedseat.domain.concert.service.dto;
 
+import java.util.List;
+
 public record ConcertSearchRequestDTO(
     String text,
-    String region,
-    String category,
-    String state,
-    String concertRating
+    List<String> regions,
+    List<String> categories,
+    List<String> states,
+    List<String> concertRatings
 ) {
 
 }

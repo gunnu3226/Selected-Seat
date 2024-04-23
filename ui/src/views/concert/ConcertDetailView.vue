@@ -95,11 +95,7 @@
 <script setup>
 import {useRoute, useRouter} from 'vue-router';
 import {computed, reactive, ref} from 'vue';
-import {
-  getConcertById,
-  getConcertDates,
-  getConcertRatingById
-} from '@/api/concert.js';
+import {getConcertById, getConcertDates, getConcertRatingById} from '@/api/concert.js';
 import {getTicketPrice} from "@/api/ticketPrice.js"
 
 const router = useRouter();

@@ -5,7 +5,7 @@ pipeline {
       stage('git pull'){
         steps{
           sh "echo 'git pull'"
-          git branch: 'feat/deploy2',
+          git branch: 'feat/webflux',
             credentialsId: 'yiyaaa',
             url: 'https://github.com/Selected-Seat/selected-seat'
         }
@@ -33,7 +33,11 @@ pipeline {
             file(
               credentialsId: 'application-persistence-elasticsearch',
               variable: 'elasticsearch'
-            )
+            ),
+            file(
+              credentialsId: 'application-batch',
+              variable: 'batch'
+            ),
           ]){
             script{
               sh 'chmod +x ./sh/mkdir.sh'
@@ -43,18 +47,10 @@ pipeline {
               sh 'sudo cp $redis ./infrastructure/persistence-redis-adapter/src/main/resources/application-persistence-redis-adapter.yml'
               sh 'sudo cp $env ./ui/.env.production'
               sh 'sudo cp $elasticsearch ./infrastructure/persistence-elasticsearch/src/main/resources/application-persistence-elasticsearch.yml'
+              sh 'sudo cp $batch ./batch/src/main/resources/application.yml'
             }
           }
         }
-      }
-
-      stage('front build') {
-          steps {
-             sh '''
-                echo 'front 빌드를 시작합니다.'
-                docker build -t selected-seat-front:front ./ui
-              '''
-          }
       }
 
       stage('back build') {
@@ -67,44 +63,32 @@ pipeline {
           }
       }
 
-//       stage('batch build'){
-//         steps{
-//           sh '''
-//             echo 'batch 빌드를 시작합니다.'
-//             sudo docker build -t batch:batch ./batch
-//           '''
-//         }
-//       }
+      stage('webflux docker build'){
+        steps{
+          script{
+            sh'''
+              docker build -t webflux:webflux ./queue
+            '''
+          }
+        }
+      }
 
-      stage('docker push ECR and update ECS') {
+      stage('webflux image push ECR and update ECS') {
         steps {
             script{
               sh "sudo aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${env.ECR_URI}"
 
-              sh "echo '도커 image파일을 만듭니다.'"
-              sh "docker build -t selected-seat:latest ."
-
               sh "echo '도커 기존 이미지 삭제'"
-              sh "sudo aws ecr batch-delete-image --repository-name selected-seat-test --image-ids imageTag=latest"
-              sh "sudo aws ecr batch-delete-image --repository-name selected-seat-test --image-ids imageTag=front"
+              sh "sudo aws ecr batch-delete-image --repository-name selected-seat-test --image-ids imageTag=webflux"
 
-              sh "echo 'back image를 ECR에 태그합니다.'"
-              sh "sudo docker tag selected-seat:latest ${env.ECR_URI}/selected-seat-test:latest"
+              sh "echo 'webflux image를 ECR에 태그합니다.'"
+              sh "sudo docker tag webflux:webflux ${env.ECR_URI}/selected-seat-test:webflux"
 
-              sh "echo 'back image를  ECR에 push합니다.'"
-              sh "sudo docker push ${env.ECR_URI}/selected-seat-test:latest"
-
-              sh "echo 'front image를 ECR에 태그합니다.'"
-              sh "sudo docker tag selected-seat-front:front ${env.ECR_URI}/selected-seat-test:front"
-
-              sh "echo 'front image를 ECR에 push합니다.'"
-              sh "sudo docker push ${env.ECR_URI}/selected-seat-test:front"
+              sh "echo 'webflux image를  ECR에 push합니다.'"
+              sh "sudo docker push ${env.ECR_URI}/selected-seat-test:webflux"
 
               sh "echo 'back ecs 업데이트'"
-              sh "sudo aws ecs update-service --cluster selected-cluster --service back --force-new-deployment"
-
-              sh "echo 'back ecs 업데이트'"
-              sh "sudo aws ecs update-service --cluster selected-cluster --service front-service --force-new-deployment"
+              sh "sudo aws ecs update-service --cluster selected-cluster --service webflux-test --force-new-deployment"
             }
         }
       }
