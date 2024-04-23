@@ -5,7 +5,7 @@ public record PerformerInfo(
     String profile
 ) {
 
-    public static PerformerInfo from(String artist, String profile) {
+    public static PerformerInfo from(final String artist, String profile) {
         return new PerformerInfo(
             artist,
             profile
