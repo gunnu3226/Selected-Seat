@@ -4,10 +4,12 @@ import io.nbc.selectedseat.common.WebPage;
 import io.nbc.selectedseat.domain.concert.dto.ConcertDateResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertRatingResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
+import io.nbc.selectedseat.domain.concert.dto.PerformerInfo;
 import io.nbc.selectedseat.domain.concert.service.dto.ConcertDetailInfo;
 import io.nbc.selectedseat.domain.concert.service.dto.ConcertSearchRequestDTO;
 import io.nbc.selectedseat.domain.concert.service.dto.SearchSuggestionResponseDTO;
 import io.nbc.selectedseat.domain.concert.service.query.ConcertReader;
+import io.nbc.selectedseat.domain.facade.concert.ConcertFacade;
 import io.nbc.selectedseat.web.common.dto.ResponseDTO;
 import java.io.IOException;
 import java.util.List;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConcertController {
 
     private final ConcertReader concertReader;
+    private final ConcertFacade concertFacade;
 
     @GetMapping("/{concertId}")
     public ResponseEntity<ResponseDTO<GetConcertResponseDTO>> getConcert(
@@ -75,6 +78,19 @@ public class ConcertController {
                 .statusCode(HttpStatus.OK.value())
                 .message("콘서트 일정 조회 성공")
                 .data(concertReader.getConcertDates(concertId))
+                .build()
+        );
+    }
+
+    @GetMapping("/{concertId}/performers")
+    public ResponseEntity<ResponseDTO<List<PerformerInfo>>> getConcertPerformers(
+        @PathVariable Long concertId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ResponseDTO.<List<PerformerInfo>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("콘서트 공연자 조회 성공")
+                .data(concertFacade.getConcertPerformers(concertId))
                 .build()
         );
     }
