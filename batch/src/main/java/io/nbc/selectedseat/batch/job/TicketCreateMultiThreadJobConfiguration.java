@@ -16,45 +16,58 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class TicketCreateJobConfiguration {
+public class TicketCreateMultiThreadJobConfiguration {
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
     private final Integer CHUNK_SIZE = 1500;
 
     @Bean
-    public Job ticketCreateJob(
-        final Step ticketCreateStep,
+    public Job ticketCreateMultiThreadJob(
+        final Step ticketCreateMultiThreadStep,
         final JobExecutionListener jobAlarmExecutionListener
     ) {
-        return new JobBuilder("ticketCreateJob", jobRepository)
-            .start(ticketCreateStep)
+        return new JobBuilder("ticketCreateMultiThreadJob", jobRepository)
+            .start(ticketCreateMultiThreadStep)
             .incrementer(new RunIdIncrementer()) // TODO: entry point for performance measurement
             .listener(jobAlarmExecutionListener)
             .build();
     }
 
+    public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
+        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+
+        threadPoolTaskExecutor.setCorePoolSize(10);
+        threadPoolTaskExecutor.setMaxPoolSize(20);
+        threadPoolTaskExecutor.initialize();
+
+        return threadPoolTaskExecutor;
+    }
+
+
     @Bean
-    public Step ticketCreateStep(
-        final ItemReader<TicketBatchEntity> ticketCreateItemReader,
-        final ItemWriter<TicketBatchEntity> ticketCreateWriter
+    public Step ticketCreateMultiThreadStep(
+        final ItemReader<TicketBatchEntity> ticketSynchronizedItemReader,
+        final ItemWriter<TicketBatchEntity> ticketCreateMultiThreadWriter
     ) {
-        return new StepBuilder("ticketCreateStep", jobRepository)
+        return new StepBuilder("ticketCreateMultiThreadStep", jobRepository)
             .<TicketBatchEntity, TicketBatchEntity>chunk(CHUNK_SIZE,
                 platformTransactionManager)
-            .reader(ticketCreateItemReader)
-            .writer(ticketCreateWriter)
+            .reader(ticketSynchronizedItemReader)
+            .writer(ticketCreateMultiThreadWriter)
+            .taskExecutor(threadPoolTaskExecutor())
             .allowStartIfComplete(true)
             .build();
     }
 
     @Bean
-    public ItemWriter<TicketBatchEntity> ticketCreateWriter(
+    public ItemWriter<TicketBatchEntity> ticketCreateMultiThreadWriter(
         final DataSource masterDataSource
     ) {
         return new JdbcBatchItemWriterBuilder<TicketBatchEntity>()
