@@ -38,7 +38,7 @@
             />
 					</div>
 
-					<div class="input-group mb-3">
+					<div class="input-group mb-1">
 						<span class="input-group-text" id="inputGroup-sizing-default"
             >비밀번호</span
             >
@@ -49,7 +49,7 @@
                 v-model.trim="password"
             />
 					</div>
-
+          <p class="mb-3"><small>비밀번호: 8글자~15자, 대문자 1개, 소문자 1개, 숫자 1개 이상</small></p>
 					<div class="input-group mb-3">
 						<span class="input-group-text" id="inputGroup-sizing-default"
             >비밀번호 확인</span
