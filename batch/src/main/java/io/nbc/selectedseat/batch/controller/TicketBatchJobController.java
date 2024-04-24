@@ -39,6 +39,29 @@ public class TicketBatchJobController {
         ticketService.createTickets(jobParameters);
         return ResponseEntity.ok().build();
     }
+
+    // TODO: entry point for performance measurement
+    @PostMapping("/partition")
+    public ResponseEntity<Void> partitionJobExecutor(
+        @RequestBody @Valid TicketCreateRequestDTO ticket) {
+        final Long totalSeats = ticket.numOfARatingTicket()
+            + ticket.numOfRRatingTicket()
+            + ticket.numOfSRatingTicket();
+
+        final JobParameters jobParameters = new JobParametersBuilder()
+            .addLong("concertId", ticket.concertId())
+            .addLong("concertDateId", ticket.concertDateId())
+            .addLong("numOfRow", ticket.numOfRow())
+            .addLong("numOfRRatingTicket", ticket.numOfRRatingTicket())
+            .addLong("numOfSRatingTicket", ticket.numOfSRatingTicket())
+            .addLong("numOfARatingTicket", ticket.numOfARatingTicket())
+            .addLong("totalSeats", totalSeats)
+            .toJobParameters();
+
+        ticketService.partition(jobParameters);
+        return ResponseEntity.ok().build();
+    }
+
     // TODO: entry point for performance measurement
     @PostMapping("/multi-thread")
     public ResponseEntity<Void> multiThreadJobExecutor(

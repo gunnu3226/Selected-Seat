@@ -16,6 +16,8 @@ public class TicketService {
 
     private final JobLauncher jobLauncher;
     private final Job ticketCreateJob;
+    private final Job ticketCreatePartitionJob;
+    private final Job ticketCreateMultiThreadJob;
 
     public void createTickets(
         final JobParameters jobParameters
@@ -28,6 +30,27 @@ public class TicketService {
             JobInstanceAlreadyCompleteException |
             JobParametersInvalidException |
             JobRestartException e
+        ) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void partition(
+        final JobParameters jobParameters
+    ) {
+        // TODO: apply logback error
+        try {
+            jobLauncher.run(ticketCreatePartitionJob, jobParameters);
+        } catch (
+            JobExecutionAlreadyRunningException |
+            JobInstanceAlreadyCompleteException |
+            JobParametersInvalidException |
+            JobRestartException e
+        ) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void multiThread(
         final JobParameters jobParameters
     ) {
