@@ -28,6 +28,17 @@ public class TicketService {
             JobInstanceAlreadyCompleteException |
             JobParametersInvalidException |
             JobRestartException e
+    public void multiThread(
+        final JobParameters jobParameters
+    ) {
+        // TODO: apply logback error
+        try {
+            jobLauncher.run(ticketCreateMultiThreadJob, jobParameters);
+        } catch (
+            JobExecutionAlreadyRunningException |
+            JobInstanceAlreadyCompleteException |
+            JobParametersInvalidException |
+            JobRestartException e
         ) {
             throw new RuntimeException(e);
         }
