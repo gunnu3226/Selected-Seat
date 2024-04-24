@@ -8,6 +8,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
@@ -24,7 +25,7 @@ public class TicketCreateJobConfiguration {
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
-    private final Integer CHUNK_SIZE = 1000;
+    private final Integer CHUNK_SIZE = 1500;
 
     @Bean
     public Job ticketCreateJob(
@@ -33,6 +34,7 @@ public class TicketCreateJobConfiguration {
     ) {
         return new JobBuilder("ticketCreateJob", jobRepository)
             .start(ticketCreateStep)
+            .incrementer(new RunIdIncrementer()) // TODO: entry point for performance measurement
             .listener(jobAlarmExecutionListener)
             .build();
     }
