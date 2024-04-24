@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import io.nbc.selectedseat.db.core.domain.Artist.entity.ArtistEntity;
+import io.nbc.selectedseat.db.core.domain.artist.entity.ArtistEntity;
 import io.nbc.selectedseat.domain.artist.dto.CreateArtistRequestDTO;
 import io.nbc.selectedseat.domain.artist.dto.GetArtistResponseDTO;
 import io.nbc.selectedseat.domain.artist.model.Artist;

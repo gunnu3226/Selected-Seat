@@ -1,5 +1,6 @@
 package io.nbc.selectedseat.domain.concert.mock;
 
+import io.nbc.selectedseat.domain.concert.dto.ConcertSearchMapper;
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.model.ConcertDate;
 import io.nbc.selectedseat.domain.concert.model.ConcertRating;
@@ -89,6 +90,13 @@ public class FakeConcertRepository implements ConcertRepository {
     public Optional<ConcertDate> getConcertDate(final Long concertId) {
         return Optional.empty();
     }
+
+    @Override
+    public List<Concert> searchConcertByTextAndFilter(ConcertSearchMapper concertSearchVo, int page,
+        int size) {
+        return null;
+    }
+
 
     private <T> void updateFieldIfNotNull(Concert updatedConcert, String fieldName, T value) {
         if (value != null) {

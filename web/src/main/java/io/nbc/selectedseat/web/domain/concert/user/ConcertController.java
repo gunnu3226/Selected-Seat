@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -122,6 +123,19 @@ public class ConcertController {
                 .data(searchResponse)
                 .build()
         );
+    }
+
+    //todo : Temporary settings for performance measurement
+    @GetMapping("/search/db")
+    public ResponseEntity<?> searchConcertsInDB(
+        @RequestBody ConcertSearchRequestDTO requestDTO,
+        @RequestParam(value = "page", defaultValue = "0") Integer page,
+        @RequestParam(value = "size", defaultValue = "10") Integer size
+    ) throws IOException {
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+            concertReader.searchConcertByTextAndFilterInDB(
+                requestDTO, page, size));
     }
 
     @GetMapping("/search/suggestions")

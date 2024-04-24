@@ -1,8 +1,8 @@
-package io.nbc.selectedseat.db.core.domain.artist.adptor;
-
+package io.nbc.selectedseat.db.core.domain.artist.adaptor;
 
 import io.nbc.selectedseat.db.core.domain.artist.entity.ArtistEntity;
 import io.nbc.selectedseat.db.core.domain.artist.repository.ArtistJpaRepository;
+import io.nbc.selectedseat.db.core.domain.artist.repository.ArtistQueryRepository;
 import io.nbc.selectedseat.domain.artist.model.Artist;
 import io.nbc.selectedseat.domain.artist.repository.ArtistRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public class ArtistPersistenceAdaptor implements ArtistRepository {
 
     private final ArtistJpaRepository artistJpaRepository;
-    private final io.nbc.selectedseat.db.core.domain.artist.repository.ArtistQueryRepository artistQueryRepository;
+    private final ArtistQueryRepository artistQueryRepository;
 
     @Override
     public Long save(final Artist artist) {
@@ -49,6 +49,11 @@ public class ArtistPersistenceAdaptor implements ArtistRepository {
     public List<Artist> findArtistsByIdList(final List<Long> artistIds) {
         return artistQueryRepository.findArtistsByIdList(artistIds).stream()
             .map(ArtistEntity::toModel).toList();
+    }
+
+    @Override
+    public Artist findByName(String text) {
+        return artistJpaRepository.findByName(text).toModel();
     }
 
     private ArtistEntity getArtistById(final Long artistId) {

@@ -20,4 +20,11 @@ public class PerformerPersistenceAdaptor implements PerformerRepository {
             .map(PerformerEntity::toModel)
             .toList();
     }
+
+    @Override
+    public List<Performer> findAllByArtistId(Long artistId) {
+        return performerJpaRepository.findByArtistId(artistId).stream()
+            .map(PerformerEntity::toModel)
+            .toList();
+    }
 }

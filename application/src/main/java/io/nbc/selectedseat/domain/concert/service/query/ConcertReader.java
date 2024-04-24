@@ -2,6 +2,8 @@ package io.nbc.selectedseat.domain.concert.service.query;
 
 import io.nbc.selectedseat.common.WebPage;
 import io.nbc.selectedseat.domain.concert.dto.ConcertDateResponseDTO;
+import io.nbc.selectedseat.domain.concert.dto.ConcertInfo;
+import io.nbc.selectedseat.domain.concert.dto.ConcertSearchMapper;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertRatingResponseDTO;
 import io.nbc.selectedseat.domain.concert.dto.GetConcertResponseDTO;
 import io.nbc.selectedseat.domain.concert.exception.ConcertDateExistException;
@@ -73,6 +75,33 @@ public class ConcertReader {
             concertDocumentPage.getNumber(),
             concertDocumentPage.getTotalPages(),
             results);
+    }
+
+    //todo : Temporary settings for performance measurement
+    public List<ConcertInfo> searchConcertByTextAndFilterInDB(
+        final ConcertSearchRequestDTO requestDTO,
+        final int page,
+        final int size
+    ) throws IOException {
+
+        String region = requestDTO.regions() == null ? null : requestDTO.regions().get(0);
+        String category = requestDTO.categories() == null ? null : requestDTO.categories().get(0);
+        String state = requestDTO.states() == null ? null : requestDTO.states().get(0);
+        String concertRating =
+            requestDTO.concertRatings() == null ? null : requestDTO.concertRatings().get(0);
+
+        ConcertSearchMapper concertSearchMapper = new ConcertSearchMapper(
+            requestDTO.text(),
+            region,
+            category,
+            state,
+            concertRating
+        );
+
+        return concertRepository.searchConcertByTextAndFilter(concertSearchMapper, page, size)
+            .stream()
+            .map(ConcertInfo::from)
+            .toList();
     }
 
     public List<SearchSuggestionResponseDTO> searchSuggestions(final String text)
