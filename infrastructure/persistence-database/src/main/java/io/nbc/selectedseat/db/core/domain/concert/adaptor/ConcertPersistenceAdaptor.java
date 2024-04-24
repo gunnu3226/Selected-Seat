@@ -12,12 +12,15 @@ import io.nbc.selectedseat.db.core.domain.concert.repository.ConcertJpaRepositor
 import io.nbc.selectedseat.db.core.domain.concert.repository.ConcertRatingJpaRepository;
 import io.nbc.selectedseat.db.core.domain.concert.repository.temp.RegionJpaRepository;
 import io.nbc.selectedseat.db.core.domain.concert.repository.temp.StateJpaRepository;
+import io.nbc.selectedseat.domain.artist.repository.ArtistRepository;
 import io.nbc.selectedseat.domain.category.repository.CategoryRepository;
 import io.nbc.selectedseat.domain.concert.dto.ConcertSearchMapper;
 import io.nbc.selectedseat.domain.concert.model.Concert;
 import io.nbc.selectedseat.domain.concert.model.ConcertDate;
 import io.nbc.selectedseat.domain.concert.model.ConcertRating;
+import io.nbc.selectedseat.domain.concert.model.Performer;
 import io.nbc.selectedseat.domain.concert.repository.ConcertRepository;
+import io.nbc.selectedseat.domain.concert.repository.PerformerRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,8 @@ public class ConcertPersistenceAdaptor implements ConcertRepository {
     private final RegionJpaRepository regionJpaRepository;
     private final CategoryRepository categoryRepository;
     private final StateJpaRepository stateJpaRepository;
+    private final ArtistRepository artistRepository;
+    private final PerformerRepository performerRepository;
 
     @Override
     public Long save(final Concert concert) {
@@ -116,7 +121,19 @@ public class ConcertPersistenceAdaptor implements ConcertRepository {
             .limit(size)
             .fetch();
 
+        Long artistId = artistRepository.findByName(concertSearchMapper.getText()).getArtistId();
+
+        if (artistId != null) {
+            List<Long> concertIds = performerRepository.findAllByArtistId(artistId).stream()
+                .map(Performer::getConcertId)
+                .toList();
+            concertIds.forEach(concertid -> {
+                concertEntities.add(concertJpaRepository.findById(concertid).get());
+            });
+        }
+
         return concertEntities.stream()
+            .distinct()
             .map(ConcertEntity::toModel)
             .toList();
     }

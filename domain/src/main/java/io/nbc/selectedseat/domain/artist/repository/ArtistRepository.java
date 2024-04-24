@@ -18,4 +18,6 @@ public interface ArtistRepository {
     void delete(final Long artistId);
 
     List<Artist> findArtistsByIdList(final List<Long> artistIds);
+
+    Artist findByName(String text);
 }

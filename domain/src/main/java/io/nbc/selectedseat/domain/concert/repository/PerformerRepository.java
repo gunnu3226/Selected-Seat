@@ -6,4 +6,6 @@ import java.util.List;
 public interface PerformerRepository {
 
     List<Performer> getPerformerByConcertId(final Long concertId);
+
+    List<Performer> findAllByArtistId(Long artistId);
 }

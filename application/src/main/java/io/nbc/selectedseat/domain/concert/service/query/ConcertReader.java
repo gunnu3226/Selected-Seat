@@ -84,18 +84,24 @@ public class ConcertReader {
         final int size
     ) throws IOException {
 
-//        ConcertSearchMapper concertSearchMapper = new ConcertSearchMapper(
-//            requestDTO.text(),
-//            requestDTO.region(),
-//            requestDTO.category(),
-//            requestDTO.state(),
-//            requestDTO.concertRating());
-//
-//        return concertRepository.searchConcertByTextAndFilter(concertSearchMapper, page, size)
-//            .stream()
-//            .map(ConcertInfo::from)
-//            .toList();
-        return null;
+        String region = requestDTO.regions() == null ? null : requestDTO.regions().get(0);
+        String category = requestDTO.categories() == null ? null : requestDTO.categories().get(0);
+        String state = requestDTO.states() == null ? null : requestDTO.states().get(0);
+        String concertRating =
+            requestDTO.concertRatings() == null ? null : requestDTO.concertRatings().get(0);
+
+        ConcertSearchMapper concertSearchMapper = new ConcertSearchMapper(
+            requestDTO.text(),
+            region,
+            category,
+            state,
+            concertRating
+        );
+
+        return concertRepository.searchConcertByTextAndFilter(concertSearchMapper, page, size)
+            .stream()
+            .map(ConcertInfo::from)
+            .toList();
     }
 
     public List<SearchSuggestionResponseDTO> searchSuggestions(final String text)
