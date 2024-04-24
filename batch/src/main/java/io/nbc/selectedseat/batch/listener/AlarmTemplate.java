@@ -10,6 +10,8 @@ public class AlarmTemplate {
             case "concertAdvanceNotificationJob" -> "콘서트 사전 알림";
             case "ticketExpireJob" -> "콘서트 티켓 만료";
             case "ticketSeatKeyGenerationJob" -> "콘서트 좌석 키 생성";
+            case "ticketCreatePartitionJob" -> "콘서트 좌석 키 생성 - 파티셔닝";
+            case "ticketCreateMultiThreadJob" -> "콘서트 좌석 키 생성 - 멀티스레드";
             default -> throw new IllegalArgumentException("유효 하지 않은 잡 입니다");
         };
     }
