@@ -21,7 +21,8 @@ http://selected-seat.shop
 
 ### Architecture
 
-![selected-seat](https://github.com/Selected-Seat/selected-seat/assets/109019081/91d876a4-7358-4023-9002-0b9f1a8302fa)
+![architecture](https://github.com/Selected-Seat/Select-Seat/assets/65538799/52c0e5cc-7116-4b75-b796-93984950db4e)
+
 
 ### Prerequisites
 
