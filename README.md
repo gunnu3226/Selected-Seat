@@ -22,6 +22,10 @@
 ### Architecture
 ![architecture](https://github.com/Selected-Seat/Select-Seat/assets/65538799/52c0e5cc-7116-4b75-b796-93984950db4e)
 
+### ERD
+
+<img width="707" alt="Screenshot 2024-06-04 at 11 51 15 AM" src="https://github.com/Dittttto/Select-Seat-Project/assets/82052272/31d00073-adc5-4eb6-b73a-f1266a65b0ff">
+
 ### Project-setup
 <details>
   <summary>JDK and Frameworks</summary>
